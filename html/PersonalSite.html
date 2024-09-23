@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PersonalBlog</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script type="text/javascript" src="../js/livetime.js"></script>
+
+</head>
+
+<body>
+    
+    <h1 id="intro">{ }</h1>
+    <div id="main">
+            <h2>Welcome to my personal blog!</h2>
+            <p class="fade-links">
+                <a href="register.html">Register</a> |
+                <a href="login.html">Login</a> |
+                <a href="post.html">Create a Post</a>
+            </p>
+        <h2>I'm a <span id="age"></span> year-old developer</h2>
+        <h2>who uses
+            <span class="lang-button" style="color: #f16529;" data-panel="Java">Java<span class="underline"
+                    style="background-color:#f16529;"></span></span>,
+            <span class="lang-button" style="color:#90c53f;" data-panel="Python">Python<span class="underline"
+                    style="background-color:#90c53f;"></span></span>,
+            <span class="lang-button" style="color: #5ec9f8;" data-panel="HTML/CSS/Js">HTML/CSS/Js<span
+                    class="underline" style="background-color:#5ec9f8;"></span></span>, and
+            <span class="lang-button" style="color: #ffdd48;" data-panel="others">others<span class="underline"
+                    style="background-color:#ffdd48;"></span></span>.
+        </h2>
+        <svg id="linedown">
+            <line x1="0" y1="0" x2="0" y2="100">
+            </line>
+        </svg>
+        <span id="langhint">(click to view details)</span>
+        <svg id="rect">
+            <path id="rectleft"></path>
+            <path id="rectright"></path>
+            
+        </svg>
+        
+        <div id="Java" class="lang-panel">
+            <h2><a href="https://docs.oracle.com/javase/specs/jls/se23/html/index.html" target="_blank">Java</a></h2>
+            <h3 class="lang-desc">Java is the first language I started with and learned. I've been using
+                it for about 5 years now, and I'd call myself proficient</h3>
+            <div class="projects java" data-cat="java">
+                <div data-proj="fibonacci_fractal_engine" class="proj">
+                    <h3>Fibonacci Fractal Engine</h3>
+                    <p>Java, TypeScript, Vue.js, JUnit, RestAPI, Maven, Mockito, Docker, Git, GitHub, gRPC, Gson,
+                        Protobuf</p>
+                    <ul>
+                        <li>Led a team to develop a Java web application generating fractal images based on the
+                            Fibonacci sequence, allowing users to input a number and producing fractal construction data
+                            and raw images up to that number.</li>
+                        <li>Created a distributed computing platform, multi-threaded and CPU intensive.</li>
+                        <li>Implemented benchmarks/optimizations: HashMap memory allocation, multi-threaded image
+                            generation, etc.</li>
+                        <li>Developed a Vue 3 front end enabling users to input numbers, start compute jobs, view job
+                            statuses, and display Fibonacci fractal images in an interactive gallery.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="Python" class="lang-panel">
+            <h2><a href="https://www.python.org/doc/" target="_blank">Python</a></h2>
+            <h3 class="lang-desc">Python is more my go to when making anything generic. I've created and contributed to
+                public and a few private apps over the few monthsI've used it. I'm still learning new things
+                about it, but I'm intermediate overall.
+            </h3>
+            <div class="projects python" data-cat="Python">
+                <div data-proj="todo_aws" class="proj">
+                    <h3>To-Do List Managed on AWS Cloud</h3>
+                    <p>Python, TypeScript, Next.js, FastAPI, Docker, Git, GitHub, AWS Lambda, DynamoDB, Pytest</p>
+                    <ul>
+                        <li>Developed a serverless to-do list manager allowing users to create, retrieve, update, and
+                            delete tasks.</li>
+                        <li>Implemented a CRUD application using Python FastAPI backend and a Next.js frontend.</li>
+                        <li>Used CDK code to deploy the Lambda function and DynamoDB table to the AWS account.</li>
+                        <li>Implemented integration tests using Pytest to test endpoints directly.</li>
+                    </ul>
+                </div>
+                <div data-proj="qview3d" class="proj">
+                    <h3>QView3D</h3>
+                    <p>Python, TypeScript, Vue.js, Flask, SQLite, Node.js, USB Serial, Git, GitHub, G-code, CSS</p>
+                    <ul>
+                        <li>Contributed to QView3D, an open-source 3D printing software, at the HVAMC 3D Printing Lab.
+                        </li>
+                        <li>Implemented concurrent communication for multiple 3D printers, including job prioritization
+                            and load balancing.</li>
+                        <li>Worked with a Flask backend integrated with SQLite for efficient data handling and storage
+                            management.</li>
+                        <li>Used a Vue3 frontend with Bootstrap for styling, enabling users to initiate print jobs and
+                            monitor job statuses.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="HTML/CSS/Js" class="lang-panel">
+            <h2><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">HTML/CSS/Js</a></h2>
+            <img src="../img/Meme.png" alt="Meme" width="500" height="500">
+            <h3 class="lang-desc">Your looking at this site aren't you. I'm <span>proficient</span> at this stack.
+             
+            </h3>
+        </div>
+
+
+        <div id="others" class="lang-panel">
+            <h2>Other skills</h2>
+            <h3 class="lang-desc">Bruh chill gimme a sec, I've also worked in <span>Typescript</span>, <span>C++</span>, <span>C#</span>, and a
+                bit of <span>Assembly</span>.</h3>
+            <div class="projects others" data-cat="others">
+            </div>
+        </div>
+        <div id="details">
+            <h2>Check out my <a href="https://github.com/ndg8743" class="d github-link" target="_blank">GitHub<span
+                        class="underline github-underline"></span></a> and <a
+                    href="https://www.linkedin.com/in/nathangopee/" class="d linkedin-link"
+                    target="_blank">LinkedIn<span class="underline linkedin-underline"></span></a>.</h2>
+        </div>
+        <div id="modal">
+
+        </div>
+        <script type="text/javascript" src="../js/intro.js"></script>
+        <script type="text/javascript" src="../../js/modalani.js"></script>
+        <script type="text/javascript" src="../js/age.js"></script>
+</body>
+
+</html>
