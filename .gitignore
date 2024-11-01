@@ -22,3 +22,9 @@ build/
 # Ignore OS generated files
 .DS_Store
 Thumbs.db
+
+# Ignore MySQL settings file if you use it
+my.cnf
+
+# Ignore sensitive config files
+config.php
