@@ -10,9 +10,9 @@
 
 trying to use oracle cloud to host and it sucks, for now say hi to Bob
 
-Bob   /\
-    _/./
- ,-'    `-:..-'/
-: o )      _  (
-"`-....,--; `-.\
-    `'
+    Bob   /\
+        _/./
+     ,-'    `-:..-'/
+    : o )      _  (
+    "`-....,--; `-.
+        `'
