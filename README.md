@@ -1,6 +1,9 @@
 # Personal Site/Blog by Nathan Gopee
 ## WDP Project for Web Database Programming Fall 2024 by Kaitlin Hoffmann
 
+Commands:
+./create_db.sh
+npm run dev
 
 ### ERD Diagram:
 
