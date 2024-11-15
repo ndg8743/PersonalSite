@@ -4,9 +4,12 @@
 
 ### ERD Diagram:
 
-![image](https://github.com/user-attachments/assets/3db82c6d-13e6-4df6-bd61-dc7ef9723cb3)
+![image](https://github.com/user-attachments/assets/dfbf6cf7-22ef-4a84-bd82-062bf60397df)
 
 ### Database Tables:
+
+![image](https://github.com/user-attachments/assets/927961af-ee7d-4831-aa19-512c56fd1c4c)
+
 
 trying to use oracle cloud to host and it sucks, for now say hi to Bob
 
