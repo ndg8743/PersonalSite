@@ -1,7 +1,3 @@
-### Updated `create_db.sh` Script Example
-Make sure the script uses the correct path to your SQL file within the `db` directory:
-
-```bash
 #!/bin/bash
 # A script to set up the MySQL database from a .sql file
 
@@ -11,6 +7,8 @@ SQL_FILE="./db/project_db.sql"
 
 # Instructions
 echo "Setting up the database..."
+
+# Drop and create the database, then import the SQL file
 mysql -u your_username -p -e "DROP DATABASE IF EXISTS $DB_NAME; CREATE DATABASE $DB_NAME;"
 mysql -u your_username -p $DB_NAME < $SQL_FILE
 

@@ -1,0 +1,2084 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "Script",
+    "content": "-- Create the database (if it doesn't exist) and use it\nCREATE DATABASE IF NOT EXISTS project_db;\nUSE project_db;\n\n-- Drop tables if they exist to avoid duplication errors\nDROP TABLE IF EXISTS COMMENT;\nDROP TABLE IF EXISTS PROJECT;\nDROP TABLE IF EXISTS USER;\nDROP TABLE IF EXISTS ADMIN;\n\n-- Create the ADMIN table\nCREATE TABLE ADMIN (\n    admin_id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL,\n    password VARCHAR(255) NOT NULL,\n    email VARCHAR(100),\n    full_name VARCHAR(100),\n    last_login DATETIME\n);\n\n-- Create the USER table\nCREATE TABLE USER (\n    user_id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL,\n    password VARCHAR(255) NOT NULL,\n    email VARCHAR(100),\n    full_name VARCHAR(100),\n    last_login DATETIME\n);\n\n-- Create the PROJECT table\nCREATE TABLE PROJECT (\n    project_id INT AUTO_INCREMENT PRIMARY KEY,\n    title VARCHAR(255) NOT NULL,\n    content TEXT,\n    description TEXT,\n    technologies_used VARCHAR(255),\n    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,\n    author_id INT,\n    num_likes INT DEFAULT 0,\n    num_comments INT DEFAULT 0,\n    github_link VARCHAR(255),\n    demo_url VARCHAR(255),\n    FOREIGN KEY (author_id) REFERENCES ADMIN(admin_id)\n);\n\n-- Create the COMMENT table\nCREATE TABLE COMMENT (\n    comment_id INT AUTO_INCREMENT PRIMARY KEY,\n    project_id INT,\n    user_id INT,\n    content TEXT NOT NULL,\n    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,\n    parent_comment_id INT,\n    FOREIGN KEY (project_id) REFERENCES PROJECT(project_id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE,\n    FOREIGN KEY (parent_comment_id) REFERENCES COMMENT(comment_id) ON DELETE CASCADE\n);\n\n-- Sample Data for Testing\n\n-- Insert a sample admin\nINSERT INTO ADMIN (username, password, email, full_name, last_login)\nVALUES ('admin1', 'password123', 'admin1@example.com', 'Admin User', NOW());\n\n-- Insert sample users\nINSERT INTO USER (username, password, email, full_name, last_login)\nVALUES \n('user1', 'password123', 'user1@example.com', 'User One', NOW()),\n('user2', 'password123', 'user2@example.com', 'User Two', NOW());\n\n-- Insert a sample project by the admin\nINSERT INTO PROJECT (title, content, description, technologies_used, author_id, num_likes, num_comments, github_link, demo_url)\nVALUES \n('Sample Project', 'This is the content of the project.', 'Project description goes here.', 'MySQL, PHP, JavaScript', 1, 5, 2, 'https://github.com/sample/project', 'https://demo.com/project');\n\n-- Insert comments for the project\nINSERT INTO COMMENT (project_id, user_id, content, date_created)\nVALUES \n(1, 1, 'This is a great project!', NOW()),\n(1, 2, 'I found this very useful, thanks for sharing!', NOW());\n\n-- Insert a reply to the first comment\nINSERT INTO COMMENT (project_id, user_id, content, date_created, parent_comment_id)\nVALUES \n(1, 2, 'Thank you for the feedback!', NOW(), 1);\n\n-- Commands to Verify the Setup\n\n-- Select the database\nUSE project_db;\n\n-- Show all tables in the selected database\nSHOW TABLES;\n\n-- View the structure of each table\nDESCRIBE ADMIN;\nDESCRIBE USER;\nDESCRIBE PROJECT;\nDESCRIBE COMMENT;\n\n-- Queries for verifying relationships and data\n\n-- View all admins\nSELECT * FROM ADMIN;\n\n-- View all users\nSELECT * FROM USER;\n\n-- View all projects with admin info\nSELECT \n    PROJECT.project_id, \n    PROJECT.title, \n    PROJECT.content, \n    PROJECT.description, \n    PROJECT.technologies_used, \n    PROJECT.date_created, \n    ADMIN.full_name AS admin_name\nFROM PROJECT\nJOIN ADMIN ON PROJECT.author_id = ADMIN.admin_id;\n\n-- View all comments with user info and project info\nSELECT \n    COMMENT.comment_id, \n    COMMENT.content, \n    COMMENT.date_created, \n    USER.full_name AS user_name, \n    PROJECT.title AS project_title\nFROM COMMENT\nJOIN USER ON COMMENT.user_id = USER.user_id\nJOIN PROJECT ON COMMENT.project_id = PROJECT.project_id;\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": null,
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 132,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "376e5d94-b70b-4a6d-94bd-3e38bff5ea34",
+                        "87ab692d-0ef6-40d9-fedc-2ddbf08c7d32",
+                        "00df55f6-0321-428e-b72a-87867d2e9bc5",
+                        "0134f60e-8d3e-4b92-c1cf-c174bbd8d916",
+                        "a0092641-de0c-4751-f9fc-82617eab2452",
+                        "1139478a-f22a-4972-b9bc-f26fb56e283f",
+                        "fb2dc869-54d1-4d84-8401-ebf5cf69afbb",
+                        "edad82a4-7630-40b0-ee52-278329597e81",
+                        "74170793-7926-4dc3-8673-ad659ed0b92c",
+                        "3c8fbaac-e1d8-492e-d671-5adb94e2f5ee",
+                        "89c7b762-1062-42ba-e14d-474e678e6e4b",
+                        "948a47b9-fc74-40c1-fce5-e8afe1568eb2",
+                        "57c4fdd5-ec32-4f12-8fe1-cbc2f52cefdf",
+                        "c1320c64-ba27-4336-a1db-73049f9b8867",
+                        "3b381603-2237-4641-cf1c-62408f7a7920",
+                        "d17c8b93-0ce8-405a-eed1-54cd7e2d9d8f",
+                        "2579d2cd-d234-48e8-958e-2c29b9b7104b",
+                        "a24a78a2-6038-4024-861d-9e7f15475f1c",
+                        "f6ce008f-d909-4248-be12-411981dc181a",
+                        "ca33228e-8f5a-40b0-a385-092342543403",
+                        "f43195b3-3a81-4f90-9213-dc40099d800d",
+                        "2e26f6b5-d2d8-4c38-d978-953a8999575f",
+                        "843e8bea-48b7-43fa-e37d-d48a143a8579",
+                        "c40466f4-ea5b-48c3-98e1-26f109ed6f4c",
+                        "57b15833-660d-430c-f9f9-4473a73fd4cc"
+                    ]
+                },
+                "currentHeight": 645.4125366210938,
+                "currentSet": 9,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 97
+                        },
+                        "contentStart": 56,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 97,
+                            "length": 16
+                        },
+                        "contentStart": 98,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 113,
+                            "length": 88
+                        },
+                        "contentStart": 173,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 201,
+                            "length": 30
+                        },
+                        "contentStart": 203,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 231,
+                            "length": 27
+                        },
+                        "contentStart": 233,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 258,
+                            "length": 28
+                        },
+                        "contentStart": 260,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 286,
+                            "length": 243
+                        },
+                        "contentStart": 314,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 529,
+                            "length": 240
+                        },
+                        "contentStart": 556,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 769,
+                            "length": 456
+                        },
+                        "contentStart": 799,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1225,
+                            "length": 480
+                        },
+                        "contentStart": 1255,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1705,
+                            "length": 200
+                        },
+                        "contentStart": 1760,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1905,
+                            "length": 232
+                        },
+                        "contentStart": 1930,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2137,
+                            "length": 370
+                        },
+                        "contentStart": 2179,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2507,
+                            "length": 216
+                        },
+                        "contentStart": 2544,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2723,
+                            "length": 181
+                        },
+                        "contentStart": 2764,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2904,
+                            "length": 73
+                        },
+                        "contentStart": 2962,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2977,
+                            "length": 58
+                        },
+                        "contentStart": 3023,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3035,
+                            "length": 53
+                        },
+                        "contentStart": 3074,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3088,
+                            "length": 15
+                        },
+                        "contentStart": 3090,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3103,
+                            "length": 18
+                        },
+                        "contentStart": 3105,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3121,
+                            "length": 18
+                        },
+                        "contentStart": 3123,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3139,
+                            "length": 90
+                        },
+                        "contentStart": 3209,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3229,
+                            "length": 39
+                        },
+                        "contentStart": 3249,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3268,
+                            "length": 295
+                        },
+                        "contentStart": 3307,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3563,
+                            "length": 319
+                        },
+                        "contentStart": 3618,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3882,
+                            "length": 1
+                        },
+                        "contentStart": 3881,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "376e5d94-b70b-4a6d-94bd-3e38bff5ea34",
+                    "rows": [
+                        {
+                            "0": "admin"
+                        },
+                        {
+                            "0": "comment"
+                        },
+                        {
+                            "0": "project"
+                        },
+                        {
+                            "0": "user"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Tables_in_project_db",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 4 records retrieved in 1.999ms"
+                    },
+                    "totalRowCount": 4,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 16,
+                    "sql": "\n\n-- Show all tables in the selected database\nSHOW TABLES",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "87ab692d-0ef6-40d9-fedc-2ddbf08c7d32",
+                    "rows": [
+                        {
+                            "0": "admin_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "username",
+                            "1": "varchar(50)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "password",
+                            "1": "varchar(255)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "email",
+                            "1": "varchar(100)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "full_name",
+                            "1": "varchar(100)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "profile_picture",
+                            "1": "varchar(255)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "last_login",
+                            "1": "datetime",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 7 records retrieved in 3.87ms"
+                    },
+                    "totalRowCount": 7,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 17,
+                    "sql": "\n\n-- View the structure of each table\nDESCRIBE ADMIN",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "00df55f6-0321-428e-b72a-87867d2e9bc5",
+                    "rows": [
+                        {
+                            "0": "user_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "username",
+                            "1": "varchar(50)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "password",
+                            "1": "varchar(255)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "email",
+                            "1": "varchar(100)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "full_name",
+                            "1": "varchar(100)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "profile_picture",
+                            "1": "varchar(255)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "last_login",
+                            "1": "datetime",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 7 records retrieved in 3.001ms"
+                    },
+                    "totalRowCount": 7,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 18,
+                    "sql": "\nDESCRIBE USER",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "0134f60e-8d3e-4b92-c1cf-c174bbd8d916",
+                    "rows": [
+                        {
+                            "0": "project_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "title",
+                            "1": "varchar(255)",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "content",
+                            "1": "text",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "description",
+                            "1": "text",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "technologies_used",
+                            "1": "varchar(255)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "date_created",
+                            "1": "datetime",
+                            "2": "YES",
+                            "3": "",
+                            "4": "CURRENT_TIMESTAMP",
+                            "5": "DEFAULT_GENERATED"
+                        },
+                        {
+                            "0": "author_id",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "num_likes",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "",
+                            "4": "0",
+                            "5": ""
+                        },
+                        {
+                            "0": "num_comments",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "",
+                            "4": "0",
+                            "5": ""
+                        },
+                        {
+                            "0": "github_link",
+                            "1": "varchar(255)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "demo_url",
+                            "1": "varchar(255)",
+                            "2": "YES",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 11 records retrieved in 3.516ms"
+                    },
+                    "totalRowCount": 11,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 19,
+                    "sql": "\nDESCRIBE PROJECT",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "a0092641-de0c-4751-f9fc-82617eab2452",
+                    "rows": [
+                        {
+                            "0": "comment_id",
+                            "1": "int",
+                            "2": "NO",
+                            "3": "PRI",
+                            "4": null,
+                            "5": "auto_increment"
+                        },
+                        {
+                            "0": "project_id",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "user_id",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "content",
+                            "1": "text",
+                            "2": "NO",
+                            "3": "",
+                            "4": null,
+                            "5": ""
+                        },
+                        {
+                            "0": "date_created",
+                            "1": "datetime",
+                            "2": "YES",
+                            "3": "",
+                            "4": "CURRENT_TIMESTAMP",
+                            "5": "DEFAULT_GENERATED"
+                        },
+                        {
+                            "0": "parent_comment_id",
+                            "1": "int",
+                            "2": "YES",
+                            "3": "MUL",
+                            "4": null,
+                            "5": ""
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "Field",
+                            "field": "0",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Type",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Null",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Key",
+                            "field": "3",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Default",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "Extra",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 6 records retrieved in 2ms"
+                    },
+                    "totalRowCount": 6,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 20,
+                    "sql": "\nDESCRIBE COMMENT",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "1139478a-f22a-4972-b9bc-f26fb56e283f",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "admin1",
+                            "2": "password123",
+                            "3": "admin1@example.com",
+                            "4": "Admin User",
+                            "5": "admin_pic.jpg",
+                            "6": "2024-11-15 01:26:25"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "admin_id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "username",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "password",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "email",
+                            "field": "3",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "full_name",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "profile_picture",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "last_login",
+                            "field": "6",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0s"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 21,
+                    "sql": "\n\n-- Queries for verifying relationships and data\n\n-- View all admins\nSELECT * FROM ADMIN",
+                    "updatable": true,
+                    "fullTableName": "ADMIN"
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "fb2dc869-54d1-4d84-8401-ebf5cf69afbb",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "user1",
+                            "2": "password123",
+                            "3": "user1@example.com",
+                            "4": "User One",
+                            "5": "user1_pic.jpg",
+                            "6": "2024-11-15 01:26:25"
+                        },
+                        {
+                            "0": 2,
+                            "1": "user2",
+                            "2": "password123",
+                            "3": "user2@example.com",
+                            "4": "User Two",
+                            "5": "user2_pic.jpg",
+                            "6": "2024-11-15 01:26:25"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "user_id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "username",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "password",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "email",
+                            "field": "3",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "full_name",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "profile_picture",
+                            "field": "5",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        },
+                        {
+                            "title": "last_login",
+                            "field": "6",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": null
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 2 records retrieved in 0s"
+                    },
+                    "totalRowCount": 2,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 22,
+                    "sql": "\n\n-- View all users\nSELECT * FROM USER",
+                    "updatable": true,
+                    "fullTableName": "USER"
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "edad82a4-7630-40b0-ee52-278329597e81",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "Sample Project",
+                            "2": "This is the content of the project.",
+                            "3": "Project description goes here.",
+                            "4": "MySQL, PHP, JavaScript",
+                            "5": "2024-11-15 01:26:25",
+                            "6": "Admin User"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "project_id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "title",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "content",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "description",
+                            "field": "3",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "technologies_used",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "date_created",
+                            "field": "5",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "admin_name",
+                            "field": "6",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 1.33ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 23,
+                    "sql": "\n\n-- View all projects with admin info\nSELECT \n    PROJECT.project_id, \n    PROJECT.title, \n    PROJECT.content, \n    PROJECT.description, \n    PROJECT.technologies_used, \n    PROJECT.date_created, \n    ADMIN.full_name AS admin_name\nFROM PROJECT\nJOIN ADMIN ON PROJECT.author_id = ADMIN.admin_id",
+                    "updatable": false,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "74170793-7926-4dc3-8673-ad659ed0b92c",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "This is a great project!",
+                            "2": "2024-11-15 01:26:25",
+                            "3": "User One",
+                            "4": "Sample Project"
+                        },
+                        {
+                            "0": 2,
+                            "1": "I found this very useful, thanks for sharing!",
+                            "2": "2024-11-15 01:26:25",
+                            "3": "User Two",
+                            "4": "Sample Project"
+                        },
+                        {
+                            "0": 3,
+                            "1": "Thank you for the feedback!",
+                            "2": "2024-11-15 01:26:25",
+                            "3": "User Two",
+                            "4": "Sample Project"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "comment_id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "content",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "date_created",
+                            "field": "2",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "user_name",
+                            "field": "3",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "project_title",
+                            "field": "4",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 3 records retrieved in 0.998ms"
+                    },
+                    "totalRowCount": 3,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 24,
+                    "sql": "\n\n-- View all comments with user info and project info\nSELECT \n    COMMENT.comment_id, \n    COMMENT.content, \n    COMMENT.date_created, \n    USER.full_name AS user_name, \n    PROJECT.title AS project_title\nFROM COMMENT\nJOIN USER ON COMMENT.user_id = USER.user_id\nJOIN PROJECT ON COMMENT.project_id = PROJECT.project_id",
+                    "updatable": false,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "3c8fbaac-e1d8-492e-d671-5adb94e2f5ee",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 1 row affected in 2.997ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": "-- Create the database (if it doesn't exist) and use it\nCREATE DATABASE IF NOT EXISTS project_db",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "89c7b762-1062-42ba-e14d-474e678e6e4b",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 0.999ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 1,
+                    "sql": "\nUSE project_db",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "948a47b9-fc74-40c1-fce5-e8afe1568eb2",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 31.03ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 2,
+                    "sql": "\n\n-- Drop tables if they exist to avoid duplication errors\nDROP TABLE IF EXISTS COMMENT",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "57c4fdd5-ec32-4f12-8fe1-cbc2f52cefdf",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 19.838ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 3,
+                    "sql": "\nDROP TABLE IF EXISTS PROJECT",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "c1320c64-ba27-4336-a1db-73049f9b8867",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 19.017ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 4,
+                    "sql": "\nDROP TABLE IF EXISTS USER",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "3b381603-2237-4641-cf1c-62408f7a7920",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 18.668ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 5,
+                    "sql": "\nDROP TABLE IF EXISTS ADMIN",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "d17c8b93-0ce8-405a-eed1-54cd7e2d9d8f",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 28.546ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 6,
+                    "sql": "\n\n-- Create the ADMIN table\nCREATE TABLE ADMIN (\n    admin_id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL,\n    password VARCHAR(255) NOT NULL,\n    email VARCHAR(100),\n    full_name VARCHAR(100),\n    profile_picture VARCHAR(255),\n    last_login DATETIME\n)",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "2579d2cd-d234-48e8-958e-2c29b9b7104b",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 27.358ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 7,
+                    "sql": "\n\n-- Create the USER table\nCREATE TABLE USER (\n    user_id INT AUTO_INCREMENT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL,\n    password VARCHAR(255) NOT NULL,\n    email VARCHAR(100),\n    full_name VARCHAR(100),\n    profile_picture VARCHAR(255),\n    last_login DATETIME\n)",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "a24a78a2-6038-4024-861d-9e7f15475f1c",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 63.116ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 8,
+                    "sql": "\n\n-- Create the PROJECT table\nCREATE TABLE PROJECT (\n    project_id INT AUTO_INCREMENT PRIMARY KEY,\n    title VARCHAR(255) NOT NULL,\n    content TEXT,\n    description TEXT,\n    technologies_used VARCHAR(255),\n    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,\n    author_id INT,\n    num_likes INT DEFAULT 0,\n    num_comments INT DEFAULT 0,\n    github_link VARCHAR(255),\n    demo_url VARCHAR(255),\n    FOREIGN KEY (author_id) REFERENCES ADMIN(admin_id)\n)",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "f6ce008f-d909-4248-be12-411981dc181a",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 60.831ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 9,
+                    "sql": "\n\n-- Create the COMMENT table\nCREATE TABLE COMMENT (\n    comment_id INT AUTO_INCREMENT PRIMARY KEY,\n    project_id INT,\n    user_id INT,\n    content TEXT NOT NULL,\n    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,\n    parent_comment_id INT,\n    FOREIGN KEY (project_id) REFERENCES PROJECT(project_id) ON DELETE CASCADE,\n    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE,\n    FOREIGN KEY (parent_comment_id) REFERENCES COMMENT(comment_id) ON DELETE CASCADE\n)",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "ca33228e-8f5a-40b0-a385-092342543403",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 1 row affected in 6.849ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 10,
+                    "sql": "\n\n-- Sample Data for Testing\n\n-- Insert a sample admin\nINSERT INTO ADMIN (username, password, email, full_name, profile_picture, last_login)\nVALUES ('admin1', 'password123', 'admin1@example.com', 'Admin User', 'admin_pic.jpg', NOW())",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "f43195b3-3a81-4f90-9213-dc40099d800d",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 2 rows affected in 5.985ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 11,
+                    "sql": "\n\n-- Insert sample users\nINSERT INTO USER (username, password, email, full_name, profile_picture, last_login)\nVALUES \n('user1', 'password123', 'user1@example.com', 'User One', 'user1_pic.jpg', NOW()),\n('user2', 'password123', 'user2@example.com', 'User Two', 'user2_pic.jpg', NOW())",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "2e26f6b5-d2d8-4c38-d978-953a8999575f",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 1 row affected in 7.556ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 12,
+                    "sql": "\n\n-- Insert a sample project by the admin\nINSERT INTO PROJECT (title, content, description, technologies_used, author_id, num_likes, num_comments, github_link, demo_url)\nVALUES \n('Sample Project', 'This is the content of the project.', 'Project description goes here.', 'MySQL, PHP, JavaScript', 1, 5, 2, 'https://github.com/sample/project', 'https://demo.com/project')",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "843e8bea-48b7-43fa-e37d-d48a143a8579",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 2 rows affected in 7.509ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 13,
+                    "sql": "\n\n-- Insert comments for the project\nINSERT INTO COMMENT (project_id, user_id, content, date_created)\nVALUES \n(1, 1, 'This is a great project!', NOW()),\n(1, 2, 'I found this very useful, thanks for sharing!', NOW())",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "c40466f4-ea5b-48c3-98e1-26f109ed6f4c",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 1 row affected in 4.813ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 14,
+                    "sql": "\n\n-- Insert a reply to the first comment\nINSERT INTO COMMENT (project_id, user_id, content, date_created, parent_comment_id)\nVALUES \n(1, 2, 'Thank you for the feedback!', NOW(), 1)",
+                    "updatable": false
+                },
+                {
+                    "tabId": "e86a6b67-894e-4ea5-ce8d-d2f6d89b2478",
+                    "resultId": "57b15833-660d-430c-f9f9-4473a73fd4cc",
+                    "rows": [],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 1.002ms",
+                        "type": 4
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 15,
+                    "sql": "\n\n-- Commands to Verify the Setup\n\n-- Select the database\nUSE project_db",
+                    "updatable": false
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 1,
+                "end": 132,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 97
+                        },
+                        "contentStart": 56,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 97,
+                            "length": 16
+                        },
+                        "contentStart": 98,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 113,
+                            "length": 88
+                        },
+                        "contentStart": 173,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 201,
+                            "length": 30
+                        },
+                        "contentStart": 203,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 231,
+                            "length": 27
+                        },
+                        "contentStart": 233,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 258,
+                            "length": 28
+                        },
+                        "contentStart": 260,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 286,
+                            "length": 277
+                        },
+                        "contentStart": 314,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 563,
+                            "length": 274
+                        },
+                        "contentStart": 590,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 837,
+                            "length": 456
+                        },
+                        "contentStart": 867,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1293,
+                            "length": 480
+                        },
+                        "contentStart": 1323,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 1773,
+                            "length": 234
+                        },
+                        "contentStart": 1828,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2007,
+                            "length": 283
+                        },
+                        "contentStart": 2032,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2290,
+                            "length": 370
+                        },
+                        "contentStart": 2332,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2660,
+                            "length": 216
+                        },
+                        "contentStart": 2697,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 2876,
+                            "length": 181
+                        },
+                        "contentStart": 2917,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3057,
+                            "length": 68
+                        },
+                        "contentStart": 3105,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3125,
+                            "length": 39
+                        },
+                        "contentStart": 3145,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3164,
+                            "length": 295
+                        },
+                        "contentStart": 3203,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3459,
+                            "length": 319
+                        },
+                        "contentStart": 3514,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 3778,
+                            "length": 2
+                        },
+                        "contentStart": 3777,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}
