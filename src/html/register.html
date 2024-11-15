@@ -8,30 +8,34 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <label>
-        <h1.top>
-            <a href="PersonalSite.html">Home</a> |
+    <header>
+        <nav>
+            <a href="index.html">Home</a> |
             <a href="register.html">Register</a> |
             <a href="login.html">Login</a> |
-            <a href="post.html">Create a Post</a>
-        </h1.top>
-    </label>
-    <h2>Register</h1>
+            <a href="comment.html">Create a Post</a>
+        </nav>
+    </header>
 
-    <h2 action="/submit-registration" method="POST">
-        <label for="fname">First Name:</label><br>
-        <input type="text" id="fname" name="fname" required><br><br>
+    <main>
+        <h2>Register</h2>
+        <form id="register-form" method="POST">
+            <label for="fullName">Full Name:</label><br>
+            <input type="text" id="fullName" name="fullName" required><br><br>
 
-        <label for="lname">Last Name:</label><br>
-        <input type="text" id="lname" name="lname" required><br><br>
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
 
-        <input type="submit" value="Register">
-    </form>
+            <input type="submit" value="Register">
+        </form>
+    </main>
+    
+    <script src="../js/user.js"></script>
 </body>
 </html>

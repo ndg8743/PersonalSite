@@ -8,25 +8,26 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <label>
-        <h1.top>
-            <a href="PersonalSite.html">Home</a> |
+    <header>
+        <nav>
+            <a href="index.html">Home</a> |
             <a href="register.html">Register</a> |
             <a href="login.html">Login</a> |
-            <a href="post.html">Create a Post</a>
-        </h1.top>
-    </label>
+            <a href="comment.html">Create a Comment</a>
+        </nav>
+    </header>
 
-    <h2>Login</h1.top>
+    <main>
+        <h2>Login</h2>
+        <form id="login-form" method="POST">
+            <label for="username">Username or Email:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
 
-    <form action="/submit-login" method="POST">
-        <label for="username">Username or Email:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <input type="submit" value="Login">
-    </form>
+            <input type="submit" value="Login">
+        </form>
+    </main>
 </body>
 </html>
