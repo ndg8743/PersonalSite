@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Project Page</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Home</a> |
+            <a href="register.html">Register</a> |
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Project Details</h1>
+        <!-- Admin create project button -->
+        <div id="admin-controls">
+            <button id="create-project-btn" style="display: none;">Create New Project</button>
+        </div>
+
+        <!-- Project details section -->
+        <section id="project-details">
+            <h2 id="project-title">Project Title</h2>
+            <p id="project-description">Project description will be displayed here.</p>
+            <div id="project-images">
+                <!-- Images will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section id="comments-section">
+            <h2>Comments</h2>
+            <form id="comment-form">
+                <textarea id="comment-text" rows="4" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit Comment</button>
+            </form>
+            <ul id="comments-list">
+                <!-- Comments will be dynamically displayed here -->
+            </ul>
+        </section>
+    </main>
+
+    <script src="../js/project.js"></script>
+    <script src="../js/comment.js"></script>
+</body>
+</html>
