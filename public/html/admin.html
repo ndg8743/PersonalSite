@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../html/index.html">Home</a> |
+            <a href="../html/admin.html">Admin</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="user-management">
+            <h2>Users</h2>
+            <ul id="user-list">
+                <!-- User details dynamically loaded -->
+            </ul>
+        </section>
+
+        <section id="create-project">
+            <h2>Create a New Project</h2>
+            <form id="project-form">
+                <input type="text" id="project-title" placeholder="Project Title" required>
+                <textarea id="project-content" placeholder="Project Content"></textarea>
+                <textarea id="project-description" placeholder="Project Description"></textarea>
+                <input type="text" id="technologies-used" placeholder="Technologies Used">
+                <input type="url" id="github-link" placeholder="GitHub Link">
+                <input type="url" id="demo-url" placeholder="Demo URL">
+                <button type="submit">Create Project</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="../js/admin.js"></script>
+</body>
+</html>
