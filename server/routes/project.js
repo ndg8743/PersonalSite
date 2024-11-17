@@ -42,4 +42,14 @@ router.delete('/delete', async (req, res) => {
   }
 });
 
+// Fetch project details by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const project = await Project.getProjectById(req.params.id);
+    res.send(project);
+  } catch (err) {
+    res.status(401).send({ message: err.message });
+  }
+});
+
 module.exports = router;
