@@ -5,20 +5,25 @@ const router = express.Router();
 // Get all projects
 router.get('/', async (req, res) => {
   try {
+    console.log("Fetching all projects");
     const projects = await Project.getAllProjects();
     res.send(projects);
   } catch (err) {
-    res.status(401).send({ message: err.message });
+    console.error(`Error fetching projects: ${err.message}`);
+    res.status(500).send({ message: err.message });
   }
 });
+
 
 // Create a new project
 router.post('/create', async (req, res) => {
   try {
+    console.log(`Creating project: ${req.body.title}`);
     const project = await Project.createProject(req.body);
     res.send(project);
   } catch (err) {
-    res.status(401).send({ message: err.message });
+    console.error(`Error creating project: ${err.message}`);
+    res.status(500).send({ message: err.message });
   }
 });
 
@@ -42,14 +47,17 @@ router.delete('/delete', async (req, res) => {
   }
 });
 
-// Fetch project details by ID
+// Get project by ID
 router.get('/:id', async (req, res) => {
   try {
+    console.log(`Fetching project by ID: ${req.params.id}`);
     const project = await Project.getProjectById(req.params.id);
     res.send(project);
   } catch (err) {
-    res.status(401).send({ message: err.message });
+    console.error(`Error fetching project: ${err.message}`);
+    res.status(500).send({ message: err.message });
   }
 });
+
 
 module.exports = router;
