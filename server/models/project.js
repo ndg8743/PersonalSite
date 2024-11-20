@@ -20,17 +20,20 @@ async function createTable() {
     );
   `;
   await con.query(sql);
+  console.log("Projects table created or already exists");
 }
 createTable();
 
 // Get all projects
 async function getAllProjects() {
+  console.log("Fetching all projects from database");
   let sql = `SELECT * FROM projects`;
   return await con.query(sql);
 }
 
 // Create a new project
 async function createProject(project) {
+  console.log(`Creating project: ${project.title}`);
   let sql = `
     INSERT INTO projects(title, content, description, technologies_used, author_id, github_link, demo_url)
     VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -50,6 +53,7 @@ async function createProject(project) {
 
 // Update a project
 async function updateProject(project) {
+  console.log(`Updating project ID: ${project.project_id}`);
   let sql = `
     UPDATE projects
     SET title = ?, content = ?, description = ?, technologies_used = ?, github_link = ?, demo_url = ?
@@ -69,6 +73,7 @@ async function updateProject(project) {
 
 // Delete a project
 async function deleteProject(projectId) {
+  console.log(`Deleting project ID: ${projectId}`);
   let sql = `
     DELETE FROM projects
     WHERE project_id = ?
@@ -76,9 +81,8 @@ async function deleteProject(projectId) {
   await con.query(sql, [projectId]);
 }
 
-module.exports = { getAllProjects, createProject, updateProject, deleteProject };
-
 async function getProjectById(projectId) {
+  console.log(`Fetching project by ID: ${projectId}`);
   let sql = `SELECT * FROM projects WHERE project_id = ?`;
   const rows = await con.query(sql, [projectId]);
   return rows[0];

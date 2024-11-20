@@ -1,0 +1,141 @@
+-- Create the database (if it doesn't exist) and use it
+CREATE DATABASE IF NOT EXISTS project_db;
+USE project_db;
+
+-- Drop tables if they exist to avoid duplication errors
+DROP TABLE IF EXISTS COMMENT;
+DROP TABLE IF EXISTS PROJECT;
+DROP TABLE IF EXISTS USER;
+DROP TABLE IF EXISTS ADMIN;
+
+-- Create the ADMIN table
+CREATE TABLE ADMIN (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100),
+    full_name VARCHAR(100),
+    last_login DATETIME
+);
+
+-- Create the USER table
+CREATE TABLE USER (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100),
+    full_name VARCHAR(100),
+    last_login DATETIME
+);
+
+-- Create the PROJECT table
+CREATE TABLE PROJECT (
+    project_id INT AUTO_INCREMENT PRIMARY KEY,
+    intro_picture VARCHAR(255),
+    title VARCHAR(255) NOT NULL,
+    intro TEXT,
+    picture1 VARCHAR(255),
+    paragraph1 TEXT,
+    picture2 VARCHAR(255),
+    paragraph2 TEXT,
+    picture3 VARCHAR(255),
+    paragraph3 TEXT,
+    technologies_used VARCHAR(255),
+    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    author_id INT,
+    num_likes INT DEFAULT 0,
+    num_comments INT DEFAULT 0,
+    github_link VARCHAR(255),
+    demo_url VARCHAR(255),
+    FOREIGN KEY (author_id) REFERENCES ADMIN(admin_id) ON DELETE CASCADE
+);
+
+-- Create the COMMENT table
+CREATE TABLE COMMENT (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    project_id INT,
+    user_id INT,
+    content TEXT NOT NULL,
+    date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    parent_comment_id INT,
+    num_likes INT DEFAULT 0,
+    FOREIGN KEY (project_id) REFERENCES PROJECT(project_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USER(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (parent_comment_id) REFERENCES COMMENT(comment_id) ON DELETE CASCADE
+);
+
+-- Sample Data for Testing
+
+-- Insert a sample admin
+INSERT INTO ADMIN (username, password, email, full_name, last_login)
+VALUES ('admin1', 'password123', 'admin1@example.com', 'Admin User', NOW());
+
+-- Insert sample users
+INSERT INTO USER (username, password, email, full_name, last_login)
+VALUES 
+('user1', 'password123', 'user1@example.com', 'User One', NOW()),
+('user2', 'password123', 'user2@example.com', 'User Two', NOW());
+
+-- Insert a sample project by the admin
+INSERT INTO PROJECT (intro_picture, title, intro, picture1, paragraph1, picture2, paragraph2, picture3, paragraph3, technologies_used, author_id, num_likes, num_comments, github_link, demo_url)
+VALUES 
+('/img/intro.jpg', 'Sample Project', 'This is an intro.', '/img/pic1.jpg', 'Paragraph 1 text.', '/img/pic2.jpg', 'Paragraph 2 text.', '/img/pic3.jpg', 'Paragraph 3 text.', 'MySQL, PHP, JavaScript', 1, 5, 2, 'https://github.com/sample/project', 'https://demo.com/project');
+
+-- Insert comments for the project
+INSERT INTO COMMENT (project_id, user_id, content, date_created, num_likes)
+VALUES 
+(1, 1, 'This is a great project!', NOW(), 10),
+(1, 2, 'I found this very useful, thanks for sharing!', NOW(), 7);
+
+-- Insert a reply to the first comment
+INSERT INTO COMMENT (project_id, user_id, content, date_created, parent_comment_id, num_likes)
+VALUES 
+(1, 2, 'Thank you for the feedback!', NOW(), 1, 5);
+
+-- Commands to Verify the Setup
+
+-- Select the database
+USE project_db;
+
+-- Show all tables in the selected database
+SHOW TABLES;
+
+-- View the structure of each table
+DESCRIBE ADMIN;
+DESCRIBE USER;
+DESCRIBE PROJECT;
+DESCRIBE COMMENT;
+
+-- Queries for verifying relationships and data
+
+-- View all admins
+SELECT * FROM ADMIN;
+
+-- View all users
+SELECT * FROM USER;
+
+-- View all projects with admin info
+SELECT 
+    PROJECT.project_id, 
+    PROJECT.title, 
+    PROJECT.intro, 
+    PROJECT.paragraph1, 
+    PROJECT.paragraph2, 
+    PROJECT.paragraph3, 
+    PROJECT.date_created, 
+    ADMIN.full_name AS admin_name
+FROM PROJECT
+JOIN ADMIN ON PROJECT.author_id = ADMIN.admin_id;
+
+-- View all comments with user info and project info
+SELECT 
+    COMMENT.comment_id, 
+    COMMENT.content, 
+    COMMENT.num_likes, 
+    COMMENT.date_created, 
+    USER.full_name AS user_name, 
+    PROJECT.title AS project_title
+FROM COMMENT
+JOIN USER ON COMMENT.user_id = USER.user_id
+JOIN PROJECT ON COMMENT.project_id = PROJECT.project_id;
+
