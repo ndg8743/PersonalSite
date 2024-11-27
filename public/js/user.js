@@ -15,45 +15,53 @@ const user = {
   }
 };
 
-// Function to handle user registration
 function registerUser(event) {
   event.preventDefault(); // Prevent form from submitting traditionally
 
   // Get form values
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const email = document.getElementById('email').value;
-  console.log(`Registering user: ${username}`);
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
+  const fullName = document.getElementById("fullName").value;
 
   // Create a user object to send to the server
   const newUser = {
     username: username,
     password: password,
-    email: email
+    email: email,
+    full_name: fullName,
   };
 
   // Send the user data to the server
-  fetch('/user/register', {
-    method: 'POST',
+  fetch("/user/register", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(newUser)
+    body: JSON.stringify(newUser),
   })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Registration successful:', data);
+    .then(async (response) => {
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(errorData.message); // Show alert for duplicate username/email/full name
+        return;
+      }
+      const data = await response.json();
+      alert(data.message); // Show success message
+      window.location.href = "/html/login.html"; // Redirect to login page
     })
-    .catch(error => {
-      console.error('Error registering user:', error);
+    .catch((error) => {
+      console.error("Error registering user:", error);
+      alert("An unexpected error occurred. Please try again.");
     });
 }
 
 // Attach event listener to the registration form
-const registerForm = document.getElementById('register-form');
+const registerForm = document.getElementById("register-form");
 if (registerForm) {
-  registerForm.addEventListener('submit', registerUser);
+  registerForm.addEventListener("submit", registerUser);
 }
+
 
 // Function to handle user login
 function loginUser(event) {

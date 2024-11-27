@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/user');
+const Admin = require('../models/admin'); // Import the admin model
 const router = express.Router();
 
 // Get all users
@@ -26,14 +27,34 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login a user
+// Login a user or admin
 router.post('/login', async (req, res) => {
   try {
-    console.log(`User login attempt: ${req.body.username}`);
-    const user = await User.login(req.body);
-    res.send({ success: true, ...user, password: undefined });
+    console.log(`Login attempt for: ${req.body.username}`);
+
+    let user;
+    // Try logging in as a regular user
+    try {
+      console.log("Attempting to log in as a regular user...");
+      user = await User.login(req.body);
+      req.session.isAdmin = false; // Not an admin
+    } catch (userError) {
+      console.log(`Regular user login failed: ${userError.message}`);
+      // Try logging in as an admin
+      console.log("Attempting to log in as an admin...");
+      user = await Admin.login(req.body);
+      req.session.isAdmin = true; // This is an admin
+    }
+
+    // Set session details for both user and admin
+    req.session.userId = user.user_id || user.admin_id; // Use appropriate ID
+    req.session.username = user.username;
+
+    console.log(`Login successful for: ${req.body.username}`);
+    res.send({ success: true, userType: req.session.isAdmin ? "admin" : "user" });
+
   } catch (err) {
-    console.error(`User login failed: ${err.message}`);
+    console.error(`Login failed: ${err.message}`);
     res.status(401).send({ success: false, message: err.message });
   }
 });

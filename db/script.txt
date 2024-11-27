@@ -11,20 +11,20 @@ DROP TABLE IF EXISTS ADMIN;
 -- Create the ADMIN table
 CREATE TABLE ADMIN (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE, -- Ensure unique usernames
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100),
-    full_name VARCHAR(100),
+    email VARCHAR(100) NOT NULL UNIQUE, -- Ensure unique emails
+    full_name VARCHAR(100) NOT NULL UNIQUE, -- Ensure unique full names
     last_login DATETIME
 );
 
 -- Create the USER table
 CREATE TABLE USER (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE, -- Ensure unique usernames
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100),
-    full_name VARCHAR(100),
+    email VARCHAR(100) NOT NULL UNIQUE, -- Ensure unique emails
+    full_name VARCHAR(100) NOT NULL UNIQUE, -- Ensure unique full names
     last_login DATETIME
 );
 
@@ -138,4 +138,3 @@ SELECT
 FROM COMMENT
 JOIN USER ON COMMENT.user_id = USER.user_id
 JOIN PROJECT ON COMMENT.project_id = PROJECT.project_id;
-
