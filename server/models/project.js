@@ -29,63 +29,14 @@ async function createTable() {
 }
 createTable();
 
-// Get all project
-async function getAllproject() {
-  console.log("Fetching all project from database");
+// Get all projects
+async function getAllProjects() {
+  console.log("Fetching all projects from database");
   let sql = `SELECT * FROM project`;
   return await con.query(sql);
 }
 
-// Create a new project
-async function createProject(project) {
-  console.log(`Creating project: ${project.title}`);
-  let sql = `
-    INSERT INTO project(title, content, description, technologies_used, author_id, github_link, demo_url)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `;
-  const params = [
-    project.title,
-    project.content,
-    project.description,
-    project.technologies_used,
-    project.author_id,
-    project.github_link,
-    project.demo_url,
-  ];
-  await con.query(sql, params);
-  return await getAllproject();
-}
-
-// Update a project
-async function updateProject(project) {
-  console.log(`Updating project ID: ${project.project_id}`);
-  let sql = `
-    UPDATE project
-    SET title = ?, content = ?, description = ?, technologies_used = ?, github_link = ?, demo_url = ?
-    WHERE project_id = ?
-  `;
-  const params = [
-    project.title,
-    project.content,
-    project.description,
-    project.technologies_used,
-    project.github_link,
-    project.demo_url,
-    project.project_id,
-  ];
-  await con.query(sql, params);
-}
-
-// Delete a project
-async function deleteProject(projectId) {
-  console.log(`Deleting project ID: ${projectId}`);
-  let sql = `
-    DELETE FROM project
-    WHERE project_id = ?
-  `;
-  await con.query(sql, [projectId]);
-}
-
+// Get a single project by ID
 async function getProjectById(projectId) {
   console.log(`Fetching project by ID: ${projectId}`);
   let sql = `SELECT * FROM project WHERE project_id = ?`;
@@ -93,4 +44,18 @@ async function getProjectById(projectId) {
   return rows[0];
 }
 
-module.exports = { getAllproject, createProject, updateProject, deleteProject, getProjectById };
+// Like a project
+async function likeProject(projectId) {
+  console.log(`Liking project ID: ${projectId}`);
+  let sql = `
+    UPDATE project
+    SET num_likes = num_likes + 1
+    WHERE project_id = ?
+  `;
+  await con.query(sql, [projectId]);
+
+  // Return the updated project with the new like count
+  return await getProjectById(projectId);
+}
+
+module.exports = { getAllProjects, getProjectById, likeProject };

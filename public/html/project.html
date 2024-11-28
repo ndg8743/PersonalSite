@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Page</title>
+    <title>Projects</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -19,29 +19,36 @@
     </header>
 
     <main>
-        <section id="project-details">
-            <h1 id="project-title">Project Title</h1>
-            <p id="project-description">Project Description</p>
-            <div id="project-images">
-                <!-- Images dynamically rendered here -->
-            </div>
-            <p><b>Technologies Used:</b> <span id="technologies-used"></span></p>
-            <p><b>GitHub Link:</b> <a id="github-link" href="#" target="_blank">GitHub</a></p>
-            <p><b>Demo URL:</b> <a id="demo-url" href="#" target="_blank">Demo</a></p>
-        </section>
+        <h2>Projects</h2>
+        <p class="fade-links"></p>
+        <div id="project-container" class="projects">
+            <!-- Projects will appear here -->
+        </div>
+        </p>
 
-        <section id="comments-section">
-            <h2>Comments</h2>
-            <form id="comment-form">
-                <textarea id="comment-text" rows="4" placeholder="Leave a comment..." required></textarea>
-                <button type="submit">Submit Comment</button>
+        <!-- Modal for Project Details -->
+        <div id="modal" class="modal">
+            <button class="close" onclick="closeModal()">✖</button>
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <p><b>Technologies Used:</b> <span id="modal-technologies"></span></p>
+            <p><b>Date Created:</b> <span id="modal-date"></span></p>
+            <a id="modal-github" href="#" target="_blank">GitHub Link</a><br>
+            <a id="modal-demo" href="#" target="_blank">Demo URL</a>
+            <p><b>Likes:</b> <span id="modal-likes">0</span></p>
+            <button id="modal-like-btn">Like</button>
+            <h3>Comments</h3>
+            <form id="modal-comment-form">
+                <textarea id="modal-comment" rows="3" placeholder="Leave a comment..." required></textarea>
+                <button type="submit">Submit</button>
             </form>
-            <ul id="comments-list">
-                <!-- Comments dynamically rendered here -->
+            <ul id="modal-comments">
+                <!-- Comments will appear here -->
             </ul>
-        </section>
+        </div>
     </main>
 
+    <script src="../js/modal.js"></script>
     <script src="../js/project.js"></script>
     <script src="../js/comment.js"></script>
 </body>
