@@ -362,3 +362,48 @@ canvas {
 	margin-top: 10px;
 	display: none; /* Hidden by default */
 }
+
+/* General text color for modal content */
+#modal {
+    color: white; /* Ensure all text inside the modal is white */
+}
+
+/* Styling for project titles and descriptions in the modal */
+#modal h3, #modal p, #modal a {
+    color: white;
+}
+
+/* Styling for project cards (the text on them) */
+.proj h3 {
+    color: white;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/* Styling for comments section */
+#modal-comments p,
+#modal-comments small {
+    color: white;
+}
+
+/* Styling for the comment input and button */
+#modal-comment-form textarea,
+#modal-comment-form button {
+    color: white;
+    background-color: #333; /* Dark background to match theme */
+    border: 1px solid white;
+}
+
+#modal-comment-form textarea::placeholder {
+    color: #aaa; /* Light gray placeholder for comment box */
+}
+
+#modal-comment-form button {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#modal-comment-form button:hover {
+    background-color: white;
+    color: black; /* Invert colors on hover for contrast */
+}
