@@ -8,20 +8,25 @@
     <title>PersonalBlog</title>
     <link rel="stylesheet" href="../css/style.css">
     <script type="text/javascript" src="../js/livetime.js"></script>
-
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
 </head>
 
 <body>
-    
+    <canvas id="matrixCanvas"></canvas>
+    <!-- Matrix -->
+    <script src="/js/matrix.js"></script>
     <h1 id="intro">{ }</h1>
     <div id="main">
             <h2>Welcome to my personal blog!</h2>
-            <p class="fade-links">
-                <a href="../html/register.html">Register</a> |
-                <a href="../html/login.html">Login</a> |
-                <a href="../html/project.html">Projects</a>
-            </p>
-        <h2>I'm a <span id="age"></span> year-old developer</h2>
+            <header>
+                <nav class="fade-links">
+                    <a href="../html/register.html">Register</a> |
+                    <a href="../html/login.html">Login</a> |
+                    <a href="../html/project.html">Projects</a>
+                </nav>
+            </header>
+        <h2>I'm a <span id="age"></span> year-old <span class="pro-text"></span></h2>
+
         <h2>who uses
             <span class="lang-button" style="color: #f16529;" data-panel="Java">Java<span class="underline"
                     style="background-color:#f16529;"></span></span>,
@@ -127,8 +132,9 @@
 
         </div>
         <script type="text/javascript" src="../js/intro.js"></script>
-        <script type="text/javascript" src="../../js/modalani.js"></script>
+        <script type="text/javascript" src="../../js/modal.js"></script>
         <script type="text/javascript" src="../js/age.js"></script>
+        <script type="text/javascript" src="../js/typographic.js"></script> 
 </body>
 
 </html>

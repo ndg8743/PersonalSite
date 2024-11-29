@@ -1,3 +1,522 @@
+/* Apply a monospace font to all elements */
+* {
+	font-family: 'Inconsolata', monospace;
+}
+
+/* Remove margin from body, set background to black, and hide overflow */
+body {
+	margin: 0;
+	background: black;
+	overflow: hidden;
+}
+
+/* Center h1 element and apply transformations */
+h1 {
+	color: white;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translateX(-50%) translateY(-50%) scale(2, 2);
+	transition: 0.5s ease-in-out;
+}
+
+/* Style for h1 when it has the class 'top' */
+h1.top {
+	top: 0;
+	transform: translateX(-50%);
+	color: white;
+}
+
+/* Initial state for links with class 'fade-links' */
+.fade-links {
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+	transform: translateY(0px);
+	text-align: center;
+	color: white;
+	font-size: 1.5em;
+}
+
+/* Hover state for links with class 'fade-links' */
+.fade-links:hover {
+	opacity: 1;
+	text-align: center;
+}
+
+/* Initial state for the main content */
+#main {
+	opacity: 0;
+	transition: 0.5s;
+	color: white;
+	margin-top: 60px;
+}
+
+/* Center h2 text and disable cursor */
+h2 {
+	text-align: center;
+	margin: 0;
+	cursor: default;
+}
+
+/* Style for language selection buttons */
+.lang-button {
+	display: inline-block;
+	cursor: pointer;
+}
+
+/* Underline effect for hover and active states */
+.underline {
+	display: block;
+	height: 2px;
+	margin: 0 auto;
+	width: 0;
+	transition: width .25s linear;
+}
+
+/* Expand underline on hover or active */
+*:hover>.underline,
+.active>.underline {
+	width: 100%;
+}
+
+/* Style for SVG lines */
+line {
+	stroke-width: 5px;
+	stroke-dasharray: 100px;
+	stroke-dashoffset: 100px;
+	stroke-linecap: round;
+}
+
+/* Style for form labels */
+label {
+	display: block;
+	margin-bottom: 5px;
+	color: white;
+}
+
+/* Initial state for rectangle element */
+#rect {
+	transform: translateY(100px);
+	overflow: visible;
+	position: absolute;
+	left: 20px;
+	transition: transform 0.2s linear;
+}
+
+/* Style for left and right rectangles */
+#rectleft,
+#rectright {
+	transform: translateX(1px) translateY(1px);
+	stroke-width: 2px;
+	stroke: transparent;
+	fill: transparent;
+}
+
+/* Initial state for line down element */
+#linedown {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Initial state for language panel */
+.lang-panel {
+	opacity: 0;
+	transition: opacity 0.5s linear;
+	margin-top: 120px;
+	position: absolute;
+	width: 100%;
+	z-index: -100;
+	text-align: center;
+}
+
+/* Shown state for language panel */
+.lang-panel.shown {
+	opacity: 1;
+	z-index: 100;
+	visibility: visible;
+}
+
+/* General link styles */
+a {
+	color: inherit;
+	display: inline-block;
+}
+
+/* Remove text decoration for links with class 'd' */
+a.d {
+	text-decoration: none;
+}
+
+/* Style for language descriptions */
+.lang-desc {
+	width: 40%;
+	margin: 10px auto;
+}
+
+/* Specific color for Python language description */
+#pysthon>.lang-desc>span {
+	color: #90c53f;
+}
+
+/* Specific color for HTML/CSS/JS language description */
+#htmlcssjs>.lang-desc>span {
+	color: #5ec9f8;
+}
+
+/* Specific color for Java language description */
+#java>.lang-desc>span {
+	color: #f16529;
+}
+
+/* Specific color for other languages description */
+#others>.lang-desc>span {
+	color: #ffdd48;
+}
+
+/* Initial state for details section */
+#details {
+	margin-top: 50px;
+	opacity: 1;
+	z-index: 100;
+	transition: all 0.125s ease-in-out;
+}
+
+/* Hidden state for details section */
+#details.gone {
+	opacity: 0;
+	z-index: -100;
+	transform: translateY(10vh);
+}
+
+/* Ensure rectangle is behind other elements */
+#rect {
+	z-index: -100;
+}
+
+/* Initial state for language hint */
+#langhint {
+	opacity: 0;
+	z-index: -100;
+	position: absolute;
+	transform: translateX(-50%);
+}
+
+.home-content {
+	max-width: 600px;
+	padding: 50px;
+	/* margin-left: -30px; */
+}
+
+.home-content h1 {
+	font-size: 56px;
+	font-weight: 700;
+	line-height: 1.2;
+	opacity: 0;
+	animation: slideRight 1s ease forwards;
+	animation-delay: .7s;
+}
+
+.home-content h3 {
+	font-size: 32px;
+	font-weight: 700;
+	opacity: 0;
+	animation: slideLeft 1s ease forwards;
+	animation-delay: 1s;
+}
+
+.mu {
+	margin-top: 50px;
+}
+
+.home-content h1,
+h3 {
+	text-shadow: 5px 4px 10px green;
+}
+
+.home-content h3 span {
+	color: rgb(0, 255, 0);
+}
+
+/* Center canvas element */
+canvas {
+	left: 50%;
+	position: absolute;
+	transform: translateX(-50%);
+}
+
+/* Style for projects container */
+.projects {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 30px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	position: relative;
+	justify-content: space-around;
+}
+
+/* Style for individual project cards */
+.proj {
+	margin: 10px;
+	min-width: 250px;
+	max-width: 350px;
+	height: 250px;
+	background: none;
+	border: 0;
+	box-sizing: border-box;
+	background-size: 100% 100%;
+	position: relative;
+	box-shadow: 0 0 0 1000px inset #0000008f, 0 0 45px 0 inset black;
+	border-radius: 20px;
+	background-position: center;
+	cursor: pointer;
+	transition: background-size 0.2s ease-in;
+}
+
+/* Initial state for project card borders */
+.proj::before {
+	top: 0;
+	left: 0;
+}
+
+/* Hover state for project cards */
+.proj:hover {
+	background-size: 120% 120%;
+}
+
+/* Initial state for project card borders */
+.proj::before,
+.proj::after {
+	border: 2px solid transparent;
+	width: 0;
+	height: 0;
+	box-sizing: inherit;
+	content: '';
+	position: absolute;
+}
+
+/* Initial state for project card borders */
+.proj::after {
+	bottom: 0;
+	right: 0;
+}
+
+/* Loaded state for project card borders */
+.proj.loaded::before,
+.proj.loaded::after {
+	width: 100%;
+	height: 100%;
+	border-radius: 20px;
+}
+
+/* Transition for project card borders */
+.proj.loaded::before {
+	transition: width 0.125s ease-out, height 0.125s ease-out 0.125s, border-radius .5s ease-out 0.5s;
+}
+
+/* Transition for project card borders */
+.proj.loaded::after {
+	transition: border-color 0s ease-out 0.25s, width 0.125s ease-out 0.25s, height 0.125s ease-out 0.325s, border-radius .5s ease-out 0.5s;
+}
+
+/* Specific border color for Python projects */
+.projects.python>.proj.loaded::before {
+	border-top-color: #90c53f;
+	border-right-color: #90c53f;
+}
+
+/* Specific border color for Python projects */
+.projects.python>.proj.loaded::after {
+	border-bottom-color: #90c53f;
+	border-left-color: #90c53f;
+}
+
+/* Specific border color for HTML/CSS/JS projects */
+.projects.htmlcssjs>.proj.loaded::before {
+	border-top-color: #5ec9f8;
+	border-right-color: #5ec9f8;
+}
+
+/* Specific border color for HTML/CSS/JS projects */
+.projects.htmlcssjs>.proj.loaded::after {
+	border-bottom-color: #5ec9f8;
+	border-left-color: #5ec9f8;
+}
+
+/* Specific border color for Java projects */
+.projects.java>.proj.loaded::before {
+	border-top-color: #f16529;
+	border-right-color: #f16529;
+}
+
+/* Specific border color for Java projects */
+.projects.java>.proj.loaded::after {
+	border-bottom-color: #f16529;
+	border-left-color: #f16529;
+}
+
+/* Specific border color for other projects */
+.projects.others>.proj.loaded::before {
+	border-top-color: #ffdd48;
+	border-right-color: #ffdd48;
+}
+
+/* Specific border color for other projects */
+.projects.others>.proj.loaded::after {
+	border-bottom-color: #ffdd48;
+	border-left-color: #ffdd48;
+}
+
+/* Specific border color for Python projects */
+.projects.python>.proj {
+	border-color: #90c53f;
+}
+
+/* Initial state for modal */
+#modal {
+	pointer-events: none;
+	opacity: 0;
+	position: absolute;
+	z-index: 1000;
+	background: #000000d0;
+	border-radius: 20px;
+	border: 2px solid white;
+	width: 90vw;
+	height: 70vh;
+	left: 50%;
+	top: 50%;
+	transition: opacity .25s linear;
+	transform: translateX(-50%) translateY(-50%);
+	overflow: hidden;
+	box-shadow: 0 0 100px 10px black inset;
+}
+
+/* Specific border color for Python modal */
+#modal.python,
+#modal.python>.close {
+	border-color: #90c53f;
+}
+
+/* Specific border color for HTML/CSS/JS modal */
+#modal.htmlcssjs,
+#modal.htmlcssjs>.close {
+	border-color: #5ec9f8;
+}
+
+/* Specific border color for Java modal */
+#modal.java,
+#modal.java>.close {
+	border-color: #f16529;
+}
+
+/* Specific border color for other modals */
+#modal.others,
+#modal.others>.close {
+	border-color: #ffdd48;
+}
+
+/* Shown state for modal */
+#modal.shown {
+	opacity: 1;
+	pointer-events: initial;
+}
+
+/* Style for paragraphs inside modal */
+#modal>p {
+	line-height: 1.5;
+	font-size: large;
+}
+
+/* Center divs inside modal */
+#modal>div {
+	text-align: center;
+}
+
+/* Margin for all elements inside modal */
+#modal>* {
+	margin: 50px;
+}
+
+/* Style for close button inside modal */
+#modal>.close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 40px;
+	line-height: 20px;
+	margin: 0;
+	border: 2px solid white;
+	border-top-color: transparent !important;
+	border-right-color: transparent !important;
+	border-bottom-left-radius: 20px;
+	cursor: pointer;
+}
+
+/* Style for error messages */
+.error-message {
+	color: red;
+	font-size: 0.9em;
+	margin-top: 10px;
+	display: none;
+	/* Hidden by default */
+}
+
+/* General text color for modal content */
+#modal {
+	color: white;
+	/* Ensure all text inside the modal is white */
+}
+
+/* Styling for project titles and descriptions in the modal */
+#modal h3,
+#modal p,
+#modal a {
+	color: white;
+}
+
+/* Styling for project cards (the text on them) */
+.proj h3 {
+	color: white;
+	text-align: center;
+	font-size: 1.2em;
+}
+
+/* Styling for comments section */
+#modal-comments p,
+#modal-comments small {
+	color: white;
+}
+
+/* Styling for the comment input and button */
+#modal-comment-form textarea,
+#modal-comment-form button {
+	color: white;
+	background-color: #333;
+	/* Dark background to match theme */
+	border: 1px solid white;
+}
+
+/* Placeholder color for comment box */
+#modal-comment-form textarea::placeholder {
+	color: #aaa;
+	/* Light gray placeholder for comment box */
+}
+
+/* Style for comment form button */
+#modal-comment-form button {
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+/* Hover state for comment form button */
+#modal-comment-form button:hover {
+	background-color: white;
+	color: black;
+	/* Invert colors on hover for contrast */
+}
+
+/*-------------------------------------------------------------- */
 * {
 	font-family: 'Inconsolata', monospace;
 }
@@ -21,21 +540,19 @@ h1.top {
 	top: 0;
 	transform: translateX(-50%);
 	color: white;
-	
 }
 
 .fade-links {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    transform: translateY(0px);
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+	transform: translateY(0px);
 	text-align: center;
 	color: white;
 	font-size: 1.5em;
 }
 
 .fade-links:hover {
-    opacity: 1;
-
+	opacity: 1;
 	text-align: center;
 }
 
@@ -52,249 +569,145 @@ h2 {
 	cursor: default;
 }
 
+/* Slot machine styles */
+#slotmachine {
+	width: 450px;
+	height: 200px;
+	border: 1px solid black;
+	margin: 40px auto;
+	position: relative;
+	overflow: hidden;
+	background-color: black;
+	text-align: center;
+	border-radius: 30px;
+}
 
-.lang-button {
-	display: inline-block;
+#slotmachine>ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	position: absolute;
+	transform: translateY(0);
+	/* Start position */
+	transition: transform 0.2s ease-out;
+	/* Default speed */
+}
+
+#slotmachine>ul>li {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* Center-align project names */
+	height: 200px;
+	/* Match the slot height */
+	font-size: 2.5em;
+	font-weight: bold;
+	color: white;
+	background: black;
 	cursor: pointer;
+	border: none;
+	/* Remove unwanted borders */
 }
 
-.underline {
-	display: block;
+#indicator {
+	position: absolute;
+	top: 50%;
+	/* Center the red line */
+	left: 0;
+	right: 0;
 	height: 2px;
-	margin: 0 auto;
-	width: 0;
-	transition: width .25s linear;
-}
-
-*:hover>.underline, .active>.underline {
-	width: 100%;
-}
-
-line {
-	stroke-width: 5px;
-	stroke-dasharray: 100px;
-	stroke-dashoffset: 100px;
-	stroke-linecap: round;
-}
-
-
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: white; 
-}
-
-#rect {
-	transform: translateY(100px);
-	overflow: visible;
-	position: absolute;
-	left: 20px;
-	transition: transform 0.2s linear;
-}
-
-#rectleft, #rectright {
-	transform: translateX(1px) translateY(1px);
-	stroke-width: 2px;
-	stroke: transparent;
-	fill: transparent;
-}
-
-#linedown {
-	position: absolute;
-	opacity: 0;
+	/* Make it a single red line */
+	margin-top: 15px;
+	/* Align perfectly in the middle */
+	background-color: red;
+	z-index: 10;
+	/* Ensure it’s above other elements */
 	pointer-events: none;
 }
 
-.lang-panel {
-	opacity: 0;
-	transition: opacity 0.5s linear;
-	margin-top: 120px;
-	position: absolute;
-	width: 100%;
-	z-index: -100;
-	text-align: center;
+/* Downward animation */
+@keyframes moveSlotDown {
+	0% {
+		transform: translateY(0);
+	}
+
+	80% {
+		transform: translateY(calc(-100% + 575px));
+		animation-timing-function: ease-in-out;
+	}
+
+	90% {
+		transform: translateY(calc(-100% + 560px));
+		animation-timing-function: ease-out;
+	}
+
+	100% {
+		transform: translateY(calc(-100% + 575px));
+	}
 }
 
-.lang-panel.shown {
-	opacity: 1;
-	z-index: 100;
-	visibility: visible;
+/* Upward animation */
+@keyframes moveSlotUp {
+	0% {
+		transform: translateY(0);
+	}
+
+	80% {
+		transform: translateY(calc(100% - 575px));
+		animation-timing-function: ease-in-out;
+	}
+
+	90% {
+		transform: translateY(calc(100% - 560px));
+		animation-timing-function: ease-out;
+	}
+
+	100% {
+		transform: translateY(calc(100% - 575px));
+	}
 }
 
-a {
-	color: inherit;
-	display: inline-block;
-}
-
-a.d {
-	text-decoration: none;
-}
-
-.lang-desc {
-	width: 40%;
-	margin: 10px auto;
-}
-
-#pysthon>.lang-desc>span {
-	color: #90c53f;
-}
-
-#htmlcssjs>.lang-desc>span {
-	color: #5ec9f8;
-}
-
-#java>.lang-desc>span {
-	color: #f16529;
-}
-
-#others>.lang-desc>span {
-	color: #ffdd48;
-}
-
-#details {
-	margin-top: 50px;
-	opacity: 1;
-	z-index: 100;
-	transition: all 0.125s ease-in-out;
-}
-
-#details.gone {
-	opacity: 0;
-	z-index: -100;
-	transform: translateY(10vh);
-}
-
-#rect {
-	z-index: -100;
-}
-
-#langhint {
-	opacity: 0;
-	z-index: -100;
-	position: absolute;
-	transform: translateX(-50%);
-}
-
-canvas {
-	left: 50%;
-	position: absolute;
-	transform: translateX(-50%);
-}
-
-.projects {
+#slotmachine-list {
 	display: flex;
-	flex-wrap: wrap;
-	margin: 30px;
-	overflow-y: auto;
-	overflow-x: hidden;
-	position: relative;
-	justify-content: space-around;
+	flex-direction: column;
+	transform: translateY(0);
+	transition: transform 0.5s ease-out;
+	/* Smooth transition for tactile scrolling */
 }
 
-.proj {
-	margin: 10px;
-	min-width: 250px;
-	max-width: 350px;
-	height: 250px;
-	background: none;
-	border: 0;
-	box-sizing: border-box;
-	background-size: 100% 100%;
-	position: relative;
-	box-shadow: 0 0 0 1000px inset #0000008f, 0 0 45px 0 inset black;
-	border-radius: 20px;
-	background-position: center;
+#slotmachine-list>li {
+	height: 100px;
+	/* Match the height used in JS */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5em;
+	color: #666;
+	/* De-emphasized color */
 	cursor: pointer;
-	transition: background-size 0.2s ease-in;
+	transition: font-size 0.3s, color 0.3s;
+	/* Smooth transition for visual changes */
 }
 
-.proj::before {
-	top: 0;
-	left: 0;
+#slotmachine-list>li:hover {
+	color: white;
+	/* Highlight on hover */
+	/* }
+
+#slotmachine-list { */
+	animation-duration: 5s;
+	animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.5);
+	/* Elastic easing */
+	animation-fill-mode: both;
+	/* Preserve the final state */
+	animation-iteration-count: infinite;
 }
 
-.proj:hover {
-	background-size: 120% 120%;
-}
-
-.proj::before, .proj::after {
-	border: 2px solid transparent;
-	width: 0;
-	height: 0;
-	box-sizing: inherit;
-	content: '';
-	position: absolute;
-}
-
-.proj::after {
-	bottom: 0;
-	right: 0;
-}
-
-.proj.loaded::before, .proj.loaded::after {
-	width: 100%;
-	height: 100%;
-	border-radius: 20px;
-}
-
-.proj.loaded::before {
-	transition: width 0.125s ease-out, height 0.125s ease-out 0.125s, border-radius .5s ease-out 0.5s;
-}
-
-.proj.loaded::after {
-	transition: border-color 0s ease-out 0.25s, width 0.125s ease-out 0.25s, height 0.125s ease-out 0.325s, border-radius .5s ease-out 0.5s;
-}
-
-.projects.python>.proj.loaded::before {
-	border-top-color: #90c53f;
-	border-right-color: #90c53f;
-}
-
-.projects.python>.proj.loaded::after {
-	border-bottom-color: #90c53f;
-	border-left-color: #90c53f;
-}
-
-.projects.htmlcssjs>.proj.loaded::before {
-	border-top-color: #5ec9f8;
-	border-right-color: #5ec9f8;
-}
-
-.projects.htmlcssjs>.proj.loaded::after {
-	border-bottom-color: #5ec9f8;
-	border-left-color: #5ec9f8;
-}
-
-.projects.java>.proj.loaded::before {
-	border-top-color: #f16529;
-	border-right-color: #f16529;
-}
-
-.projects.java>.proj.loaded::after {
-	border-bottom-color: #f16529;
-	border-left-color: #f16529;
-}
-
-.projects.others>.proj.loaded::before {
-	border-top-color: #ffdd48;
-	border-right-color: #ffdd48;
-}
-
-.projects.others>.proj.loaded::after {
-	border-bottom-color: #ffdd48;
-	border-left-color: #ffdd48;
-}
-
-.projects.python>.proj {
-	border-color: #90c53f;
-}
-
-
+/* Modal styles */
 #modal {
 	pointer-events: none;
 	opacity: 0;
-	position: absolute;
+	position: fixed;
 	z-index: 1000;
 	background: #000000d0;
 	border-radius: 20px;
@@ -303,107 +716,82 @@ canvas {
 	height: 70vh;
 	left: 50%;
 	top: 50%;
-	transition: opacity .25s linear;
 	transform: translateX(-50%) translateY(-50%);
 	overflow: hidden;
 	box-shadow: 0 0 100px 10px black inset;
-}
-#modal.python, #modal.python>.close {
-	border-color: #90c53f;
-}
-
-#modal.htmlcssjs, #modal.htmlcssjs>.close {
-	border-color: #5ec9f8;
-}
-
-#modal.java, #modal.java>.close {
-	border-color: #f16529;
-}
-
-#modal.others, #modal.others>.close {
-	border-color: #ffdd48;
+	color: white;
+	transition: opacity 0.3s ease-in-out;
 }
 
 #modal.shown {
+	pointer-events: all;
 	opacity: 1;
-	pointer-events: initial;
 }
 
-#modal>p {
-	line-height: 1.5;
-	font-size: large;
+#modal h3,
+#modal p,
+#modal a {
+	color: white;
 }
 
-#modal>div {
-	text-align: center;
-}
-
-#modal>* {
-	margin: 50px;
+#modal>.modal-content {
+	padding: 20px;
 }
 
 #modal>.close {
 	position: absolute;
-	top: 0;
-	right: 0;
-	width: 40px;
-	line-height: 20px;
-	margin: 0;
-	border: 2px solid white;
-	border-top-color: transparent !important;
-	border-right-color: transparent !important;
-	border-bottom-left-radius: 20px;
+	top: 10px;
+	right: 10px;
 	cursor: pointer;
+	color: white;
+	font-size: 1.5em;
 }
 
-.error-message {
-	color: red;
-	font-size: 0.9em;
-	margin-top: 10px;
-	display: none; /* Hidden by default */
-}
-
-/* General text color for modal content */
-#modal {
-    color: white; /* Ensure all text inside the modal is white */
-}
-
-/* Styling for project titles and descriptions in the modal */
-#modal h3, #modal p, #modal a {
-    color: white;
-}
-
-/* Styling for project cards (the text on them) */
-.proj h3 {
-    color: white;
-    text-align: center;
-    font-size: 1.2em;
-}
-
-/* Styling for comments section */
 #modal-comments p,
 #modal-comments small {
-    color: white;
+	color: white;
 }
 
-/* Styling for the comment input and button */
 #modal-comment-form textarea,
 #modal-comment-form button {
-    color: white;
-    background-color: #333; /* Dark background to match theme */
-    border: 1px solid white;
+	color: white;
+	background-color: #333;
+	/* Dark background to match theme */
+	border: 1px solid white;
 }
 
 #modal-comment-form textarea::placeholder {
-    color: #aaa; /* Light gray placeholder for comment box */
+	color: #aaa;
+	/* Light gray placeholder for comment box */
 }
 
 #modal-comment-form button {
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
 
 #modal-comment-form button:hover {
-    background-color: white;
-    color: black; /* Invert colors on hover for contrast */
+	background-color: white;
+	color: black;
+	/* Invert colors on hover for contrast */
+}
+
+canvas {
+	position: fixed;
+	top: auto;
+	left: auto;
+	background-color: black;
+	z-index: -1;
+	background-size: cover;
+	background-blend-mode: multiply;
+	background-size: auto;
+	scroll-behavior: smooth;
+}
+
+.pro-text {
+	color: #04ff00;
+	/* Adjust color to fit your theme */
+	font-weight: bold;
+	font-size: 1.2em;
+	text-shadow: 2px 2px 5px black;
 }
