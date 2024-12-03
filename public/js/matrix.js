@@ -2,61 +2,81 @@
 const canvas = document.getElementById("matrixCanvas");
 const ctx = canvas.getContext("2d");
 
-// Set the width and height of the canvas
-const canvasWidth = window.innerWidth;
-const canvasHeight = window.innerHeight;
-canvas.width = canvasWidth;
-canvas.height = canvasHeight;
+// Function to set the canvas size
+function setCanvasSize() {
+    canvas.width = window.innerWidth * 1.5;
+    canvas.height = window.innerHeight * 1.5;
+}
+
+// Set the initial canvas size
+setCanvasSize();
 
 // Create an array of characters
-const characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
-
+const characters = [
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
+    "A", "B", "C", "D", "E", "F", 
+    "あ", "い", "う", "え", "お", 
+    "カ", "キ", "ク", "ケ", "コ"
+];
 // Create an array of columns
-const columns = Math.floor(canvasWidth / 20);
+let columns = Math.floor(canvas.width / 20);
 
 // Initialize the y positions of the columns
-const yPositions = [];
+let yPositions = [];
 
-for (let i = 0; i < columns; i++) {
-  yPositions[i] = Math.random() * canvasHeight;
+function initializeYPositions() {
+    yPositions = [];
+    for (let i = 0; i < columns; i++) {
+        yPositions[i] = Math.random() * canvas.height;
+    }
 }
+
+// Initialize y positions
+initializeYPositions();
 
 // Update the matrix animation
 function updateMatrix() {
-  // Set the background color
-  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-  ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    // Set the background color
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Set the text color and font
-  ctx.fillStyle = "green";
-  ctx.font = "12px timesnewroman";
+    // Set the text color and font
+    ctx.fillStyle = "green";
+    ctx.font = "12px consolas";
 
-  // Loop through each column
-  for (let i = 0; i < columns; i++) {
-    // Select a random character from the array
-    const character = characters[Math.floor(Math.random() * characters.length)];
+    // Loop through each column
+    for (let i = 0; i < columns; i++) {
+        // Select a random character from the array
+        const character = characters[Math.floor(Math.random() * characters.length)];
 
-    // Set the y position of the current column
-    const y = yPositions[i];
+        // Set the y position of the current column
+        const y = yPositions[i];
 
-    // Draw the character at the current position
-    ctx.fillText(character, i * 20, y);
+        // Draw the character at the current position
+        ctx.fillText(character, i * 20, y);
 
-    // Move the column down by 20 units
-    yPositions[i] += 20;
+        // Move the column down by 20 units
+        yPositions[i] += 20;
 
-    // Reset the position if it reaches the bottom of the canvas
-    if (yPositions[i] > canvasHeight && Math.random() > 0.98) {
-      yPositions[i] = 0;
+        // Reset the position if it reaches the bottom of the canvas
+        if (yPositions[i] > canvas.height && Math.random() > 0.98) {
+            yPositions[i] = 0;
+        }
     }
-  }
 }
 
 // Render the matrix animation
 function renderMatrix() {
-  requestAnimationFrame(renderMatrix);
-  updateMatrix();
+    requestAnimationFrame(renderMatrix);
+    updateMatrix();
 }
+
+// Handle window resize
+window.addEventListener("resize", () => {
+    setCanvasSize();
+    columns = Math.floor(canvas.width / 20);
+    initializeYPositions();
+});
 
 // Start the animation
 renderMatrix();
