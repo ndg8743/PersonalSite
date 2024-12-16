@@ -1,797 +1,315 @@
-/* Apply a monospace font to all elements */
+/* Base styles */
 * {
-	font-family: 'Inconsolata', monospace;
-}
-
-/* Remove margin from body, set background to black, and hide overflow */
-body {
-	margin: 0;
-	background: black;
-	overflow: hidden;
-}
-
-/* Center h1 element and apply transformations */
-h1 {
-	color: white;
-	top: 50%;
-	left: 50%;
-	position: absolute;
-	transform: translateX(-50%) translateY(-50%) scale(2, 2);
-	transition: 0.5s ease-in-out;
-}
-
-/* Style for h1 when it has the class 'top' */
-h1.top {
-	top: 0;
-	transform: translateX(-50%);
-	color: white;
-}
-
-/* Initial state for links with class 'fade-links' */
-.fade-links {
-	opacity: 0;
-	transition: opacity 0.5s ease-in-out;
-	transform: translateY(0px);
-	text-align: center;
-	color: white;
-	font-size: 1.5em;
-}
-
-/* Hover state for links with class 'fade-links' */
-.fade-links:hover {
-	opacity: 1;
-	text-align: center;
-}
-
-/* Initial state for the main content */
-#main {
-	opacity: 0;
-	transition: 0.5s;
-	color: white;
-	margin-top: 60px;
-}
-
-/* Center h2 text and disable cursor */
-h2 {
-	text-align: center;
-	margin: 0;
-	cursor: default;
-}
-
-/* Style for language selection buttons */
-.lang-button {
-	display: inline-block;
-	cursor: pointer;
-}
-
-/* Underline effect for hover and active states */
-.underline {
-	display: block;
-	height: 2px;
-	margin: 0 auto;
-	width: 0;
-	transition: width .25s linear;
-}
-
-/* Expand underline on hover or active */
-*:hover>.underline,
-.active>.underline {
-	width: 100%;
-}
-
-/* Style for SVG lines */
-line {
-	stroke-width: 5px;
-	stroke-dasharray: 100px;
-	stroke-dashoffset: 100px;
-	stroke-linecap: round;
-}
-
-/* Style for form labels */
-label {
-	display: block;
-	margin-bottom: 5px;
-	color: white;
-}
-
-/* Initial state for rectangle element */
-#rect {
-	transform: translateY(100px);
-	overflow: visible;
-	position: absolute;
-	left: 20px;
-	transition: transform 0.2s linear;
-}
-
-/* Style for left and right rectangles */
-#rectleft,
-#rectright {
-	transform: translateX(1px) translateY(1px);
-	stroke-width: 2px;
-	stroke: transparent;
-	fill: transparent;
-}
-
-/* Initial state for line down element */
-#linedown {
-	position: absolute;
-	opacity: 0;
-	pointer-events: none;
-}
-
-/* Initial state for language panel */
-.lang-panel {
-	opacity: 0;
-	transition: opacity 0.5s linear;
-	margin-top: 120px;
-	position: absolute;
-	width: 100%;
-	z-index: -100;
-	text-align: center;
-}
-
-/* Shown state for language panel */
-.lang-panel.shown {
-	opacity: 1;
-	z-index: 100;
-	visibility: visible;
-}
-
-/* General link styles */
-a {
-	color: inherit;
-	display: inline-block;
-}
-
-/* Remove text decoration for links with class 'd' */
-a.d {
-	text-decoration: none;
-}
-
-/* Style for language descriptions */
-.lang-desc {
-	width: 40%;
-	margin: 10px auto;
-}
-
-/* Specific color for Python language description */
-#pysthon>.lang-desc>span {
-	color: #90c53f;
-}
-
-/* Specific color for HTML/CSS/JS language description */
-#htmlcssjs>.lang-desc>span {
-	color: #5ec9f8;
-}
-
-/* Specific color for Java language description */
-#java>.lang-desc>span {
-	color: #f16529;
-}
-
-/* Specific color for other languages description */
-#others>.lang-desc>span {
-	color: #ffdd48;
-}
-
-/* Initial state for details section */
-#details {
-	margin-top: 50px;
-	opacity: 1;
-	z-index: 100;
-	transition: all 0.125s ease-in-out;
-}
-
-/* Hidden state for details section */
-#details.gone {
-	opacity: 0;
-	z-index: -100;
-	transform: translateY(10vh);
-}
-
-/* Ensure rectangle is behind other elements */
-#rect {
-	z-index: -100;
-}
-
-/* Initial state for language hint */
-#langhint {
-	opacity: 0;
-	z-index: -100;
-	position: absolute;
-	transform: translateX(-50%);
-}
-
-.home-content {
-	max-width: 600px;
-	padding: 50px;
-	/* margin-left: -30px; */
-}
-
-.home-content h1 {
-	font-size: 56px;
-	font-weight: 700;
-	line-height: 1.2;
-	opacity: 0;
-	animation: slideRight 1s ease forwards;
-	animation-delay: .7s;
-}
-
-.home-content h3 {
-	font-size: 32px;
-	font-weight: 700;
-	opacity: 0;
-	animation: slideLeft 1s ease forwards;
-	animation-delay: 1s;
-}
-
-.mu {
-	margin-top: 50px;
-}
-
-.home-content h1,
-h3 {
-	text-shadow: 5px 4px 10px green;
-}
-
-.home-content h3 span {
-	color: rgb(0, 255, 0);
-}
-
-/* Center canvas element */
-canvas {
-	left: 50%;
-	position: absolute;
-	transform: translateX(-50%);
-}
-
-/* Style for projects container */
-.projects {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 30px;
-	overflow-y: auto;
-	overflow-x: hidden;
-	position: relative;
-	justify-content: space-around;
-}
-
-/* Style for individual project cards */
-.proj {
-	margin: 10px;
-	min-width: 250px;
-	max-width: 350px;
-	height: 250px;
-	background: none;
-	border: 0;
-	box-sizing: border-box;
-	background-size: 100% 100%;
-	position: relative;
-	box-shadow: 0 0 0 1000px inset #0000008f, 0 0 45px 0 inset black;
-	border-radius: 20px;
-	background-position: center;
-	cursor: pointer;
-	transition: background-size 0.2s ease-in;
-}
-
-/* Initial state for project card borders */
-.proj::before {
-	top: 0;
-	left: 0;
-}
-
-/* Hover state for project cards */
-.proj:hover {
-	background-size: 120% 120%;
-}
-
-/* Initial state for project card borders */
-.proj::before,
-.proj::after {
-	border: 2px solid transparent;
-	width: 0;
-	height: 0;
-	box-sizing: inherit;
-	content: '';
-	position: absolute;
-}
-
-/* Initial state for project card borders */
-.proj::after {
-	bottom: 0;
-	right: 0;
-}
-
-/* Loaded state for project card borders */
-.proj.loaded::before,
-.proj.loaded::after {
-	width: 100%;
-	height: 100%;
-	border-radius: 20px;
-}
-
-/* Transition for project card borders */
-.proj.loaded::before {
-	transition: width 0.125s ease-out, height 0.125s ease-out 0.125s, border-radius .5s ease-out 0.5s;
-}
-
-/* Transition for project card borders */
-.proj.loaded::after {
-	transition: border-color 0s ease-out 0.25s, width 0.125s ease-out 0.25s, height 0.125s ease-out 0.325s, border-radius .5s ease-out 0.5s;
-}
-
-/* Specific border color for Python projects */
-.projects.python>.proj.loaded::before {
-	border-top-color: #90c53f;
-	border-right-color: #90c53f;
-}
-
-/* Specific border color for Python projects */
-.projects.python>.proj.loaded::after {
-	border-bottom-color: #90c53f;
-	border-left-color: #90c53f;
-}
-
-/* Specific border color for HTML/CSS/JS projects */
-.projects.htmlcssjs>.proj.loaded::before {
-	border-top-color: #5ec9f8;
-	border-right-color: #5ec9f8;
-}
-
-/* Specific border color for HTML/CSS/JS projects */
-.projects.htmlcssjs>.proj.loaded::after {
-	border-bottom-color: #5ec9f8;
-	border-left-color: #5ec9f8;
-}
-
-/* Specific border color for Java projects */
-.projects.java>.proj.loaded::before {
-	border-top-color: #f16529;
-	border-right-color: #f16529;
-}
-
-/* Specific border color for Java projects */
-.projects.java>.proj.loaded::after {
-	border-bottom-color: #f16529;
-	border-left-color: #f16529;
-}
-
-/* Specific border color for other projects */
-.projects.others>.proj.loaded::before {
-	border-top-color: #ffdd48;
-	border-right-color: #ffdd48;
-}
-
-/* Specific border color for other projects */
-.projects.others>.proj.loaded::after {
-	border-bottom-color: #ffdd48;
-	border-left-color: #ffdd48;
-}
-
-/* Specific border color for Python projects */
-.projects.python>.proj {
-	border-color: #90c53f;
-}
-
-/* Initial state for modal */
-#modal {
-	pointer-events: none;
-	opacity: 0;
-	position: absolute;
-	z-index: 1000;
-	background: #000000d0;
-	border-radius: 20px;
-	border: 2px solid white;
-	width: 90vw;
-	height: 70vh;
-	left: 50%;
-	top: 50%;
-	transition: opacity .25s linear;
-	transform: translateX(-50%) translateY(-50%);
-	overflow: hidden;
-	box-shadow: 0 0 100px 10px black inset;
-}
-
-/* Specific border color for Python modal */
-#modal.python,
-#modal.python>.close {
-	border-color: #90c53f;
-}
-
-/* Specific border color for HTML/CSS/JS modal */
-#modal.htmlcssjs,
-#modal.htmlcssjs>.close {
-	border-color: #5ec9f8;
-}
-
-/* Specific border color for Java modal */
-#modal.java,
-#modal.java>.close {
-	border-color: #f16529;
-}
-
-/* Specific border color for other modals */
-#modal.others,
-#modal.others>.close {
-	border-color: #ffdd48;
-}
-
-/* Shown state for modal */
-#modal.shown {
-	opacity: 1;
-	pointer-events: initial;
-}
-
-/* Style for paragraphs inside modal */
-#modal>p {
-	line-height: 1.5;
-	font-size: large;
-}
-
-/* Center divs inside modal */
-#modal>div {
-	text-align: center;
-}
-
-/* Margin for all elements inside modal */
-#modal>* {
-	margin: 50px;
-}
-
-/* Style for close button inside modal */
-#modal>.close {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 40px;
-	line-height: 20px;
-	margin: 0;
-	border: 2px solid white;
-	border-top-color: transparent !important;
-	border-right-color: transparent !important;
-	border-bottom-left-radius: 20px;
-	cursor: pointer;
-}
-
-/* Style for error messages */
-.error-message {
-	color: red;
-	font-size: 0.9em;
-	margin-top: 10px;
-	display: none;
-	/* Hidden by default */
-}
-
-/* General text color for modal content */
-#modal {
-	color: white;
-	/* Ensure all text inside the modal is white */
-}
-
-/* Styling for project titles and descriptions in the modal */
-#modal h3,
-#modal p,
-#modal a {
-	color: white;
-}
-
-/* Styling for project cards (the text on them) */
-.proj h3 {
-	color: white;
-	text-align: center;
-	font-size: 1.2em;
-}
-
-/* Styling for comments section */
-#modal-comments p,
-#modal-comments small {
-	color: white;
-}
-
-/* Styling for the comment input and button */
-#modal-comment-form textarea,
-#modal-comment-form button {
-	color: white;
-	background-color: #333;
-	/* Dark background to match theme */
-	border: 1px solid white;
-}
-
-/* Placeholder color for comment box */
-#modal-comment-form textarea::placeholder {
-	color: #aaa;
-	/* Light gray placeholder for comment box */
-}
-
-/* Style for comment form button */
-#modal-comment-form button {
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-}
-
-/* Hover state for comment form button */
-#modal-comment-form button:hover {
-	background-color: white;
-	color: black;
-	/* Invert colors on hover for contrast */
-}
-
-/*-------------------------------------------------------------- */
-* {
-	font-family: 'Inconsolata', monospace;
+    font-family: 'Inconsolata', monospace;
 }
 
 body {
-	margin: 0;
-	background: black;
-	overflow: hidden;
+    margin: 0;
+    background: black;
+    overflow: hidden;
 }
 
+/* Header and Navigation */
 h1 {
-	color: white;
-	top: 50%;
-	left: 50%;
-	position: absolute;
-	transform: translateX(-50%) translateY(-50%) scale(2, 2);
-	transition: 0.5s ease-in-out;
+    color: white;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%) scale(2, 2);
+    transition: 0.5s ease-in-out;
 }
 
 h1.top {
-	top: 0;
-	transform: translateX(-50%);
-	color: white;
+    top: 0;
+    transform: translateX(-50%);
+    color: white;
 }
 
 .fade-links {
-	opacity: 0;
-	transition: opacity 0.5s ease-in-out;
-	transform: translateY(0px);
-	text-align: center;
-	color: white;
-	font-size: 1.5em;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    transform: translateY(0px);
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
 }
 
 .fade-links:hover {
-	opacity: 1;
-	text-align: center;
+    opacity: 1;
+    text-align: center;
 }
 
+.fade-links a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Main Content */
 #main {
-	opacity: 0;
-	transition: 0.5s;
-	color: white;
-	margin-top: 60px;
+    opacity: 0;
+    transition: 0.5s;
+    color: white;
+    margin-top: 60px;
 }
 
 h2 {
-	text-align: center;
-	margin: 0;
-	cursor: default;
+    text-align: center;
+    margin: 0;
+    cursor: default;
+    color: white;
 }
 
-/* Slot machine styles */
+/* Slot Machine */
 #slotmachine {
-	width: 450px;
-	height: 200px;
-	border: 1px solid black;
-	margin: 40px auto;
-	position: relative;
-	overflow: hidden;
-	background-color: black;
-	text-align: center;
-	border-radius: 30px;
-}
-
-#slotmachine>ul {
-	padding: 0;
-	margin: 0;
-	list-style-type: none;
-	position: absolute;
-	transform: translateY(0);
-	/* Start position */
-	transition: transform 0.2s ease-out;
-	/* Default speed */
-}
-
-#slotmachine>ul>li {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	/* Center-align project names */
-	height: 200px;
-	/* Match the slot height */
-	font-size: 2.5em;
-	font-weight: bold;
-	color: white;
-	background: black;
-	cursor: pointer;
-	border: none;
-	/* Remove unwanted borders */
-}
-
-#indicator {
-	position: absolute;
-	top: 50%;
-	/* Center the red line */
-	left: 0;
-	right: 0;
-	height: 2px;
-	/* Make it a single red line */
-	margin-top: 15px;
-	/* Align perfectly in the middle */
-	background-color: red;
-	z-index: 10;
-	/* Ensure it’s above other elements */
-	pointer-events: none;
-}
-
-/* Downward animation */
-@keyframes moveSlotDown {
-	0% {
-		transform: translateY(0);
-	}
-
-	80% {
-		transform: translateY(calc(-100% + 575px));
-		animation-timing-function: ease-in-out;
-	}
-
-	90% {
-		transform: translateY(calc(-100% + 560px));
-		animation-timing-function: ease-out;
-	}
-
-	100% {
-		transform: translateY(calc(-100% + 575px));
-	}
-}
-
-/* Upward animation */
-@keyframes moveSlotUp {
-	0% {
-		transform: translateY(0);
-	}
-
-	80% {
-		transform: translateY(calc(100% - 575px));
-		animation-timing-function: ease-in-out;
-	}
-
-	90% {
-		transform: translateY(calc(100% - 560px));
-		animation-timing-function: ease-out;
-	}
-
-	100% {
-		transform: translateY(calc(100% - 575px));
-	}
+    width: 450px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 40px auto;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+    text-align: center;
+    border-radius: 30px;
 }
 
 #slotmachine-list {
-	display: flex;
-	flex-direction: column;
-	transform: translateY(0);
-	transition: transform 0.5s ease-out;
-	/* Smooth transition for tactile scrolling */
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    position: absolute;
+    transform: translateY(0);
+    transition: transform 0.2s ease-out;
 }
 
-#slotmachine-list>li {
-	height: 100px;
-	/* Match the height used in JS */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.5em;
-	color: #666;
-	/* De-emphasized color */
-	cursor: pointer;
-	transition: font-size 0.3s, color 0.3s;
-	/* Smooth transition for visual changes */
+#slotmachine-list li {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+    background: black;
+    cursor: pointer;
 }
 
-#slotmachine-list>li:hover {
-	color: white;
-	/* Highlight on hover */
-	/* }
-
-#slotmachine-list { */
-	animation-duration: 5s;
-	animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.5);
-	/* Elastic easing */
-	animation-fill-mode: both;
-	/* Preserve the final state */
-	animation-iteration-count: infinite;
+#indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    margin-top: 15px;
+    background-color: red;
+    z-index: 10;
+    pointer-events: none;
 }
 
-/* Modal styles */
+/* Modal */
 #modal {
-	pointer-events: none;
-	opacity: 0;
-	position: fixed;
-	z-index: 1000;
-	background: #000000d0;
-	border-radius: 20px;
-	border: 2px solid white;
-	width: 90vw;
-	height: 70vh;
-	left: 50%;
-	top: 50%;
-	transform: translateX(-50%) translateY(-50%);
-	overflow: hidden;
-	box-shadow: 0 0 100px 10px black inset;
-	color: white;
-	transition: opacity 0.3s ease-in-out;
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 #modal.shown {
-	pointer-events: all;
-	opacity: 1;
+    display: block;
+    opacity: 1;
 }
 
-#modal h3,
-#modal p,
-#modal a {
-	color: white;
+.modal-content {
+    position: relative;
+    background-color: #111;
+    margin: 5% auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    color: white;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
-#modal>.modal-content {
-	padding: 20px;
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-#modal>.close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	cursor: pointer;
-	color: white;
-	font-size: 1.5em;
+.close:hover {
+    color: #fff;
 }
 
-#modal-comments p,
-#modal-comments small {
-	color: white;
+#modal-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #04ff00;
 }
 
-#modal-comment-form textarea,
+#modal-description {
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.modal-info {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+}
+
+.modal-info p {
+    margin: 10px 0;
+}
+
+.modal-info b {
+    color: #04ff00;
+}
+
+.modal-links {
+    margin: 20px 0;
+    display: flex;
+    gap: 20px;
+}
+
+#modal-github, #modal-demo {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #222;
+    color: #04ff00;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: 1px solid #04ff00;
+}
+
+#modal-github:hover, #modal-demo:hover {
+    background-color: #04ff00;
+    color: #000;
+}
+
+/* Comments Section */
+.comments-section {
+    margin-top: 30px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+#modal-comment-form {
+    margin-bottom: 20px;
+}
+
+#modal-comment {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #222;
+    border: 1px solid #333;
+    border-radius: 5px;
+    color: white;
+    resize: vertical;
+}
+
+#modal-comment:focus {
+    outline: none;
+    border-color: #04ff00;
+}
+
 #modal-comment-form button {
-	color: white;
-	background-color: #333;
-	/* Dark background to match theme */
-	border: 1px solid white;
-}
-
-#modal-comment-form textarea::placeholder {
-	color: #aaa;
-	/* Light gray placeholder for comment box */
-}
-
-#modal-comment-form button {
-	cursor: pointer;
-	transition: background-color 0.3s ease;
+    padding: 8px 16px;
+    background-color: #04ff00;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 #modal-comment-form button:hover {
-	background-color: white;
-	color: black;
-	/* Invert colors on hover for contrast */
+    background-color: #03cc00;
 }
 
+#modal-comments {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#modal-comments li {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #1a1a1a;
+    border-radius: 5px;
+    border-left: 3px solid #04ff00;
+}
+
+#modal-like-btn {
+    padding: 8px 16px;
+    background-color: transparent;
+    color: #04ff00;
+    border: 1px solid #04ff00;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#modal-like-btn:hover {
+    background-color: #04ff00;
+    color: black;
+}
+
+/* Matrix Canvas */
 canvas {
-	position: fixed;
-	top: auto;
-	left: auto;
-	background-color: black;
-	z-index: -1;
-	background-size: cover;
-	background-blend-mode: multiply;
-	background-size: auto;
-	scroll-behavior: smooth;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
-.pro-text {
-	color: #04ff00;
-	/* Adjust color to fit your theme */
-	font-weight: bold;
-	font-size: 1.2em;
-	text-shadow: 2px 2px 5px black;
+/* Admin Link */
+#admin-link {
+    display: none;
+}
+
+#admin-link.visible {
+    display: inline;
+}
+
+/* Error Messages */
+.error-message {
+    color: #ff0033;
+    background: rgba(255, 0, 51, 0.1);
+    border: 1px solid #ff0033;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    display: none;
+}
+
+/* Success Messages */
+.success-message {
+    color: #04ff00;
+    background: rgba(4, 255, 0, 0.1);
+    border: 1px solid #04ff00;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    display: none;
 }

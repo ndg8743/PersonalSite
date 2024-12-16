@@ -8,8 +8,6 @@
 </head>
 <body>
     <canvas id="matrixCanvas"></canvas>
-    <!-- Matrix -->
-    <script src="/js/matrix.js"></script>
     <header>
         <p class="fade-links">
             <a href="../html/index.html">Home</a> |
@@ -17,7 +15,7 @@
             <a href="../html/login.html">Login</a> |
             <a href="../html/project.html">Projects</a> |
             <a href="/admin/logout">Logout</a>
-            <a href="../html/admin.html" id="admin-link" style="display: none;">Admin</a>
+            <a href="../html/admin.html" id="admin-link">| Admin</a>
         </p>
     </header>
 
@@ -27,9 +25,7 @@
         <!-- Slot Machine -->
         <div id="slotmachine">
             <div id="indicator"></div>
-            <div id="slotmachine">
-                <div id="indicator"></div>
-                <ul id="slotmachine-list">
+            <ul id="slotmachine-list">
                 <!-- Project Titles Dynamically Loaded -->
             </ul>
         </div>
@@ -37,27 +33,38 @@
         <!-- Modal for Project Details -->
         <div id="modal" class="modal">
             <div class="modal-content">
-                <button class="close" onclick="closeModal()">✖</button>
+                <span class="close" onclick="closeModal()">&times;</span>
                 <h3 id="modal-title"></h3>
                 <p id="modal-description"></p>
-                <p><b>Technologies Used:</b> <span id="modal-technologies"></span></p>
-                <p><b>Date Created:</b> <span id="modal-date"></span></p>
-                <a id="modal-github" href="#" target="_blank">GitHub Link</a><br>
-                <a id="modal-demo" href="#" target="_blank">Demo URL</a>
-                <p><b>Likes:</b> <span id="modal-likes">0</span></p>
-                <button id="modal-like-btn">Like</button>
-                <h3>Comments</h3>
-                <form id="modal-comment-form">
-                    <textarea id="modal-comment" rows="3" placeholder="Leave a comment..." required></textarea>
-                    <button type="submit">Submit</button>
-                </form>
-                <ul id="modal-comments">
-                    <!-- Comments Dynamically Loaded -->
-                </ul>
+                
+                <div class="modal-info">
+                    <p><b>Technologies Used:</b> <span id="modal-technologies"></span></p>
+                    <p><b>Date Created:</b> <span id="modal-date"></span></p>
+                    <p><b>Likes:</b> <span id="modal-likes">0</span></p>
+                </div>
+
+                <div class="modal-links">
+                    <a id="modal-github" href="#" target="_blank">View on GitHub</a>
+                    <a id="modal-demo" href="#" target="_blank">Live Demo</a>
+                    <button id="modal-like-btn">Like Project</button>
+                </div>
+
+                <div class="comments-section">
+                    <h3>Comments</h3>
+                    <form id="modal-comment-form">
+                        <textarea id="modal-comment" rows="3" placeholder="Share your thoughts..." required></textarea>
+                        <button type="submit">Post Comment</button>
+                    </form>
+                    <ul id="modal-comments">
+                        <!-- Comments Dynamically Loaded -->
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
 
+    <!-- Scripts at the bottom for better performance -->
+    <script src="../js/matrix.js"></script>
     <script src="../js/project.js"></script>
     <script src="../js/comment.js"></script>
 </body>

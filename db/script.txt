@@ -68,7 +68,7 @@ CREATE TABLE COMMENT (
 
 -- Insert a sample admin
 INSERT INTO ADMIN (username, password, email, full_name, last_login)
-VALUES ('admin1', 'password123', 'admin1@example.com', 'Admin User', NOW());
+VALUES ('admin1', 'password123', 'admin1@example.com', 'Nathan Gopee', NOW());
 
 -- Insert sample users
 INSERT INTO USER (username, password, email, full_name, last_login)
@@ -76,21 +76,33 @@ VALUES
 ('user1', 'password123', 'user1@example.com', 'User One', NOW()),
 ('user2', 'password123', 'user2@example.com', 'User Two', NOW());
 
--- Insert a sample project by the admin
+-- Insert sample projects by the admin
 INSERT INTO PROJECT (intro_picture, title, intro, picture1, paragraph1, picture2, paragraph2, picture3, paragraph3, technologies_used, author_id, num_likes, num_comments, github_link, demo_url)
 VALUES 
-('/img/intro.jpg', 'Sample Project', 'This is an intro.', '/img/pic1.jpg', 'Paragraph 1 text.', '/img/pic2.jpg', 'Paragraph 2 text.', '/img/pic3.jpg', 'Paragraph 3 text.', 'MySQL, PHP, JavaScript', 1, 5, 2, 'https://github.com/sample/project', 'https://demo.com/project');
+-- Project 1: Danmomo
+('/img/danmomo_intro.jpg', 'Danmomo', 'A puzzle game with fruit merging mechanics, featuring multiplayer and single-player modes.', '/img/danmomo_pic1.jpg', 'Implemented multiplayer and live score tracking.', '/img/danmomo_pic2.jpg', 'Enhanced UI with bomb mechanics and cracking animations.', '/img/danmomo_pic3.jpg', 'Integrated CI/CD for deployment to Itch.io.', 'Godot Engine, GDScript, GitHub Actions', 1, 15, 5, 'https://github.com/ndg8743/Danmomo', 'https://ndg8743.itch.io/danmomo'),
 
--- Insert comments for the project
+-- Project 2: QView3D
+('/img/qview3d_intro.jpg', 'QView3D', 'A remote 3D printing management software.', '/img/qview3d_pic1.jpg', 'Improved reliability for remote 3D printing jobs.', '/img/qview3d_pic2.jpg', 'Added column resizing and better user management.', '/img/qview3d_pic3.jpg', 'Implemented a printer emulator and Docker support.', 'Python, Flask, Vue.js, Docker', 1, 20, 7, 'https://github.com/ndg8743/QView3D', 'https://qview3d.example.com'),
+
+-- Project 3: Fitness Tracker
+('/img/fitness_tracker_intro.jpg', 'Fitness Tracker', 'A web app to log meals, exercises, and share progress with friends.', '/img/fitness_tracker_pic1.jpg', 'Integrated login, search, and progress tracking.', '/img/fitness_tracker_pic2.jpg', 'Enhanced UI with admin privileges and user views.', '/img/fitness_tracker_pic3.jpg', 'Created features for meal logging and exercise tracking.', 'Vue.js, TypeScript, Bulma, Node.js', 1, 10, 3, 'https://github.com/ndg8743/FitnessTracker', 'https://tracker.example.com'),
+
+-- Project 4: Crushica
+('/img/crushica_intro.jpg', 'Crushica', 'A dynamic puzzle game inspired by Suika Game.', '/img/crushica_pic1.jpg', 'Implemented juice, bombs, and glass-breaking mechanics.', '/img/crushica_pic2.jpg', 'Added real-time scoring and leaderboard functionality.', '/img/crushica_pic3.jpg', 'Designed multiplayer survival mode with unique features.', 'Godot Engine, GDScript, MySQL', 1, 25, 10, 'https://github.com/ndg8743/Crushica', 'https://crushica.example.com');
+
+-- Insert comments for the projects
 INSERT INTO COMMENT (project_id, user_id, content, date_created, num_likes)
 VALUES 
-(1, 1, 'This is a great project!', NOW(), 10),
-(1, 2, 'I found this very useful, thanks for sharing!', NOW(), 7);
+(1, 1, 'Danmomo is incredibly fun! The multiplayer mode is great!', NOW(), 12),
+(2, 2, 'QView3D has been a game changer for our 3D printing lab.', NOW(), 15),
+(3, 1, 'The Fitness Tracker app really helps me stay on track!', NOW(), 8),
+(4, 2, 'Crushica is highly addictive and well-designed.', NOW(), 20);
 
 -- Insert a reply to the first comment
 INSERT INTO COMMENT (project_id, user_id, content, date_created, parent_comment_id, num_likes)
 VALUES 
-(1, 2, 'Thank you for the feedback!', NOW(), 1, 5);
+(1, 2, 'Thanks for the feedback! Glad you enjoyed it!', NOW(), 1, 5);
 
 -- Commands to Verify the Setup
 
