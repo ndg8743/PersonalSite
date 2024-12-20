@@ -29,23 +29,47 @@ async function createTable() {
 }
 createTable();
 
+let Project = {};
+
+// Create a new project
+Project.createProject = async function(projectData) {
+  console.log("Creating new project:", projectData);
+  const sql = `
+    INSERT INTO project (
+      title,
+      technologies_used,
+      github_link,
+      demo_url,
+      intro
+    ) VALUES (?, ?, ?, ?, ?)
+  `;
+  const result = await con.query(sql, [
+    projectData.title,
+    projectData.technologies_used,
+    projectData.github_link,
+    projectData.demo_url,
+    projectData.description // Using description as intro
+  ]);
+  return result;
+};
+
 // Get all projects
-async function getAllProjects() {
+Project.getAllProjects = async function() {
   console.log("Fetching all projects from database");
   let sql = `SELECT * FROM project`;
   return await con.query(sql);
-}
+};
 
 // Get a single project by ID
-async function getProjectById(projectId) {
+Project.getProjectById = async function(projectId) {
   console.log(`Fetching project by ID: ${projectId}`);
   let sql = `SELECT * FROM project WHERE project_id = ?`;
   const rows = await con.query(sql, [projectId]);
   return rows[0];
-}
+};
 
 // Like a project
-async function likeProject(projectId) {
+Project.likeProject = async function(projectId) {
   console.log(`Liking project ID: ${projectId}`);
   let sql = `
     UPDATE project
@@ -55,7 +79,7 @@ async function likeProject(projectId) {
   await con.query(sql, [projectId]);
 
   // Return the updated project with the new like count
-  return await getProjectById(projectId);
-}
+  return await Project.getProjectById(projectId);
+};
 
-module.exports = { getAllProjects, getProjectById, likeProject };
+module.exports = Project;

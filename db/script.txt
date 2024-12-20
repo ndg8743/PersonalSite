@@ -76,21 +76,31 @@ VALUES
 ('user1', 'password123', 'user1@example.com', 'User One', NOW()),
 ('user2', 'password123', 'user2@example.com', 'User Two', NOW());
 
--- Insert a sample project by the admin
+-- Insert sample projects by the admin
 INSERT INTO PROJECT (intro_picture, title, intro, picture1, paragraph1, picture2, paragraph2, picture3, paragraph3, technologies_used, author_id, num_likes, num_comments, github_link, demo_url)
 VALUES 
-('/img/intro.jpg', 'Sample Project', 'This is an intro.', '/img/pic1.jpg', 'Paragraph 1 text.', '/img/pic2.jpg', 'Paragraph 2 text.', '/img/pic3.jpg', 'Paragraph 3 text.', 'MySQL, PHP, JavaScript', 1, 5, 2, 'https://github.com/sample/project', 'https://demo.com/project');
+('/img/intro1.jpg', 'Fibonacci Fractal Engine', 'Java app generating fractal images using the Fibonacci sequence.', '/img/fractal1.jpg', 'Built a multithreaded distributed computing platform with optimizations.', '/img/fractal2.jpg', 'Integrated RESTful and gRPC services for data exchange.', NULL, NULL, 'Java, TypeScript, Vue, JUnit, REST API, Maven, Mockito, Docker, gRPC, Gson, Protobuf', 1, 10, 4, 'https://github.com/ndg8743/fibonacci-fractal', NULL),
+('/img/intro2.jpg', 'To-Do List Managed on AWS Cloud', 'Developed a scalable to-do app.', '/img/todolist1.jpg', 'Implemented FastAPI backend and React frontend for CRUD operations.', '/img/todolist2.jpg', 'Used AWS CDK for Lambda functions and DynamoDB.', NULL, NULL, 'Python, TypeScript, Tailwind, Neat, FastAPI, Docker, Git, AWS Lambda, DynamoDB, Pytest', 1, 15, 6, 'https://github.com/ndg8743/todolist-aws', NULL),
+('/img/intro3.jpg', 'QView3D - 3D Printer Web App', 'Led development of a 3D printer control app for the HVAMC Lab.', '/img/qview3d1.jpg', 'Integrated real-time multi-printer communication using WebSockets.', '/img/qview3d2.jpg', 'Added column resizing, compatibility for other printers, and USB communication.', NULL, NULL, 'Python, TypeScript, Vue, Flask, SQLite, Node, USB Serial, G-code, HTML/CSS, Go, WebSocket', 1, 20, 5, 'https://github.com/ndg8743/qview3d', NULL),
+('/img/intro4.jpg', 'Fitness Tracker - Web App', 'A full-stack app for managing exercises/meals with login functionality.', '/img/fitness1.jpg', 'Built a Vue frontend using Composition API with Bulma for responsive design.', '/img/fitness2.jpg', 'Integrated RESTful and Express/Node backends.', NULL, NULL, 'Vue, TypeScript, Node, Express, REST API, Bulma, Git', 1, 12, 3, 'https://github.com/ndg8743/fitness-tracker', NULL),
+('/img/intro5.jpg', 'Danmomo - Multiplayer Puzzle Game', '2D multiplayer puzzle game featuring fruit-merging mechanics.', '/img/danmomo1.jpg', 'Utilized Godot for backend logic and deployed scalable server infrastructure.', '/img/danmomo2.jpg', 'Implemented efficient network handling and game state synchronization.', NULL, NULL, 'Godot, GDScript, Node, WebSockets, AWS, Git', 1, 18, 7, 'https://github.com/ndg8743/danmomo', NULL),
+('/img/intro6.jpg', 'Personal Website Blog', 'Full-stack personal website with user registration and login.', '/img/personal1.jpg', 'Implemented SQL database for user management and data handling.', '/img/personal2.jpg', 'Created interactive frontend using HTML, CSS, and JavaScript.', NULL, NULL, 'JavaScript, Node, Express, SQL, HTML, CSS, Git', 1, 9, 2, 'https://github.com/ndg8743/personal-website', 'https://ndg8743.github.io');
 
--- Insert comments for the project
+-- Insert comments for the projects
 INSERT INTO COMMENT (project_id, user_id, content, date_created, num_likes)
 VALUES 
-(1, 1, 'This is a great project!', NOW(), 10),
-(1, 2, 'I found this very useful, thanks for sharing!', NOW(), 7);
+(1, 1, 'Love the mechanics of Fibonacci Fractal Engine!', NOW(), 20),
+(2, 2, 'The To-Do List app is extremely helpful.', NOW(), 15),
+(3, 1, 'QView3D has revolutionized my 3D printing workflow.', NOW(), 18),
+(4, 2, 'The Fitness Tracker is great for managing goals.', NOW(), 10),
+(5, 1, 'Danmomo is so addictive and fun!', NOW(), 12),
+(6, 2, 'The Personal Website is really well designed.', NOW(), 8);
 
--- Insert a reply to the first comment
+-- Insert replies to comments
 INSERT INTO COMMENT (project_id, user_id, content, date_created, parent_comment_id, num_likes)
 VALUES 
-(1, 2, 'Thank you for the feedback!', NOW(), 1, 5);
+(1, 2, 'Thanks for the feedback on Fibonacci Fractal Engine!', NOW(), 1, 5),
+(3, 2, 'Glad QView3D works well for you!', NOW(), 3, 3);
 
 -- Commands to Verify the Setup
 
