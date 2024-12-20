@@ -17,7 +17,7 @@ npm run dev
 ![image](https://github.com/user-attachments/assets/a0a1ab7b-fef4-46ab-9a51-c4eb182a9fb0)
 
 
-trying to use oracle cloud to host and it sucks, for now say hi to Bob
+this database isnt hosted on the cloud yet, for now say hi to Bob
 
     Bob   /\
         _/./

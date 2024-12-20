@@ -15,6 +15,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Check login status
+router.get('/check-login', (req, res) => {
+  res.json({
+    isLoggedIn: !!req.session.userId,
+    username: req.session.username,
+    userId: req.session.userId,
+    isAdmin: req.session.isAdmin
+  });
+});
+
 // Register a new user
 router.post('/register', async (req, res) => {
   try {

@@ -5,8 +5,8 @@ const mysql = require('mysql2/promise'); // Use promise-based mysql2 for async/a
 const pool = mysql.createPool({
   host: process.env.MYSQLHOST || 'localhost',
   user: process.env.MYSQLUSERNAME || 'root',
-  password: process.env.MYSQLPSWD || 'passwords1',
-  database: process.env.MYSQLDB || 'test',
+  password: process.env.MYSQLPSWD || 'new_password',
+  database: process.env.MYSQLDB || 'project_db',
   port: process.env.MYSQLPORT || 3306,
   waitForConnections: true,
   connectionLimit: 10,

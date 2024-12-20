@@ -1,14 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   fetchProjects();
 
-  // Handle comment submission
-  document.getElementById("modal-comment-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const projectId = document.querySelector("#modal").dataset.projectId;
-    const commentContent = document.getElementById("modal-comment").value;
-    submitComment(projectId, commentContent);
-  });
-
   // Handle likes
   document.getElementById("modal-like-btn").addEventListener("click", () => {
     const projectId = document.querySelector("#modal").dataset.projectId;
@@ -108,13 +100,14 @@ function openProjectModal(project) {
   modal.dataset.projectId = project.project_id;
 
   document.getElementById("modal-title").innerText = project.title;
-  document.getElementById("modal-description").innerText = project.intro;
+  document.getElementById("modal-description").innerText = project.intro || project.description;
   document.getElementById("modal-technologies").innerText = project.technologies_used;
   document.getElementById("modal-date").innerText = new Date(project.date_created).toLocaleDateString();
   document.getElementById("modal-github").href = project.github_link || "#";
   document.getElementById("modal-demo").href = project.demo_url || "#";
   document.getElementById("modal-likes").innerText = project.num_likes;
 
+  // Load comments for this project
   loadComments(project.project_id);
   modal.classList.add("shown");
 }

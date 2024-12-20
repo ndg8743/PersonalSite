@@ -18,10 +18,25 @@ async function createTable() {
 }
 createTable();
 
+// Get a single comment by ID
+async function getCommentById(commentId) {
+  console.log(`Fetching comment by ID: ${commentId}`);
+  let sql = `SELECT * FROM comment WHERE comment_id = ?`;
+  const rows = await con.query(sql, [commentId]);
+  return rows[0];
+}
+
 // Fetch comments for a project
 async function getCommentsByProjectId(projectId) {
   console.log(`Fetching comments for project ID: ${projectId}`);
-  let sql = `SELECT * FROM comment WHERE project_id = ? ORDER BY date_created DESC`;
+  let sql = `
+    SELECT c.*, u.username, 
+           DATE_FORMAT(c.date_created, '%Y-%m-%d %H:%i:%s') as formatted_date_created
+    FROM comment c
+    JOIN USER u ON c.user_id = u.user_id 
+    WHERE c.project_id = ? 
+    ORDER BY c.date_created DESC
+  `;
   return await con.query(sql, [projectId]);
 }
 
@@ -39,6 +54,27 @@ async function createComment(comment) {
   return await getCommentsByProjectId(comment.projectId);
 }
 
+// Update a comment
+async function updateComment(commentId, content) {
+  console.log(`Updating comment ID: ${commentId}`);
+  let sql = `
+    UPDATE comment
+    SET content = ?
+    WHERE comment_id = ?
+  `;
+  await con.query(sql, [content, commentId]);
+
+  // Return the updated comment
+  return await getCommentById(commentId);
+}
+
+// Delete a comment
+async function deleteComment(commentId) {
+  console.log(`Deleting comment ID: ${commentId}`);
+  let sql = `DELETE FROM comment WHERE comment_id = ?`;
+  return await con.query(sql, [commentId]);
+}
+
 // Like a comment
 async function likeComment(commentId) {
   console.log(`Liking comment ID: ${commentId}`);
@@ -50,4 +86,11 @@ async function likeComment(commentId) {
   await con.query(sql, [commentId]);
 }
 
-module.exports = { getCommentsByProjectId, createComment, likeComment };
+module.exports = { 
+  getCommentById,
+  getCommentsByProjectId, 
+  createComment, 
+  updateComment,
+  deleteComment,
+  likeComment
+};
