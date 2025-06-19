@@ -1,0 +1,67 @@
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafb; /* Light background for a clean look */
+    color: #1f2937; /* Dark text for contrast */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+    color: #3b82f6; /* Tailwind blue for links */
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2563eb; /* Darker blue on hover */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.section {
+    padding: 4rem 0; /* Spacing for sections */
+}
+
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem; /* Rounded corners */
+    background-color: #3b82f6; /* Tailwind blue */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #2563eb; /* Darker blue on hover */
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.5rem; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem; /* Adjust padding for smaller screens */
+    }
+
+    .section {
+        padding: 2rem 0; /* Less padding on smaller screens */
+    }
+}
