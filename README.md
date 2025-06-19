@@ -68,8 +68,3 @@ personal-portfolio/
 └── README.md         # Project documentation
 ```
 
-## Contact
-
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/nathangopee/) or check out my [GitHub](https://github.com/ndg8743).
-
-© 2025 Nathan Gopee
