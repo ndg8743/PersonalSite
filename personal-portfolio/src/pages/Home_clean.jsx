@@ -2,7 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 
 /**
  * Home component - Main landing page for Nathan Gopee's portfolio
- * Refined and consolidated implementation (June 19, 2025)
+ * Refined and consolidated implementation for improved globe animation
+ * 
+ * Features:
+ * - Interactive globe animation with proper cleanup
+ * - Typewriter intro effect with skip for returning visitors
+ * - Responsive layout with language/technology showcase
+ * - Automatically calculated age based on birthdate
  */
 const Home = () => {
   const [introComplete, setIntroComplete] = useState(false);
@@ -131,7 +137,9 @@ const Home = () => {
         animationCleanup.current();
       }
     };
-  }, [globeInitialized]);const initGlobe = () => {
+  }, [globeInitialized]);
+  
+  const initGlobe = () => {
     if (!globeRef.current) return;
     
     // Completely clear container
@@ -163,10 +171,9 @@ const Home = () => {
     const centerX = 225;
     const centerY = 225;
     const radius = 180; // Slightly larger radius for better visibility
-    
-    const animate = () => {
-      // Clear canvas
-      ctx.clearRect(0, 0, 400, 400);
+      const animate = () => {
+      // Clear canvas - using the full canvas width and height
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Set line styles
       ctx.strokeStyle = 'rgba(168, 85, 247, 0.7)';
@@ -275,22 +282,9 @@ const Home = () => {
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
-      
-      // Remove canvas from DOM if it exists
+        // Remove canvas from DOM if it exists
       if (canvas && canvas.parentNode) {
-        // Fade out the canvas before removing
-        const fadeOut = () => {
-          let opacity = parseFloat(canvas.style.opacity);
-          if (opacity > 0) {
-            opacity -= 0.1;
-            canvas.style.opacity = opacity.toString();
-            setTimeout(fadeOut, 30);
-          } else {
-            canvas.parentNode.removeChild(canvas);
-          }
-        };
-        
-        // Use immediate removal for component unmounts
+        // Just remove immediately for component unmount to avoid any memory leaks
         canvas.parentNode.removeChild(canvas);
       }
       

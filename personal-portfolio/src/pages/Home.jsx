@@ -1,45 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
-/**
- * Home component - Main landing page for Nathan Gopee's portfolio
- * Refined and consolidated implementation (June 19, 2025)
- */
 const Home = () => {
-  const [introComplete, setIntroComplete] = useState(false);
-  const [mainVisible, setMainVisible] = useState(false);
-  const [currentLang, setCurrentLang] = useState(null);
-  const [age, setAge] = useState(23);
-  const [globeInitialized, setGlobeInitialized] = useState(false);
-  const introRef = useRef(null);
-  const mainRef = useRef(null);
-  const globeRef = useRef(null);
-  const animationCleanup = useRef(null);
-  // Intro animation sequence
-  const introAnimation = [
-    { t: "{ }", ms: 200 },
-    { t: "{_}", ms: 200 },
-    { t: "{ }", ms: 200 },
-    { t: "{_}", ms: 200 },
-    { t: "{N_}", ms: 100 },
-    { t: "{NA_}", ms: 100 },
-    { t: "{NAT_}", ms: 100 },
-    { t: "{NATH_}", ms: 100 },
-    { t: "{NATHA_}", ms: 100 },
-    { t: "{NATHAN_}", ms: 100 },
-    { t: "{NATHAN_}", ms: 100 },
-    { t: "{NATHAN_G_}", ms: 100 },
-    { t: "{NATHAN_GO_}", ms: 100 },
-    { t: "{NATHAN_GOP_}", ms: 100 },
-    { t: "{NATHAN_GOPE_}", ms: 100 },
-    { t: "{NATHAN_GOPEE_}", ms: 100 },
-    { t: "{NATHAN_GOPEE }", ms: 200 },
-    { t: "{NATHAN_GOPEE_}", ms: 200 },
-    { t: "{NATHAN_GOPEE }", ms: 200 },
-    { t: "{NATHAN_GOPEE_}", ms: 200 },
-    { t: "{NATHAN_GOPEE}", ms: 200 },
-    { t: "{NATHAN_GOPEE}", ms: 200 }
-  ];
-
   const languages = [
     {
       id: 'Java',
@@ -88,542 +49,273 @@ const Home = () => {
     }
   ];
 
-  useEffect(() => {
-    // Calculate age dynamically
-    const birthDate = new Date('2001-01-01'); // Adjust Nathan's birth date
-    const today = new Date();
-    const calculatedAge = today.getFullYear() - birthDate.getFullYear();
-    setAge(calculatedAge);
-  }, []);
-  useEffect(() => {
-    // Skip intro if already seen
-    const skipIntro = localStorage.getItem('stepDenominator');
-    const stepDenominator = skipIntro ? 2 : 1;
-
-    let i = 0;
-    const runIntro = () => {
-      if (i < introAnimation.length) {
-        const step = introAnimation[i];
-        if (introRef.current) {
-          introRef.current.innerText = step.t;
-        }
-        i++;
-        setTimeout(runIntro, step.ms / stepDenominator);
-      } else {
-        setIntroComplete(true);
-        localStorage.setItem('stepDenominator', '2');
-        setTimeout(() => {
-          setMainVisible(true);
-          // Only initialize globe once
-          if (!globeInitialized) {
-            animationCleanup.current = initGlobe();
-            setGlobeInitialized(true);
-          }
-        }, 500);
-      }
-    };
-
-    runIntro();
-
-    // Cleanup animation on unmount
-    return () => {
-      if (animationCleanup.current) {
-        animationCleanup.current();
-      }
-    };
-  }, [globeInitialized]);const initGlobe = () => {
-    if (!globeRef.current) return;
-    
-    // Completely clear container
-    globeRef.current.innerHTML = '';
-    
-    // Create canvas with proper styling
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Set canvas dimensions and position it to the right
-    canvas.width = 450;
-    canvas.height = 450;
-    canvas.style.width = '450px';
-    canvas.style.height = '450px';
-    canvas.style.position = 'fixed';
-    canvas.style.right = '5%';
-    canvas.style.top = '50%';
-    canvas.style.transform = 'translateY(-50%)';
-    canvas.style.pointerEvents = 'none';
-    canvas.style.zIndex = '15'; // Higher z-index to ensure it stays above other content
-    canvas.style.opacity = '1';
-    canvas.style.mixBlendMode = 'normal'; // Ensures proper blending without artifacts
-    
-    // Add canvas to document body instead of container to avoid positioning issues
-    document.body.appendChild(canvas);
-    
-    let rotation = 0;
-    let animationId;
-    const centerX = 225;
-    const centerY = 225;
-    const radius = 180; // Slightly larger radius for better visibility
-    
-    const animate = () => {
-      // Clear canvas
-      ctx.clearRect(0, 0, 400, 400);
-      
-      // Set line styles
-      ctx.strokeStyle = 'rgba(168, 85, 247, 0.7)';
-      ctx.lineWidth = 1.5;
-      
-      // Draw outer circle
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.stroke();
-        // Draw rotating meridians (longitude lines) with improved rendering
-      for (let i = 0; i < 15; i++) {
-        const angle = (i * Math.PI * 2) / 15 + rotation;
-        // Create a pulsing opacity effect based on angle
-        const opacity = 0.5 + 0.35 * Math.sin(angle * 2 + rotation * 3);
-        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`;
-        ctx.lineWidth = 1.25;
-        
-        ctx.beginPath();
-        // Calculate proper ellipse width based on perspective angle
-        const ellipseWidth = radius * Math.abs(Math.cos(angle));
-        ctx.ellipse(centerX, centerY, ellipseWidth, radius, angle, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-        // Draw latitude lines with improved visual effect
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.6)';
-      ctx.lineWidth = 1.25;
-      // Create more latitude lines for a better globe effect
-      for (let i = -3; i <= 3; i++) {
-        if (i === 0) continue; // Skip equator, draw it separately
-        const y = centerY + i * 40;
-        const latRadius = Math.sqrt(Math.max(0, radius * radius - (i * 40) * (i * 40)));
-        
-        if (latRadius > 15) {
-          ctx.beginPath();
-          // Create a more elliptical shape for better 3D appearance
-          ctx.ellipse(centerX, y, latRadius, latRadius * 0.1, 0, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-      }
-      
-      // Draw equator with higher emphasis
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.9)';
-      ctx.lineWidth = 1.75;
-      ctx.beginPath();
-      ctx.ellipse(centerX, centerY, radius, radius * 0.13, 0, 0, Math.PI * 2);
-      ctx.stroke();
-        // Draw animated satellites with enhanced visual effects
-      for (let i = 0; i < 5; i++) { // Added an extra satellite
-        // Each satellite has a slightly different color
-        const hues = ['245, 158, 11', '236, 72, 153', '168, 85, 247', '59, 130, 246', '16, 185, 129'];
-        ctx.fillStyle = `rgba(${hues[i]}, 0.9)`;
-        
-        // Calculate satellite position with variable speed and path
-        const satelliteAngle = (rotation * (1.5 + i * 0.2)) + (i * Math.PI * 0.4);
-        const satelliteRadius = radius + 20 + (i * 5);
-        const x = centerX + Math.cos(satelliteAngle) * satelliteRadius;
-        const y = centerY + Math.sin(satelliteAngle) * satelliteRadius * 0.25;
-        
-        // Draw satellite with a better glow effect
-        ctx.shadowColor = `rgba(${hues[i]}, 0.8)`;
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-        ctx.arc(x, y, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Draw a subtle trail
-        ctx.shadowBlur = 4;
-        ctx.globalAlpha = 0.3;
-        ctx.beginPath();
-        const trailX = centerX + Math.cos(satelliteAngle - 0.1) * satelliteRadius;
-        const trailY = centerY + Math.sin(satelliteAngle - 0.1) * satelliteRadius * 0.25;
-        ctx.arc(trailX, trailY, 1, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Reset
-        ctx.globalAlpha = 1;
-        ctx.shadowBlur = 0;
-      }
-        // Adjust rotation speed for smoother animation
-      rotation += 0.008;
-      
-      // Create the animation loop with timing control
-      const now = performance.now();
-      const elapsed = now - (animate.lastTime || now);
-      animate.lastTime = now;
-      
-      // Limit to approximately 60fps for consistency
-      if (elapsed > 16 || !animate.lastTime) {
-        animationId = requestAnimationFrame(animate);
-      } else {
-        setTimeout(() => {
-          animationId = requestAnimationFrame(animate);
-        }, 16 - elapsed);
-      }
-    };
-    
-    // Start animation
-    animate();
-    
-    // Store canvas reference for cleanup
-    globeRef.current.globeCanvas = canvas;
-    
-    // Return comprehensive cleanup function
-    return () => {
-      // Cancel animation frame to prevent memory leaks
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-      }
-      
-      // Remove canvas from DOM if it exists
-      if (canvas && canvas.parentNode) {
-        // Fade out the canvas before removing
-        const fadeOut = () => {
-          let opacity = parseFloat(canvas.style.opacity);
-          if (opacity > 0) {
-            opacity -= 0.1;
-            canvas.style.opacity = opacity.toString();
-            setTimeout(fadeOut, 30);
-          } else {
-            canvas.parentNode.removeChild(canvas);
-          }
-        };
-        
-        // Use immediate removal for component unmounts
-        canvas.parentNode.removeChild(canvas);
-      }
-      
-      // Clear references
-      if (globeRef.current) {
-        globeRef.current.globeCanvas = null;
-      }
-    };
-  };
-
-  const handleLanguageClick = (lang) => {
-    if (currentLang === lang.id) {
-      setCurrentLang(null);
-    } else {
-      setCurrentLang(lang.id);
-    }
-  };
-
   return (
     <div style={{ background: 'black', color: 'white', minHeight: '100vh', position: 'relative' }}>
-      {/* Intro Animation */}
-      {!introComplete && (
-        <h1 
-          ref={introRef}
-          className="intro"
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translateX(-50%) translateY(-50%) scale(2, 2)',
-            zIndex: 1000,
-            fontFamily: 'Inconsolata, monospace',
-            color: 'white'
-          }}
-        >
-          { }
-        </h1>
-      )}
+      {/* Intro Animation (handled by intro.js) */}
+      <h1 
+        id="intro"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: '3rem',
+          fontFamily: 'Inconsolata, monospace',
+          margin: 0,
+          transition: 'all 0.5s ease',
+          zIndex: 1000
+        }}
+      >
+        {'{_}'}
+      </h1>
 
       {/* Main Content */}
       <div 
-        ref={mainRef}
-        id="main"
+        id="main" 
         style={{
-          opacity: mainVisible ? 1 : 0,
-          transition: 'opacity 0.5s',
-          marginTop: '60px',
-          padding: '20px'
+          opacity: 0,
+          transition: 'opacity 0.5s ease',
+          padding: '2rem',
+          position: 'relative',
+          zIndex: 10
         }}
       >
-        {introComplete && (
-          <h1 
-            className="top"
-            style={{
-              fontSize: '2rem',
-              textAlign: 'center',
-              marginBottom: '40px'
-            }}
-          >
-            {"{NATHAN_GOPEE}"}
+        {/* Header */}
+        <header style={{ 
+          marginBottom: '2rem',
+          borderBottom: '1px solid #333',
+          paddingBottom: '1rem'
+        }}>
+          <h1 style={{ 
+            fontSize: '2rem', 
+            margin: 0,
+            fontFamily: 'Inconsolata, monospace',
+            color: '#8e44ad'
+          }}>
+            NATHAN GOPEE
           </h1>
-        )}
+          <p style={{ 
+            fontSize: '1.2rem', 
+            margin: '0.5rem 0',
+            color: '#aacfd1'
+          }}>
+            Computer Science Student | Age: <span id="age">23.0000000000</span>
+          </p>
+          <p style={{ 
+            color: '#666',
+            fontStyle: 'italic'
+          }}>
+            Full-stack developer passionate about clean code and innovative solutions.
+          </p>
+        </header>
 
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{ marginBottom: '20px' }}>Welcome to my personal portfolio!</h2>
+        {/* Programming Languages Section */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ 
+            fontSize: '1.5rem',
+            color: '#8e44ad',
+            fontFamily: 'Inconsolata, monospace',
+            marginBottom: '1.5rem'
+          }}>
+            PROGRAMMING LANGUAGES
+          </h2>
           
-          <h2 style={{ marginBottom: '20px' }}>
-            I'm a <span className="age-display">{age}</span> year-old{' '}
-            <span style={{ color: '#8e44ad' }}>Computer Science Graduate Student & Teaching Assistant</span>
-          </h2>
-
-          <h2 style={{ marginBottom: '40px' }}>
-            who uses{' '}
-            {languages.map((lang, index) => (
-              <React.Fragment key={lang.id}>
-                <span
-                  className={`lang-button ${currentLang === lang.id ? 'active' : ''}`}
-                  style={{ color: lang.color, cursor: 'pointer' }}
-                  onClick={() => handleLanguageClick(lang)}
-                  data-panel={lang.id}
-                >
+          <div style={{ 
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1rem',
+            marginBottom: '2rem'
+          }}>
+            {languages.map((lang) => (
+              <div
+                key={lang.id}
+                style={{
+                  border: `2px solid ${lang.color}`,
+                  padding: '1.5rem',
+                  borderRadius: '8px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  ':hover': {
+                    backgroundColor: 'rgba(142, 68, 173, 0.1)'
+                  }
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'rgba(142, 68, 173, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                }}
+              >
+                <h3 style={{ 
+                  color: lang.color,
+                  fontFamily: 'Inconsolata, monospace',
+                  fontSize: '1.3rem',
+                  marginBottom: '0.5rem'
+                }}>
                   {lang.name}
-                  <span 
-                    className="underline" 
-                    style={{ backgroundColor: lang.color }}
-                  ></span>
-                </span>
-                {index < languages.length - 1 && (
-                  <span>{index === languages.length - 2 ? ', and ' : ', '}</span>
+                </h3>
+                <p style={{ 
+                  color: '#ccc',
+                  lineHeight: '1.6',
+                  marginBottom: '1rem'
+                }}>
+                  {lang.description}
+                </p>
+                
+                {lang.projects.length > 0 && (
+                  <div>
+                    <h4 style={{ 
+                      color: '#aacfd1',
+                      fontSize: '1rem',
+                      marginBottom: '0.5rem'
+                    }}>
+                      Featured Projects:
+                    </h4>
+                    {lang.projects.map((project, index) => (
+                      <div key={index} style={{ 
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                        padding: '1rem',
+                        borderRadius: '4px',
+                        marginBottom: '0.5rem'
+                      }}>
+                        <h5 style={{ 
+                          color: '#fff',
+                          fontSize: '0.9rem',
+                          marginBottom: '0.5rem'
+                        }}>
+                          {project.title}
+                        </h5>
+                        <p style={{ 
+                          color: '#bbb',
+                          fontSize: '0.8rem',
+                          marginBottom: '0.5rem',
+                          lineHeight: '1.4'
+                        }}>
+                          {project.description}
+                        </p>
+                        <p style={{ 
+                          color: '#8e44ad',
+                          fontSize: '0.7rem',
+                          fontStyle: 'italic'
+                        }}>
+                          Tech: {project.tech}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 )}
-              </React.Fragment>
+              </div>
             ))}
-            .
-          </h2>
+          </div>
+        </section>
 
-          {/* Language Panels */}
-          {languages.map((lang) => (
-            <div
-              key={lang.id}
-              id={lang.id}
-              className={`lang-panel ${currentLang === lang.id ? 'shown' : ''}`}
+        {/* Contact Section */}
+        <section style={{ 
+          textAlign: 'center',
+          marginBottom: '3rem'
+        }}>
+          <h2 style={{ 
+            fontSize: '1.5rem',
+            color: '#8e44ad',
+            fontFamily: 'Inconsolata, monospace',
+            marginBottom: '1rem'
+          }}>
+            CONNECT WITH ME
+          </h2>
+          <div style={{ 
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '2rem',
+            flexWrap: 'wrap'
+          }}>
+            <a 
+              href="mailto:gopeen1@newpaltz.edu"
               style={{
-                opacity: currentLang === lang.id ? 1 : 0,
-                visibility: currentLang === lang.id ? 'visible' : 'hidden',
-                position: currentLang === lang.id ? 'relative' : 'absolute',
-                zIndex: currentLang === lang.id ? 100 : -100,
-                marginTop: '60px',
-                width: '100%',
-                textAlign: 'center',
-                transition: 'opacity 0.5s linear'
+                color: '#aacfd1',
+                textDecoration: 'none',
+                fontFamily: 'Inconsolata, monospace',
+                padding: '0.5rem 1rem',
+                border: '1px solid #aacfd1',
+                borderRadius: '4px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#aacfd1';
+                e.target.style.color = 'black';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#aacfd1';
               }}
             >
-              <h2>
-                <a 
-                  href={`https://docs.oracle.com/javase/specs/jls/se23/html/index.html`} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  style={{ color: lang.color }}
-                >
-                  {lang.name}
-                </a>
-              </h2>
-              <h3 style={{ margin: '20px 0', fontWeight: 'normal' }}>
-                {lang.description}
-              </h3>
-              
-              {lang.projects.length > 0 && (
-                <div className="projects" style={{ marginTop: '40px' }}>
-                  {lang.projects.map((project, index) => (
-                    <div 
-                      key={index}
-                      className="project-card proj"
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: '8px',
-                        padding: '20px',
-                        margin: '20px 0',
-                        textAlign: 'left'
-                      }}
-                    >
-                      <h3 style={{ color: lang.color, marginBottom: '10px' }}>
-                        {project.title}
-                      </h3>
-                      <p style={{ marginBottom: '15px', lineHeight: '1.6' }}>
-                        {project.description}
-                      </p>
-                      <p style={{ 
-                        color: 'rgba(255, 255, 255, 0.7)', 
-                        fontSize: '0.9rem',
-                        fontStyle: 'italic'
-                      }}>
-                        <strong>Technologies:</strong> {project.tech}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-
-          <div 
-            id="details"
-            className={currentLang ? 'gone' : ''}
-            style={{
-              marginTop: '60px',
-              opacity: currentLang ? 0 : 1,
-              transition: 'opacity 0.25s'
-            }}
-          >
-            <h2>
-              Check out my{' '}
-              <a 
-                href="https://github.com/ndg8743" 
-                className="d"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#8e44ad', textDecoration: 'underline' }}
-              >
-                GitHub
-              </a>{' '}
-              and{' '}
-              <a 
-                href="https://www.linkedin.com/in/nathangopee/" 
-                className="d"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: '#8e44ad', textDecoration: 'underline' }}
-              >
-                LinkedIn
-              </a>
-              .
-            </h2>
-          </div>        </div>
-
-      </div>      {/* Hidden globe container - canvas positioning handled in initGlobe */}
-      <div 
-        ref={globeRef}
-        className="globe-container"
-        style={{ 
-          display: 'none', 
-          position: 'absolute', 
-          right: '0',
-          zIndex: '-1' // Keep out of document flow
-        }}
-      />      {/* Location Info Display - Only show when main is visible */}
-      {mainVisible && (
-        <div 
-          className="globe-info"
-          style={{
-            position: 'fixed',
-            right: '5%',
-            top: '50%',
-            transform: 'translateY(-50%) translateY(260px)',
-            width: '240px',
-            background: 'rgba(0, 0, 0, 0.85)',
-            border: '2px solid #a855f7',
-            borderRadius: '12px',
-            padding: '1rem',
-            fontSize: '0.8rem',
-            backdropFilter: 'blur(10px)',
-            fontFamily: 'Inconsolata, monospace',
-            textAlign: 'center',
-            boxShadow: '0 5px 20px rgba(168, 85, 247, 0.3)',
-            zIndex: 20, // Higher z-index than globe to ensure visibility
-            pointerEvents: 'none' // This element shouldn't capture mouse events
-          }}
-        >
-          <h4 style={{ margin: '0 0 0.5rem 0', color: '#a855f7' }}>🌍 Live Location</h4>
-          <div style={{ color: '#10b981' }}>📍 Loading location...</div>
-        </div>
-      )}
-
-      {/* Tiny Arrow Tabs - Ultra Minimal Indicators */}
-      
-      {/* Weather Tab - Right Edge */}
-      <div 
-        className="widget-tab weather-tab"
-        style={{
-          position: 'fixed',
-          right: '0px',
-          top: '20%',
-          width: '6px',
-          height: '30px',
-          background: 'linear-gradient(45deg, #a855f7, #ec4899)',
-          cursor: 'pointer',
-          borderRadius: '8px 0 0 8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '8px',
-          color: 'white',
-          zIndex: 1000,
-          transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          boxShadow: '-2px 0 10px rgba(168, 85, 247, 0.4)'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.width = '10px';
-          e.target.style.boxShadow = '-5px 0 20px rgba(168, 85, 247, 0.8)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.width = '6px';
-          e.target.style.boxShadow = '-2px 0 10px rgba(168, 85, 247, 0.4)';
-        }}
-      >
-        →
+              EMAIL
+            </a>
+            <a 
+              href="https://github.com/nathangopee"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#aacfd1',
+                textDecoration: 'none',
+                fontFamily: 'Inconsolata, monospace',
+                padding: '0.5rem 1rem',
+                border: '1px solid #aacfd1',
+                borderRadius: '4px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#aacfd1';
+                e.target.style.color = 'black';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#aacfd1';
+              }}
+            >
+              GITHUB
+            </a>
+            <a 
+              href="https://linkedin.com/in/nathangopee"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#aacfd1',
+                textDecoration: 'none',
+                fontFamily: 'Inconsolata, monospace',
+                padding: '0.5rem 1rem',
+                border: '1px solid #aacfd1',
+                borderRadius: '4px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#aacfd1';
+                e.target.style.color = 'black';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'transparent';
+                e.target.style.color = '#aacfd1';
+              }}
+            >
+              LINKEDIN
+            </a>
+          </div>
+        </section>
       </div>
 
-      {/* IP Tab - Left Edge */}
+      {/* Globe Container (handled by globe.js) */}
       <div 
-        className="widget-tab ip-tab"
+        id="details" 
         style={{
           position: 'fixed',
-          left: '0px',
-          top: '30%',
-          width: '6px',
-          height: '30px',
-          background: 'linear-gradient(45deg, #a855f7, #10b981)',
-          cursor: 'pointer',
-          borderRadius: '0 8px 8px 0',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '8px',
-          color: 'white',
-          zIndex: 1000,
-          transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          boxShadow: '2px 0 10px rgba(168, 85, 247, 0.4)'
+          bottom: 0,
+          right: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 1
         }}
-        onMouseEnter={(e) => {
-          e.target.style.width = '10px';
-          e.target.style.boxShadow = '5px 0 20px rgba(168, 85, 247, 0.8)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.width = '6px';
-          e.target.style.boxShadow = '2px 0 10px rgba(168, 85, 247, 0.4)';
-        }}
-      >
-        ←
-      </div>
-
-      {/* Music Tab - Bottom Edge */}
-      <div 
-        className="widget-tab music-tab"
-        style={{
-          position: 'fixed',
-          bottom: '0px',
-          left: '20%',
-          width: '30px',
-          height: '6px',
-          background: 'linear-gradient(45deg, #f97316, #ec4899)',
-          cursor: 'pointer',
-          borderRadius: '8px 8px 0 0',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '8px',
-          color: 'white',
-          zIndex: 1000,
-          transition: 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          boxShadow: '0 -2px 10px rgba(249, 115, 22, 0.4)'
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.height = '10px';
-          e.target.style.boxShadow = '0 -5px 20px rgba(249, 115, 22, 0.8)';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.height = '6px';
-          e.target.style.boxShadow = '0 -2px 10px rgba(249, 115, 22, 0.4)';
-        }}
-      >
-        ↑
-      </div>
+      />
     </div>
   );
 };
