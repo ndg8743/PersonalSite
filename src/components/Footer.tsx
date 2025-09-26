@@ -50,7 +50,7 @@ export const Footer = () => {
               $theme={theme}
               aria-label="Source code for this website (opens in new window)"
               data-v2="source"
-              href="https://github.com/ndg8743/v2/"
+              href="https://github.com/ndg8743/PersonalSite"
               rel="noopener noreferrer"
               target="_blank"
             >

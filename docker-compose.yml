@@ -9,5 +9,5 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - ./letsencrypt:/etc/letsencrypt:ro
+      - ./letsencrypt/etc:/etc/letsencrypt:ro
       - ./conf/default.conf:/etc/nginx/conf.d/default.conf:ro
