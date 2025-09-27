@@ -1,0 +1,44 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Version control
+.git
+.github
+.gitignore
+
+# Build tools
+.eslintcache
+.husky/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+coverage/
+__mocks__/
+setupTests.ts
+
+# Source files (since we're using the build folder)
+src/
+
+# SSL certificates and private keys
+letsencrypt/
+*.pem
+*.key
+*.crt
+
+# Backup directories
+nginx_backup_*/

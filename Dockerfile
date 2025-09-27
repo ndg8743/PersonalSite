@@ -5,7 +5,16 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-COPY . .
+# Handle environment variables
+ARG REACT_APP_CONTACT_EMAIL
+ENV REACT_APP_CONTACT_EMAIL=${REACT_APP_CONTACT_EMAIL}
+
+# Copy source code and config files
+COPY public/ ./public/
+COPY src/ ./src/
+COPY tsconfig.json ./
+
+# Build the app
 RUN npm run build
 
 # Production stage

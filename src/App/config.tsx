@@ -1,6 +1,8 @@
 import { Email, GitHub, LinkedIn, Resume } from 'icons';
 import { Config } from 'types';
 
+import { CONTACT } from '../constants/contact';
+
 export const config: Config = {
   buttons: [
     {
@@ -27,7 +29,7 @@ export const config: Config = {
     {
       ariaLabel: 'Email contact (opens in new window)',
       display: 'Email',
-      href: 'mailto:nathangopee03@gmail.com',
+      href: `mailto:${CONTACT.EMAIL}`,
       icon: <Email />,
       name: 'email',
     },

@@ -6,6 +6,8 @@ import { themes } from 'appearance';
 import { Footer } from 'components';
 import { act } from 'react';
 
+import { CONTACT } from './constants/contact';
+
 configure({ testIdAttribute: 'data-v2' });
 
 const mockState = {
@@ -129,7 +131,7 @@ describe('application tests', () => {
     const parent = screen.getByTestId('button-Email');
     const child = screen.getByTestId('Email');
 
-    checkButton(parent, child, /^Email$/, 'mailto:nathangopee03@gmail.com');
+    checkButton(parent, child, /^Email$/, `mailto:${CONTACT.EMAIL}`);
   });
 
   it('should toggle between the dark and light themes', () => {

@@ -26,8 +26,40 @@ A modern, minimalist personal portfolio website with interactive particle effect
 # Install dependencies
 npm install
 
+# Set up environment variables
+npm run setup
+
 # Start development server
 npm start
+```
+
+## Environment Variables
+
+The project uses environment variables to store sensitive information.
+Copy `.env.example` to `.env` and update the values:
+
+```bash
+# Copy example env file (also available as npm run setup)
+cp .env.example .env
+```
+
+Available environment variables:
+
+| Variable                | Description                         |
+| ----------------------- | ----------------------------------- |
+| REACT_APP_CONTACT_EMAIL | Email address displayed on the site |
+
+## Docker Deployment
+
+```bash
+# Build the Docker image
+npm run docker:build
+
+# Start the Docker container
+npm run docker:up
+
+# Restart the Docker container (e.g., after configuration changes)
+npm run docker:restart
 
 # Build for production
 npm run build

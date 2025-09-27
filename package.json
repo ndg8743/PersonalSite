@@ -9,7 +9,11 @@
     "eject": "react-scripts eject",
     "lint": "eslint --cache --fix --max-warnings 0 ./src/",
     "format": "prettier --cache --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "setup": "cp -n .env.example .env || true",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:restart": "./restart.sh"
   },
   "dependencies": {
     "react": "^19.1.0",
