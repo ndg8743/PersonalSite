@@ -32,7 +32,7 @@ __mocks__/
 setupTests.ts
 
 # Source files (since we're using the build folder)
-src/
+# src/
 
 # SSL certificates and private keys
 letsencrypt/

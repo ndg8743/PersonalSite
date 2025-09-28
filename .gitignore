@@ -19,10 +19,6 @@
 .env.test.local
 .env.production.local
 
-# SSL certificates
-/letsencrypt
-/certbot
-
 # Logs
 npm-debug.log*
 yarn-debug.log*

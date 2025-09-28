@@ -2,10 +2,8 @@
 FROM node:18-alpine as build
 
 WORKDIR /app
-
-# Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 # Handle environment variables
 ARG REACT_APP_CONTACT_EMAIL
@@ -15,7 +13,6 @@ ENV REACT_APP_CONTACT_EMAIL=${REACT_APP_CONTACT_EMAIL}
 COPY public/ ./public/
 COPY src/ ./src/
 COPY tsconfig.json ./
-COPY eslint.config.mjs ./
 
 # Build the app
 RUN npm run build

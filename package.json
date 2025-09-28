@@ -13,7 +13,8 @@
     "setup": "cp -n .env.example .env || true",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",
-    "docker:restart": "./restart.sh"
+    "docker:restart": "./restart.sh",
+    "docker:dev": "./restart-dev.sh"
   },
   "dependencies": {
     "react": "^19.1.0",

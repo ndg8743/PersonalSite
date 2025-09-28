@@ -1,3 +1,2 @@
 #!/bin/bash
-cd /root/PersonalSite
-docker-compose restart
+docker-compose -f /root/nginx/docker-compose.yml restart
