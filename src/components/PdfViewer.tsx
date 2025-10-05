@@ -68,11 +68,11 @@ const StyledIframe = styled.iframe`
 `;
 
 interface PdfViewerProps {
-  pdfUrl: string;
   onClose: () => void;
+  pdfUrl: string;
 }
 
-export const PdfViewer = ({ pdfUrl, onClose }: PdfViewerProps) => {
+export const PdfViewer = ({ onClose, pdfUrl }: PdfViewerProps) => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -93,16 +93,20 @@ export const PdfViewer = ({ pdfUrl, onClose }: PdfViewerProps) => {
   };
 
   return (
-    <Overlay ref={overlayRef} onClick={handleOverlayClick}>
+    <Overlay onClick={handleOverlayClick} ref={overlayRef}>
       <ModalContainer>
         <Header>
           <Title>Resume</Title>
-          <CloseButton onClick={onClose} aria-label="Close PDF viewer">
+          <CloseButton aria-label="Close PDF viewer" onClick={onClose}>
             ×
           </CloseButton>
         </Header>
         <IframeContainer>
-          <StyledIframe src={pdfUrl} title="Resume PDF" />
+          <StyledIframe
+            loading="eager"
+            src={`${pdfUrl}#toolbar=1&navpanes=0&scrollbar=1`}
+            title="Resume PDF"
+          />
         </IframeContainer>
       </ModalContainer>
     </Overlay>
