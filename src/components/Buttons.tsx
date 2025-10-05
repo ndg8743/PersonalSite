@@ -1,7 +1,9 @@
 import { AppContext } from 'App/AppContext';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Theme } from 'types';
+
+import { PdfViewer } from './PdfViewer';
 
 const Container = styled.div<{ $theme: Theme }>`
   a,
@@ -89,26 +91,43 @@ const Container = styled.div<{ $theme: Theme }>`
 
 export const Buttons = () => {
   const { config, theme } = useContext(AppContext);
+  const [showPdfViewer, setShowPdfViewer] = useState(false);
+
+  const handleClick = (name: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (name === 'resume') {
+      e.preventDefault();
+      setShowPdfViewer(true);
+    }
+  };
 
   return (
-    <Container $theme={theme}>
-      {config.buttons.map(({ ariaLabel, display, href, icon, name }) => (
-        <span className="button-container" key={name}>
-          <a
-            aria-label={ariaLabel}
-            className="button"
-            data-v2={`button-${display}`}
-            href={href}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <div className="icon">{icon}</div>
-            <span className="icon_title" data-v2={display}>
-              {display}
-            </span>
-          </a>
-        </span>
-      ))}
-    </Container>
+    <>
+      <Container $theme={theme}>
+        {config.buttons.map(({ ariaLabel, display, href, icon, name }) => (
+          <span className="button-container" key={name}>
+            <a
+              aria-label={ariaLabel}
+              className="button"
+              data-v2={`button-${display}`}
+              href={href}
+              rel="noopener noreferrer"
+              target="_blank"
+              onClick={handleClick(name)}
+            >
+              <div className="icon">{icon}</div>
+              <span className="icon_title" data-v2={display}>
+                {display}
+              </span>
+            </a>
+          </span>
+        ))}
+      </Container>
+      {showPdfViewer && (
+        <PdfViewer
+          pdfUrl="/Resume.pdf"
+          onClose={() => setShowPdfViewer(false)}
+        />
+      )}
+    </>
   );
 };
