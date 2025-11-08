@@ -17,7 +17,6 @@ A modern, minimalist personal portfolio website with interactive particle effect
 - Interactive particle background
 - Dark/Light theme toggle with persistence
 - Fully responsive design
-- WCAG 2.1 accessibility compliant
 - Modern UI with smooth animations
 
 ## Quick Start
