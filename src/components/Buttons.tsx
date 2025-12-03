@@ -93,12 +93,13 @@ export const Buttons = () => {
   const { config, theme } = useContext(AppContext);
   const [showPdfViewer, setShowPdfViewer] = useState(false);
 
-  const handleClick = (name: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (name === 'resume') {
-      e.preventDefault();
-      setShowPdfViewer(true);
-    }
-  };
+  const handleClick =
+    (name: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (name === 'resume') {
+        e.preventDefault();
+        setShowPdfViewer(true);
+      }
+    };
 
   return (
     <>
@@ -110,9 +111,9 @@ export const Buttons = () => {
               className="button"
               data-v2={`button-${display}`}
               href={href}
+              onClick={handleClick(name)}
               rel="noopener noreferrer"
               target="_blank"
-              onClick={handleClick(name)}
             >
               <div className="icon">{icon}</div>
               <span className="icon_title" data-v2={display}>
@@ -124,8 +125,8 @@ export const Buttons = () => {
       </Container>
       {showPdfViewer && (
         <PdfViewer
-          pdfUrl="/Resume.pdf"
           onClose={() => setShowPdfViewer(false)}
+          pdfUrl={`/Resume.pdf?v=${Date.now()}`}
         />
       )}
     </>
