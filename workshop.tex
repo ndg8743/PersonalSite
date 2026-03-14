@@ -1,0 +1,1144 @@
+% ============================================================================
+%  Deploying Your Personal Website with Docker
+%  A Hands-On Workshop — SUNY New Paltz Computer Science Lab
+% ============================================================================
+\documentclass[11pt, letterpaper]{article}
+
+% ---------- Packages ----------
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multicol}
+
+% ---------- Colors ----------
+\definecolor{hydraBlue}{HTML}{1E90FF}
+\definecolor{codeGray}{HTML}{F5F5F5}
+\definecolor{codeBorder}{HTML}{CCCCCC}
+\definecolor{termGreen}{HTML}{00AA00}
+\definecolor{commentGray}{HTML}{6A737D}
+\definecolor{stringOrange}{HTML}{D73A49}
+\definecolor{keywordBlue}{HTML}{0550AE}
+\definecolor{warningRed}{HTML}{CC0000}
+\definecolor{tipGreen}{HTML}{1A7F37}
+\definecolor{infoBlue}{HTML}{0969DA}
+
+% ---------- Hyperlink setup ----------
+\hypersetup{
+  colorlinks=true,
+  linkcolor=hydraBlue,
+  urlcolor=hydraBlue,
+  citecolor=hydraBlue,
+  pdftitle={Deploying Your Personal Website with Docker},
+  pdfauthor={SUNY New Paltz CS Lab},
+}
+
+% ---------- Code listing style ----------
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codeGray},
+  frame=single,
+  rulecolor=\color{codeBorder},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=2,
+  showstringspaces=false,
+  commentstyle=\color{commentGray}\itshape,
+  keywordstyle=\color{keywordBlue}\bfseries,
+  stringstyle=\color{stringOrange},
+  numbers=left,
+  numberstyle=\tiny\color{commentGray},
+  numbersep=8pt,
+  xleftmargin=1.5em,
+  framexleftmargin=1.5em,
+  aboveskip=1em,
+  belowskip=1em,
+}
+
+\lstdefinestyle{terminal}{
+  backgroundcolor=\color{black!90},
+  frame=single,
+  rulecolor=\color{black},
+  basicstyle=\ttfamily\small\color{white},
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=2,
+  showstringspaces=false,
+  numbers=none,
+  xleftmargin=1em,
+  framexleftmargin=1em,
+  aboveskip=1em,
+  belowskip=1em,
+  literate={~}{{\textasciitilde}}1
+           {\$}{{\textcolor{termGreen}{\$}}}1,
+}
+
+% ---------- Custom boxes ----------
+\newtcolorbox{infobox}[1][]{
+  colback=infoBlue!5,
+  colframe=infoBlue!70,
+  coltitle=white,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2pt,
+  boxrule=0.8pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+}
+
+\newtcolorbox{warningbox}[1][]{
+  colback=warningRed!5,
+  colframe=warningRed!70,
+  coltitle=white,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2pt,
+  boxrule=0.8pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+}
+
+\newtcolorbox{tipbox}[1][]{
+  colback=tipGreen!5,
+  colframe=tipGreen!70,
+  coltitle=white,
+  fonttitle=\bfseries,
+  title={#1},
+  arc=2pt,
+  boxrule=0.8pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+}
+
+% ---------- Headers / Footers ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{commentGray}{SUNY New Paltz CS Lab}}
+\fancyhead[R]{\small\textcolor{commentGray}{Docker Workshop}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---------- Section styling ----------
+\titleformat{\section}
+  {\Large\bfseries\color{hydraBlue}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+% ============================================================================
+\begin{document}
+
+% ---------- Title Page ----------
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries Deploying Your Personal Website\\[0.3em] with Docker\par}
+
+\vspace{1.5cm}
+
+{\LARGE A Hands-On Workshop\par}
+
+\vspace{1cm}
+
+{\Large SUNY New Paltz --- Computer Science Lab\par}
+
+\vspace{2cm}
+
+{\large
+\begin{tabular}{rl}
+\textbf{Platform:} & Hydra Cluster (\texttt{hydra.newpaltz.edu}) \\
+\textbf{Project:}  & PersonalSite --- React + TypeScript Portfolio \\
+\textbf{Stack:}    & React, TypeScript, Docker, Nginx, Traefik \\
+\end{tabular}
+\par}
+
+\vspace{2cm}
+
+\begin{tcolorbox}[
+  colback=hydraBlue!8,
+  colframe=hydraBlue!60,
+  width=0.85\textwidth,
+  arc=4pt,
+  boxrule=1pt,
+]
+\centering\large
+By the end of this workshop, you will have your own personal portfolio\\
+website running in a Docker container, accessible on the public internet\\
+at \texttt{hydra.newpaltz.edu/students/\textit{you}/mysite/}
+\end{tcolorbox}
+
+\vfill
+{\small Spring 2026}
+\end{titlepage}
+
+% ---------- Table of Contents ----------
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+
+This workshop walks you through deploying a real web application from source
+code to a live, publicly accessible URL. Along the way, you will learn what
+each technology in the stack does and why professional developers choose it.
+
+The project is a personal portfolio site built with \textbf{React} and
+\textbf{TypeScript}. It features an animated particle background, dark/light
+theme toggle, social media links, and an embedded resume viewer. The source
+code is at:
+
+\begin{center}
+\url{https://github.com/ndg8743/PersonalSite}
+\end{center}
+
+You will:
+\begin{enumerate}
+  \item Clone the repository into your Hydra container.
+  \item Personalize the site with your own name, links, and resume.
+  \item Build a production Docker image using a multi-stage \texttt{Dockerfile}.
+  \item Run the container with Nginx serving your compiled site.
+  \item Expose it to the internet through Hydra's reverse proxy.
+\end{enumerate}
+
+\begin{infobox}[Prerequisites]
+You need a working Hydra student container with:
+\begin{itemize}[nosep]
+  \item SSH or VSCode access (\texttt{hydra.newpaltz.edu/students/\textit{you}/vscode/})
+  \item Node.js (v20) and npm (pre-installed)
+  \item Docker (available via the Docker-in-Docker sidecar)
+\end{itemize}
+\end{infobox}
+
+% ============================================================================
+\section{Technology Overview}
+% ============================================================================
+
+Before touching any code, let's understand \textit{what} each tool does and
+\textit{why} it exists. The diagram below shows how a request travels from a
+user's browser to your running site:
+
+\begin{center}
+\begin{tcolorbox}[
+  colback=codeGray,
+  colframe=codeBorder,
+  width=0.95\textwidth,
+  arc=2pt,
+  boxrule=0.5pt,
+]
+\begin{verbatim}
+  Browser (user visits your URL)
+     |
+     v
+  Traefik (reverse proxy - routes by URL path)
+     |
+     v
+  Nginx (web server - serves static files)
+     |
+     v
+  /usr/share/nginx/html/  (your compiled React app)
+     ^
+     |  (built at image-build time by)
+     |
+  Node.js + npm (compiles React/TypeScript into HTML/CSS/JS)
+     ^
+     |  (your source code, written in)
+     |
+  React + TypeScript + SCSS
+\end{verbatim}
+\end{tcolorbox}
+\end{center}
+
+% ----------------------------------------------------------------------------
+\subsection{React}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A JavaScript library (created by Facebook/Meta) for
+building user interfaces out of reusable \textit{components}.
+
+\textbf{Why it matters:} Instead of writing raw HTML and manually updating the
+page when data changes, React lets you describe \textit{what} the UI should
+look like and handles all the DOM manipulation for you. Each piece of UI is a
+function that returns JSX (HTML-like syntax inside JavaScript):
+
+\begin{lstlisting}[style=code, language=JavaScript, caption={src/components/Content.tsx --- A React component}]
+export const Content = () => {
+  const { config, theme } = useContext(AppContext);
+
+  return (
+    <>
+      <C.Name $theme={theme}>{config.name.display}</C.Name>
+      <C.Title $theme={theme}>{config.title.display}</C.Title>
+    </>
+  );
+};
+\end{lstlisting}
+
+\textbf{Where it is in this project:}
+\begin{itemize}[nosep]
+  \item \texttt{src/App/App.tsx} --- Root component, assembles the page layout.
+  \item \texttt{src/components/} --- Individual UI pieces (Content, Buttons,
+        Toggle, Footer, Particles, PdfViewer).
+  \item \texttt{src/App/config.tsx} --- Your name, title, and social links.
+  \item \texttt{src/App/AppContext.tsx} --- Shared state (theme, config) using
+        React Context.
+\end{itemize}
+
+\textbf{Key concept --- Component tree:} React apps are a tree of components.
+In this project:
+
+\begin{lstlisting}[style=code, language=HTML, caption={Component hierarchy}]
+<App>
+  <AppProvider>       <!-- Theme and config state -->
+    <Toggle />        <!-- Dark/light mode switch -->
+    <Content />       <!-- Your name and title -->
+    <Buttons />       <!-- GitHub, LinkedIn, Resume, Email -->
+    <Footer />        <!-- "Designed and built by..." -->
+    <Particles />     <!-- Animated background -->
+  </AppProvider>
+</App>
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------
+\subsection{TypeScript}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A superset of JavaScript that adds \textit{static types}.
+Every \texttt{.ts} and \texttt{.tsx} file is TypeScript.
+
+\textbf{Why it matters:} JavaScript lets you pass anything anywhere --- a
+string where a number is expected, a missing field, a misspelled property name.
+These bugs only show up when the code runs (often in production). TypeScript
+catches them \textit{at compile time}:
+
+\begin{lstlisting}[style=code, language=JavaScript, caption={src/types/config.interface.ts --- Type safety}]
+export interface Config {
+  buttons: Button[];  // Must be an array of Button objects
+  name: Content;      // Must have a `display` string
+  title: Content;
+}
+
+export interface Button extends Content {
+  ariaLabel: string;
+  href: string;
+  icon: JSX.Element;
+  name: string;
+}
+\end{lstlisting}
+
+If you try to add a button without an \texttt{ariaLabel}, TypeScript shows a
+red underline in your editor \textit{before} you even run the code.
+
+\textbf{Where it is:} The \texttt{tsconfig.json} in the project root
+configures the TypeScript compiler. Every \texttt{.tsx} file is a React
+component written in TypeScript.
+
+% ----------------------------------------------------------------------------
+\subsection{SCSS (Sass)}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A CSS preprocessor that adds variables, nesting, and
+mixins to standard CSS. Files use the \texttt{.scss} extension.
+
+\textbf{Why it matters:} Plain CSS gets repetitive in large projects. SCSS
+lets you write cleaner stylesheets. This project also uses
+\textbf{styled-components} (CSS-in-JS) for most styling, but the global
+layout is in SCSS:
+
+\begin{lstlisting}[style=code, language=CSS, caption={src/App/App.scss --- Global layout}]
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+\end{lstlisting}
+
+\textbf{styled-components} is used for theme-aware styling. Instead of
+separate CSS files, styles live right next to the component logic:
+
+\begin{lstlisting}[style=code, language=JavaScript, caption={Theme-aware styled component}]
+const Name = styled.h1<{ $theme: Theme }>`
+  color: ${({ $theme }) => $theme.primaryTextColor};
+  font-size: 6rem;
+  transition: color 0.5s linear;
+`;
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------
+\subsection{Node.js and npm}
+% ----------------------------------------------------------------------------
+
+\textbf{What Node.js is:} A runtime that lets you execute JavaScript outside
+the browser. It powers the build tools that compile your React code into plain
+HTML, CSS, and JS files.
+
+\textbf{What npm is:} The Node Package Manager. It installs third-party
+libraries (React, TypeScript, styled-components, etc.) listed in
+\texttt{package.json}.
+
+\textbf{Key commands:}
+
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{lX}
+\toprule
+\textbf{Command} & \textbf{What it does} \\
+\midrule
+\texttt{npm ci} & Clean install --- installs exact versions from
+                  \texttt{package-lock.json}. Deterministic and fast. \\
+\texttt{npm start} & Starts a development server with hot reload
+                     (changes appear instantly). \\
+\texttt{npm run build} & Compiles and optimizes everything into a
+                         \texttt{build/} folder of static files. \\
+\texttt{npm test} & Runs the test suite. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Where it is:}
+\begin{itemize}[nosep]
+  \item \texttt{package.json} --- Lists all dependencies and scripts.
+  \item \texttt{package-lock.json} --- Locks exact versions for reproducibility.
+  \item \texttt{.nvmrc} --- Specifies the Node.js version (\texttt{nvm use}).
+\end{itemize}
+
+\begin{tipbox}[Build vs.\ Runtime]
+Node.js is only needed to \textit{build} the site. Once built, the output is
+plain HTML/CSS/JS that any web server can serve. That's why the final Docker
+image uses Nginx instead of Node.js --- it's 10x smaller and faster.
+\end{tipbox}
+
+% ----------------------------------------------------------------------------
+\subsection{Docker}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A platform for packaging applications into
+\textit{containers} --- lightweight, isolated environments that include
+everything needed to run: code, runtime, libraries, and system tools.
+
+\textbf{Why it matters:} ``It works on my machine'' is the bane of software
+engineering. Docker eliminates this by guaranteeing that if a container works
+on your laptop, it works identically on any server. Every dependency is
+captured in the image.
+
+\textbf{Key concepts:}
+
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{lX}
+\toprule
+\textbf{Term} & \textbf{Meaning} \\
+\midrule
+\textbf{Image} & A read-only template. Think of it as a snapshot of a
+                  configured machine. Built from a \texttt{Dockerfile}. \\
+\textbf{Container} & A running instance of an image. You can start, stop,
+                      and delete containers without affecting the image. \\
+\textbf{Dockerfile} & A recipe (text file) that tells Docker how to build
+                       an image, step by step. \\
+\textbf{Layer} & Each instruction in a Dockerfile creates a layer. Docker
+                 caches layers, so unchanged steps are instant on rebuild. \\
+\textbf{Registry} & A repository for images (like GitHub for code).
+                     Docker Hub is the default public registry. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsubsection{The Dockerfile --- Multi-Stage Build}
+
+This project uses a \textbf{multi-stage build}. This is a key Docker pattern:
+use one image to \textit{build} your app, then copy only the output into a
+smaller image that \textit{serves} it. The Node.js tools, source code, and
+\texttt{node\_modules} are discarded --- only the compiled HTML/CSS/JS makes
+it into the final image.
+
+\begin{lstlisting}[style=code, caption={Dockerfile --- annotated}]
+# ---- Stage 1: BUILD ----
+# Start with Node.js to compile our React app
+FROM node:18-alpine AS build
+WORKDIR /app
+
+# Copy package files FIRST (Docker caches this layer)
+COPY package*.json ./
+RUN npm ci --ignore-scripts
+
+# Copy source and build
+COPY . .
+RUN npm run build
+# Output: /app/build/ (static HTML, CSS, JS)
+
+# ---- Stage 2: SERVE ----
+# Switch to a tiny Nginx image (no Node.js needed!)
+FROM nginx:alpine
+
+# Copy ONLY the compiled output from Stage 1
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy our custom Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+\end{lstlisting}
+
+\begin{infobox}[Why Alpine?]
+Both \texttt{node:18-alpine} and \texttt{nginx:alpine} use Alpine Linux, a
+minimal distribution that's only 5\,MB. A full Ubuntu-based Node image is
+900+\,MB; the Alpine variant is $\sim$180\,MB. The final Nginx image is
+$\sim$40\,MB. This means faster pulls, less disk, and a smaller attack surface.
+\end{infobox}
+
+\begin{infobox}[Why copy \texttt{package*.json} first?]
+Docker caches each layer. If you copy all files first and then run
+\texttt{npm ci}, changing \textit{any} source file invalidates the cache and
+reinstalls all dependencies (slow). By copying only \texttt{package.json}
+first, the \texttt{npm ci} layer is cached and only re-runs when dependencies
+actually change. This is called \textbf{layer caching optimization}.
+\end{infobox}
+
+% ----------------------------------------------------------------------------
+\subsection{Docker Compose}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A tool for defining multi-container applications in a
+single YAML file (\texttt{docker-compose.yml}). Instead of typing long
+\texttt{docker run} commands, you describe everything declaratively.
+
+\textbf{Why it matters:} Real applications have multiple services (web server,
+database, cache, reverse proxy). Compose lets you start everything with one
+command and configure networking, volumes, resource limits, and health checks
+in one place.
+
+\begin{lstlisting}[style=code, language=Python, caption={docker-compose.yml --- annotated (simplified)}]
+services:
+  personal-site:
+    build: .                     # Build from Dockerfile
+    container_name: personal-site
+    restart: unless-stopped      # Auto-restart on crash
+
+    # Security hardening
+    security_opt:
+      - no-new-privileges:true   # Block privilege escalation
+    read_only: true              # Immutable filesystem
+
+    # Resource limits (prevent runaway processes)
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+
+    # Log rotation (prevent disk fill)
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+\end{lstlisting}
+
+\begin{tipbox}[Key Compose commands]
+\begin{tabularx}{\textwidth}{lX}
+\texttt{docker compose up -d --build} & Build image and start container in
+background. \\
+\texttt{docker compose down} & Stop and remove container. \\
+\texttt{docker compose logs -f} & Stream container logs (like \texttt{tail -f}). \\
+\texttt{docker compose ps} & List running services and their status. \\
+\end{tabularx}
+\end{tipbox}
+
+% ----------------------------------------------------------------------------
+\subsection{Nginx}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A high-performance web server. In this project, it serves
+the compiled static files (HTML, CSS, JS) that React produced.
+
+\textbf{Why not just use Node.js to serve?} Node.js is single-threaded and
+designed for dynamic applications. Nginx is purpose-built for serving static
+files --- it uses $\sim$10\,MB of RAM vs.\ 100+\,MB for Node, handles thousands
+of concurrent connections efficiently, and includes built-in caching,
+compression, and security features.
+
+The project's \texttt{nginx.conf} configures:
+
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{lX}
+\toprule
+\textbf{Feature} & \textbf{What it does} \\
+\midrule
+Rate limiting & Limits requests per IP (10/sec general, 30/sec static) to
+                prevent abuse. \\
+Gzip compression & Compresses responses, reducing bandwidth by 60--80\%. \\
+Security headers & \texttt{X-Frame-Options}, \texttt{CSP},
+                   \texttt{X-Content-Type-Options} --- defense against XSS,
+                   clickjacking, MIME sniffing. \\
+Static asset caching & Files with hashed names get \texttt{Cache-Control:
+                        max-age=1y, immutable}. \\
+SPA routing & \texttt{try\_files \$uri /index.html} --- sends all routes to
+              React so client-side routing works. \\
+Exploit blocking & Blocks \texttt{wp-admin}, hidden files, and non-standard
+                   HTTP methods. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{lstlisting}[style=code, caption={nginx.conf --- SPA routing (the critical part)}]
+location / {
+    # If the exact file exists, serve it.
+    # Otherwise, serve index.html (React handles routing).
+    try_files $uri $uri/ /index.html;
+}
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------
+\subsection{Traefik (Reverse Proxy)}
+% ----------------------------------------------------------------------------
+
+\textbf{What it is:} A reverse proxy and load balancer that routes incoming
+HTTP requests to the correct backend service based on rules (hostname, URL
+path, headers).
+
+\textbf{Why it matters:} Your Hydra container runs at
+\texttt{hydra.newpaltz.edu/students/\textit{you}/}. Traefik is the system that
+looks at the URL, strips the \texttt{/students/you/mysite/} prefix, and
+forwards the request to your Nginx container on port 80.
+
+\begin{center}
+\begin{tcolorbox}[
+  colback=codeGray,
+  colframe=codeBorder,
+  width=0.95\textwidth,
+  arc=2pt,
+]
+\begin{verbatim}
+Browser: GET hydra.newpaltz.edu/students/you/mysite/
+                              |
+                      Traefik matches PathPrefix
+                      Strips /students/you/mysite
+                              |
+                      Forwards: GET /
+                              |
+                      Your Nginx container (port 80)
+                      Serves index.html
+\end{verbatim}
+\end{tcolorbox}
+\end{center}
+
+In the Hydra cluster, Traefik handles:
+\begin{itemize}[nosep]
+  \item TLS termination (HTTPS)
+  \item Authentication (forward-auth to verify your session)
+  \item Path-based routing (each student gets their own URL namespace)
+  \item Strip-prefix middleware (removes the subpath before forwarding)
+\end{itemize}
+
+You don't need to configure Traefik yourself --- the Hydra dashboard handles
+it when you add a custom endpoint.
+
+% ============================================================================
+\section{Project Architecture}
+% ============================================================================
+
+% ----------------------------------------------------------------------------
+\subsection{Project Structure}
+% ----------------------------------------------------------------------------
+
+\begin{lstlisting}[style=terminal, caption={File tree}]
+PersonalSite/
+  Dockerfile            # Multi-stage build recipe
+  docker-compose.yml    # Container orchestration config
+  nginx.conf            # Web server configuration
+  package.json          # Dependencies and scripts
+  tsconfig.json         # TypeScript compiler config
+  public/
+    index.html          # HTML shell (React mounts into <div id="root">)
+    Resume.pdf          # Your resume (shown in PDF viewer)
+    icons/favicon.svg   # Browser tab icon
+  src/
+    index.tsx           # Entry point - mounts <App /> into the DOM
+    App/
+      App.tsx           # Root component - assembles the page
+      App.scss          # Global styles (flexbox layout)
+      config.tsx        # YOUR DATA: name, title, links  <-- EDIT THIS
+      AppContext.tsx     # Theme state (dark/light mode)
+    components/
+      Content.tsx       # Renders your name and title
+      Buttons.tsx       # Social link buttons (GitHub, etc.)
+      Toggle.tsx        # Dark/light mode switch
+      Footer.tsx        # "Designed and built by..."
+      Particles.tsx     # Animated particle background
+      PdfViewer.tsx     # Resume modal viewer
+    constants/
+      contact.ts        # Your email address              <-- EDIT THIS
+    appearance/
+      themes.ts         # Dark and light color palettes
+      options.ts        # Particle animation config
+    types/
+      config.interface.ts  # TypeScript type definitions
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------
+\subsection{How the Pieces Fit Together}
+% ----------------------------------------------------------------------------
+
+\begin{enumerate}
+  \item \textbf{You write} React components in TypeScript (\texttt{src/}).
+  \item \textbf{npm run build} compiles everything into optimized static files
+        (\texttt{build/} folder): minified JS bundles, CSS, and
+        \texttt{index.html}.
+  \item \textbf{Docker} packages the build output with Nginx into a
+        self-contained image.
+  \item \textbf{Nginx} serves the static files, handles compression, caching,
+        and security headers.
+  \item \textbf{Traefik} routes requests from
+        \texttt{hydra.newpaltz.edu/students/you/mysite/} to your container.
+\end{enumerate}
+
+The key insight: \textbf{React, TypeScript, Node.js, and npm are only needed
+at build time.} The running container is pure Nginx serving static files ---
+no JavaScript runtime, no build tools, no \texttt{node\_modules}.
+
+% ============================================================================
+\section{Workshop: Deploy Your Site}
+% ============================================================================
+
+Follow these steps in order. Each step builds on the previous one.
+
+% ----------------------------------------------------------------------------
+\subsection{Step 1: Connect to Your Container}
+% ----------------------------------------------------------------------------
+
+Open your terminal and SSH into your Hydra container:
+
+\begin{lstlisting}[style=terminal]
+$ ssh -i ~/.ssh/hydra_key your_username@hydra.newpaltz.edu -p 2222
+\end{lstlisting}
+
+Or use VSCode in your browser at:\\
+\texttt{https://hydra.newpaltz.edu/students/\textit{your\_username}/vscode/}
+
+% ----------------------------------------------------------------------------
+\subsection{Step 2: Clone the Repository}
+% ----------------------------------------------------------------------------
+
+\begin{lstlisting}[style=terminal]
+$ cd ~
+$ git clone https://github.com/ndg8743/PersonalSite.git
+$ cd PersonalSite
+\end{lstlisting}
+
+Verify the structure:
+
+\begin{lstlisting}[style=terminal]
+$ ls
+Dockerfile  docker-compose.yml  nginx.conf  package.json
+public/     src/                tsconfig.json
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------
+\subsection{Step 3: Personalize Your Site}
+% ----------------------------------------------------------------------------
+
+You need to edit a few files to make the site yours. Open them in VSCode or
+use a terminal editor (\texttt{nano}, \texttt{vim}).
+
+\subsubsection{3a. Your name, title, and links}
+
+Edit \texttt{src/App/config.tsx}:
+
+\begin{lstlisting}[style=code, language=JavaScript, caption={src/App/config.tsx --- change the highlighted values}]
+export const config: Config = {
+  buttons: [
+    {
+      // ...
+      href: 'https://github.com/YOUR_USERNAME/',  // Your GitHub
+    },
+    {
+      // ...
+      href: 'https://linkedin.com/in/YOUR_NAME/', // Your LinkedIn
+    },
+    // ...
+  ],
+  name: {
+    display: 'Your Full Name',      // <-- YOUR NAME
+  },
+  title: {
+    display: 'Computer Science',    // <-- YOUR TITLE
+  },
+};
+\end{lstlisting}
+
+\subsubsection{3b. Your email}
+
+Edit \texttt{src/constants/contact.ts}:
+
+\begin{lstlisting}[style=code, language=JavaScript]
+export const CONTACT = {
+  EMAIL: 'your_email@newpaltz.edu',  // <-- YOUR EMAIL
+};
+\end{lstlisting}
+
+\subsubsection{3c. HTML metadata}
+
+Edit \texttt{public/index.html} --- update the \texttt{<title>}, author, and
+description meta tags. Search for \texttt{CHANGE THIS} comments.
+
+\subsubsection{3d. Footer credit}
+
+Edit \texttt{src/components/Footer.tsx} --- change the name and URL in the
+footer link.
+
+\subsubsection{3e. Your resume (optional)}
+
+Replace \texttt{public/Resume.pdf} with your own resume PDF. Keep the same
+filename.
+
+\subsubsection{3f. Set relative asset paths}
+
+This is critical for subpath deployment. Add a \texttt{homepage} field to
+\texttt{package.json}:
+
+\begin{lstlisting}[style=code, language=JavaScript, caption={package.json --- add this line at the top level}]
+{
+  "homepage": ".",
+  "private": true,
+  "scripts": { ... }
+}
+\end{lstlisting}
+
+\begin{warningbox}[Why \texttt{"homepage": "."}?]
+Without this, React generates absolute paths like \texttt{/static/js/main.js}.
+When your site is served at \texttt{/students/you/mysite/}, the browser would
+request \texttt{hydra.newpaltz.edu/static/js/main.js} --- which doesn't exist.
+Setting \texttt{homepage} to \texttt{"."} makes all paths relative, so assets
+load correctly from any subpath.
+\end{warningbox}
+
+% ----------------------------------------------------------------------------
+\subsection{Step 4: Build the Docker Image}
+% ----------------------------------------------------------------------------
+
+Now build the Docker image. This runs the multi-stage Dockerfile: Stage~1
+installs dependencies and compiles React, Stage~2 copies the output into a
+minimal Nginx image.
+
+\begin{lstlisting}[style=terminal]
+$ docker build -t my-site .
+\end{lstlisting}
+
+\begin{infobox}[What's happening?]
+\begin{enumerate}[nosep]
+  \item Docker pulls \texttt{node:18-alpine} (if not cached).
+  \item Copies \texttt{package*.json} and runs \texttt{npm ci} (installs
+        dependencies).
+  \item Copies all source files and runs \texttt{npm run build} (compiles
+        React).
+  \item Docker pulls \texttt{nginx:alpine}.
+  \item Copies the \texttt{build/} output and \texttt{nginx.conf} into the
+        Nginx image.
+  \item Tags the final image as \texttt{my-site}.
+\end{enumerate}
+The first build takes 1--3 minutes. Subsequent builds are faster due to layer
+caching.
+\end{infobox}
+
+Verify the image was created:
+
+\begin{lstlisting}[style=terminal]
+$ docker images | grep my-site
+my-site   latest   abc123def   10 seconds ago   45MB
+\end{lstlisting}
+
+Note the size: $\sim$45\,MB. That's because the final image is just Alpine
+Linux + Nginx + your compiled HTML/CSS/JS. No Node.js, no
+\texttt{node\_modules} (which would be 300+\,MB).
+
+% ----------------------------------------------------------------------------
+\subsection{Step 5: Run the Container}
+% ----------------------------------------------------------------------------
+
+Start the container, mapping port 3000 on your student pod to port 80 inside
+the container:
+
+\begin{lstlisting}[style=terminal]
+$ docker run -d --name my-site -p 3000:80 my-site
+\end{lstlisting}
+
+\begin{center}
+\begin{tabularx}{0.85\textwidth}{lX}
+\toprule
+\textbf{Flag} & \textbf{Meaning} \\
+\midrule
+\texttt{-d} & Detached mode (runs in background). \\
+\texttt{--name my-site} & Names the container for easy reference. \\
+\texttt{-p 3000:80} & Maps host port 3000 $\to$ container port 80. \\
+\texttt{my-site} & The image name (from Step 4). \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Verify it's running:
+
+\begin{lstlisting}[style=terminal]
+$ docker ps
+CONTAINER ID  IMAGE    STATUS         PORTS
+a1b2c3d4e5f6  my-site  Up 5 seconds   0.0.0.0:3000->80/tcp
+
+$ curl -s http://localhost:3000 | head -5
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    ...
+\end{lstlisting}
+
+Your site is now running inside a Docker container. But it's only accessible
+from inside your student pod. The next step makes it public.
+
+% ----------------------------------------------------------------------------
+\subsection{Step 6: Expose Your Site to the Internet}
+% ----------------------------------------------------------------------------
+
+Go to the Hydra dashboard at:\\
+\texttt{https://hydra.newpaltz.edu/dashboard/}
+
+\begin{enumerate}
+  \item Find the \textbf{Port Routes} section (or ``Add Endpoint'' button).
+  \item Enter:
+  \begin{itemize}[nosep]
+    \item \textbf{Endpoint name:} \texttt{mysite}
+    \item \textbf{Port:} \texttt{3000}
+  \end{itemize}
+  \item Click \textbf{Add}.
+\end{enumerate}
+
+This tells Traefik to route requests from\\
+\texttt{https://hydra.newpaltz.edu/students/\textit{your\_username}/mysite/}\\
+to port 3000 on your student pod, where your Docker container is listening.
+
+\begin{tipbox}[Test it!]
+Open your browser and visit:\\
+\texttt{https://hydra.newpaltz.edu/students/\textit{your\_username}/mysite/}\\[0.5em]
+You should see your personalized portfolio site with animated particles, your
+name, title, and social links.
+\end{tipbox}
+
+% ----------------------------------------------------------------------------
+\subsection{Step 7: Make It Persistent with Supervisord}
+% ----------------------------------------------------------------------------
+
+Right now, if your student container restarts, the Docker container stops.
+To make it start automatically, create a supervisord config:
+
+\begin{lstlisting}[style=terminal]
+$ mkdir -p ~/supervisor.d
+$ cat > ~/supervisor.d/mysite.conf << 'EOF'
+[program:mysite]
+command=docker start -a my-site
+autostart=true
+autorestart=true
+stderr_logfile=/home/student/mysite.err.log
+stdout_logfile=/home/student/mysite.out.log
+EOF
+\end{lstlisting}
+
+Then reload supervisord:
+
+\begin{lstlisting}[style=terminal]
+$ supervisorctl reread
+$ supervisorctl update
+\end{lstlisting}
+
+\begin{infobox}[What is supervisord?]
+Supervisord is a process manager that keeps your services running. It
+automatically restarts them if they crash and starts them when your container
+boots. Each \texttt{.conf} file in \texttt{\textasciitilde/supervisor.d/}
+defines a managed service.
+\end{infobox}
+
+% ============================================================================
+\section{Common Operations}
+% ============================================================================
+
+\subsection{Updating Your Site}
+
+After editing source files:
+
+\begin{lstlisting}[style=terminal]
+$ cd ~/PersonalSite
+$ docker stop my-site && docker rm my-site
+$ docker build -t my-site .
+$ docker run -d --name my-site -p 3000:80 my-site
+\end{lstlisting}
+
+Or as a one-liner:
+
+\begin{lstlisting}[style=terminal]
+$ docker stop my-site; docker rm my-site; \
+  docker build -t my-site . && \
+  docker run -d --name my-site -p 3000:80 my-site
+\end{lstlisting}
+
+\subsection{Viewing Logs}
+
+\begin{lstlisting}[style=terminal]
+$ docker logs my-site           # All logs
+$ docker logs -f my-site        # Stream logs (Ctrl+C to stop)
+$ docker logs --tail 20 my-site # Last 20 lines
+\end{lstlisting}
+
+\subsection{Debugging}
+
+\begin{lstlisting}[style=terminal]
+# Open a shell inside the running container
+$ docker exec -it my-site sh
+
+# Check what Nginx is serving
+$ ls /usr/share/nginx/html/
+
+# Check Nginx config
+$ nginx -t
+
+# Exit the shell
+$ exit
+\end{lstlisting}
+
+\subsection{Removing Your Site}
+
+\begin{lstlisting}[style=terminal]
+$ docker stop my-site && docker rm my-site
+$ docker rmi my-site
+\end{lstlisting}
+
+Then remove the endpoint from the Hydra dashboard.
+
+% ============================================================================
+\section{Key Concepts Recap}
+% ============================================================================
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Technology} & \textbf{Role} & \textbf{Key File(s)} \\
+\midrule
+React & UI framework & \texttt{src/App/App.tsx}, \texttt{src/components/*.tsx} \\
+TypeScript & Type safety & \texttt{tsconfig.json}, all \texttt{.tsx} files \\
+SCSS & Global styles & \texttt{src/App/App.scss} \\
+styled-components & Theme-aware CSS & Inside component files \\
+Node.js / npm & Build toolchain & \texttt{package.json}, \texttt{package-lock.json} \\
+Docker & Containerization & \texttt{Dockerfile}, \texttt{.dockerignore} \\
+Docker Compose & Orchestration & \texttt{docker-compose.yml} \\
+Nginx & Web server & \texttt{nginx.conf} \\
+Traefik & Reverse proxy & Managed by Hydra (automatic) \\
+supervisord & Process manager & \texttt{\textasciitilde/supervisor.d/mysite.conf} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ============================================================================
+\section{Appendix: The Full Request Lifecycle}
+% ============================================================================
+
+When someone visits your site, here is exactly what happens:
+
+\begin{enumerate}
+  \item \textbf{DNS resolution:} Browser resolves \texttt{hydra.newpaltz.edu}
+        to \texttt{192.168.1.160} (Hydra's IP).
+  \item \textbf{TLS handshake:} HTTPS connection established (Traefik
+        terminates TLS).
+  \item \textbf{Traefik routing:} URL path
+        \texttt{/students/you/mysite/} matches an IngressRoute rule.
+        Traefik authenticates via forward-auth, then strips the prefix.
+  \item \textbf{Service routing:} Traefik forwards the bare \texttt{GET /}
+        to the Kubernetes Service \texttt{student-you} on port 3000.
+  \item \textbf{Pod networking:} The Service routes to port 3000 on your
+        student pod. Docker's port mapping forwards 3000 $\to$ 80 inside
+        your Nginx container.
+  \item \textbf{Nginx serves:} Nginx receives \texttt{GET /}, finds
+        \texttt{index.html} via \texttt{try\_files}, adds security headers
+        and compression, and sends the response.
+  \item \textbf{Browser renders:} The browser receives \texttt{index.html},
+        which references \texttt{./static/js/main.js} (relative path thanks
+        to \texttt{homepage: "."}). It fetches the JS bundle.
+  \item \textbf{React hydrates:} The JavaScript executes, React mounts the
+        component tree, particles animate, and your site is live.
+\end{enumerate}
+
+Total time from click to rendered page: typically under 200\,ms.
+
+% ============================================================================
+\section{Appendix: Troubleshooting}
+% ============================================================================
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Problem} & \textbf{Solution} \\
+\midrule
+\texttt{docker: command not found} &
+  Docker runs via DinD sidecar. Check that the sidecar is running:
+  \texttt{docker info}. If it fails, restart your container from the
+  dashboard. \\
+\addlinespace
+Build fails at \texttt{npm ci} &
+  Check \texttt{package-lock.json} exists. Run \texttt{git checkout
+  package-lock.json} to restore it. \\
+\addlinespace
+Site loads but no styles/scripts &
+  You forgot \texttt{"homepage": "."} in \texttt{package.json}. Add it
+  and rebuild. \\
+\addlinespace
+\texttt{port is already allocated} &
+  Another container is using port 3000. Run \texttt{docker ps} to find it,
+  then \texttt{docker stop <name>}. Or use a different port. \\
+\addlinespace
+Dashboard says ``Endpoint already exists'' &
+  You already have a route named \texttt{mysite}. Delete it first, then
+  re-add. \\
+\addlinespace
+Blank page after loading &
+  Open browser dev tools (F12) $\to$ Console. Look for 404 errors on
+  \texttt{.js} files. Usually means the \texttt{homepage} fix is missing. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ============================================================================
+\section{Appendix: Going Further}
+% ============================================================================
+
+Now that you've deployed a site, here are some challenges:
+
+\begin{enumerate}
+  \item \textbf{Add a new page.} React Router can add multi-page navigation
+        (e.g., \texttt{/projects}, \texttt{/blog}).
+  \item \textbf{Custom domain.} Buy a domain, point its DNS to Hydra, and
+        update the Traefik labels in \texttt{docker-compose.yml}.
+  \item \textbf{Add a backend.} Create an Express.js API server as a second
+        service in Docker Compose.
+  \item \textbf{CI/CD.} The project includes a GitHub Actions workflow
+        (\texttt{.github/workflows/ci.yml}) that runs tests on every push.
+        Extend it to auto-deploy.
+  \item \textbf{Change the theme.} Edit \texttt{src/appearance/themes.ts} to
+        customize colors. Edit \texttt{src/appearance/options.ts} to change
+        particle behavior.
+\end{enumerate}
+
+\vfill
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}\\[0.5em]
+{\small Built for the SUNY New Paltz Computer Science Lab on the Hydra cluster.}
+\end{center}
+
+\end{document}
