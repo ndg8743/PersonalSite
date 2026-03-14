@@ -1,4 +1,4 @@
-// Integration tests — verifies the app renders correctly: name, title, buttons,
+// Integration tests - verifies the app renders correctly: name, title, buttons,
 // footer, theme toggle, and localStorage persistence.
 import { configure, fireEvent, render, screen } from '@testing-library/react';
 import { App } from 'App/App';

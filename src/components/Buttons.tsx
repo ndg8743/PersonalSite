@@ -1,4 +1,4 @@
-// Social link buttons — renders GitHub, LinkedIn, Resume, and Email buttons
+// Social link buttons - renders GitHub, LinkedIn, Resume, and Email buttons
 // from config. Clicking Resume opens the PDF viewer modal instead of navigating.
 import { AppContext } from 'App/AppContext';
 import { useContext, useState } from 'react';

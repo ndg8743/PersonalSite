@@ -1,4 +1,4 @@
-// Site configuration — your name, title, and social links. This is the main
+// Site configuration - your name, title, and social links. This is the main
 // file to edit when personalizing the template. Look for "CHANGE THIS" comments.
 import { Email, GitHub, LinkedIn, Resume } from 'icons';
 import { Config } from 'types';

@@ -1,4 +1,4 @@
-// Theme definitions — dark and light color palettes. Each theme defines
+// Theme definitions - dark and light color palettes. Each theme defines
 // background, text colors (primary/secondary/tertiary), and shadow colors.
 import { Themes } from 'types';
 

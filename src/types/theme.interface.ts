@@ -1,4 +1,4 @@
-// TypeScript interfaces for themes — defines the color properties each theme
+// TypeScript interfaces for themes - defines the color properties each theme
 // must provide (background, text colors, shadow) and the Themes record type.
 export interface Theme {
   background: string;

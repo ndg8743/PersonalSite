@@ -1,4 +1,4 @@
-// Footer — shows "Designed and built by [name]" with a link to the source repo.
+// Footer - shows "Designed and built by [name]" with a link to the source repo.
 // On mobile, the source link is hidden to save space.
 import { AppContext } from 'App/AppContext';
 import { useContext } from 'react';

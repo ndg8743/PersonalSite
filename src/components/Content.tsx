@@ -1,4 +1,4 @@
-// Main content — renders your name (h1) and title (h2) from config,
+// Main content - renders your name (h1) and title (h2) from config,
 // centered on the page with theme-aware colors.
 import { AppContext } from 'App/AppContext';
 import { useContext } from 'react';

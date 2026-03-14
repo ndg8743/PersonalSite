@@ -1,4 +1,4 @@
-// Theme toggle — a checkbox styled as a moon/sun icon in the top-right corner.
+// Theme toggle - a checkbox styled as a moon/sun icon in the top-right corner.
 // Persists the user's preference to localStorage so it survives page reloads.
 import { AppContext } from 'App/AppContext';
 import { Moon, Sun } from 'icons';

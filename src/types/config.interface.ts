@@ -1,4 +1,4 @@
-// TypeScript interfaces for the site config — defines the shape of buttons,
+// TypeScript interfaces for the site config - defines the shape of buttons,
 // content (name/title), and the overall Config object used in config.tsx.
 import type { JSX } from 'react';
 

@@ -1,4 +1,4 @@
-// Mock for window.matchMedia — jsdom doesn't support matchMedia, so this stub
+// Mock for window.matchMedia - jsdom doesn't support matchMedia, so this stub
 // prevents errors when App.tsx checks for mobile devices during tests.
 Object.defineProperty(window, 'matchMedia', {
   value: (query: string) => ({

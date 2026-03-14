@@ -1,4 +1,4 @@
-// Barrel file — re-exports all components for clean imports like `from 'components'`.
+// Barrel file - re-exports all components for clean imports like `from 'components'`.
 export * from './Buttons';
 export * from './Content';
 export * from './Footer';

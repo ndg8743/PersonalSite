@@ -1,6 +1,4 @@
-# ===========================================
-# Docker Compose — Personal Site
-# ===========================================
+# Docker Compose - Personal Site
 # Run with: docker compose up -d --build
 # Stop with: docker compose down
 
@@ -10,7 +8,7 @@ services:
     container_name: personal-site
     restart: unless-stopped
 
-    # --- Security ---
+    # Security
     security_opt:
       - no-new-privileges:true # Prevent privilege escalation
     read_only: true # Read-only filesystem (more secure)
@@ -19,7 +17,7 @@ services:
       - /var/run
       - /var/cache/nginx
 
-    # --- Resource Limits ---
+    # Resource Limits
     deploy:
       resources:
         limits:
@@ -29,18 +27,18 @@ services:
           cpus: '0.25'
           memory: 128M
 
-    # --- Logging ---
+    # Logging
     logging:
       driver: 'json-file'
       options:
         max-size: '10m' # Rotate logs at 10MB
         max-file: '3' # Keep 3 log files
 
-    # --- Networking ---
+    # Networking
     networks:
       - traefik-public
 
-    # --- Traefik Labels ---
+    # Traefik Labels
     labels:
       - 'traefik.enable=true'
 
@@ -56,7 +54,7 @@ services:
       - 'traefik.http.services.personal-site.loadbalancer.healthcheck.interval=30s'
       - 'traefik.http.services.personal-site.loadbalancer.healthcheck.timeout=10s'
 
-      # WWW redirect — CHANGE THIS: Replace gopee.dev with your domain
+      # WWW redirect - CHANGE THIS: Replace gopee.dev with your domain
       - "traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\\.gopee\\.dev/(.*)"
       - 'traefik.http.middlewares.www-redirect.redirectregex.replacement=https://gopee.dev/$${1}'
       - 'traefik.http.middlewares.www-redirect.redirectregex.permanent=true'
