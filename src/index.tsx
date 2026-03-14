@@ -1,7 +1,7 @@
+// Entry point — mounts the React app into the DOM's #root element.
+import { App } from 'App/App';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-
-import { App } from 'App/App';
 
 const rootElement = document.getElementById('root');
 

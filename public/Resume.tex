@@ -1,0 +1,466 @@
+% =====================================================================
+% Nathan Gopee — Professional Resume
+% =====================================================================
+\documentclass[letterpaper,10pt]{article}
+
+% --------------------- Engine & Fonts ---------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{comment}
+% --------------------- Icons & Links ----------------------------------------
+\usepackage{xurl}
+\usepackage{fontawesome5}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{breaklinks=true}
+
+% --------------------- Geometry ---------------------------------------------
+\usepackage[margin=0.5in]{geometry}
+
+% --------------------- Spacing, Sections, Lists -----------------------------
+\usepackage{titlesec}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+
+% Clean section titles
+\titleformat{\section}{\normalsize\scshape\raggedright}{}{0pt}{}[\titlerule]
+\titlespacing\section{0pt}{4pt plus 1pt minus 1pt}{4pt}
+
+% Default lists
+\setlist[itemize]{label=--,leftmargin=0.2in,topsep=1pt,itemsep=1pt,parsep=0pt,partopsep=0pt}
+
+% --------------------- Multi-column support ---------------------------------
+\usepackage{multicol}
+\setlength{\columnsep}{5pt}
+\setlength{\multicolsep}{0pt}
+
+% --------------------- Header/Footer ----------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\ResumeHeader}[7]{%
+  \begin{center}
+    {\Huge\bfseries #1}\\[2pt]
+    {\footnotesize
+      \faEnvelope\ \href{mailto:#2}{#2} \textbar\
+      \faPhone\ #3 \textbar\
+      \faMapMarker*\ #4 \textbar\
+      \faLinkedin\ \href{https://#5}{#5} \textbar\
+      \faGithub\ \href{https://#6}{#6} \textbar\
+      \faGlobe\ \href{https://#7}{#7}
+    }
+  \end{center}\vspace{-4pt}
+}
+
+% --------------------- Entry helpers --------------------------------
+\newcommand{\Entry}[4]{%
+  \textbf{#1} \hfill {\small #2}\\
+  \emph{#3} \hfill {\small\emph{#4}}
+}
+
+% Experience helpers
+\newenvironment{ExpSize}{\begingroup\fontsize{9.5}{11}\selectfont}{\endgroup}
+\newlist{tightlist}{itemize}{1}
+\setlist[tightlist]{label=--,leftmargin=0.2in,topsep=1pt,itemsep=1pt,parsep=0pt,partopsep=0pt}
+\newcommand{\EntrySmall}[4]{%
+  {\fontsize{10}{11.5}\selectfont
+  \textbf{#1} \hfill {\small #2}\\
+  \emph{#3} \hfill {\small\emph{#4}}}%
+}
+
+% Project formatting
+\newenvironment{ProjectNotes}{%
+  \begingroup\fontsize{9.5}{11}\selectfont
+  \begin{itemize}[label=--,leftmargin=0.2in,topsep=2pt,itemsep=2pt,parsep=0pt,partopsep=0pt]
+}{%
+  \end{itemize}\endgroup\vspace{4pt}
+}
+
+% --------------------- Icon tags ----------------------------------
+\newcommand{\TechTag}[1]{{\footnotesize #1}}
+\newcommand{\IconTag}[2]{#1\ \TechTag{#2}}
+
+% --------------------- Complete Icon Set -------------------------
+% Languages
+\providecommand{\icJava}{\faIcon{coffee}}
+\providecommand{\icC}{\faIcon{copyright}}
+\providecommand{\icCpp}{\faIcon{copyright}}
+\providecommand{\icPy}{\faIcon{python}}
+\providecommand{\icGo}{\faIcon{golang}}
+\providecommand{\icJS}{\faIcon{js-square}}
+\providecommand{\icTS}{\faIcon{js-square}}
+\providecommand{\icSQL}{\faIcon{database}}
+\providecommand{\icAsm}{\faIcon{microchip}}
+
+% Frontend/UI
+\providecommand{\icReact}{\faIcon{react}}
+\providecommand{\icVue}{\faIcon{vuejs}}
+\providecommand{\icTailwind}{\faIcon{wind}}
+\providecommand{\icBulma}{\faIcon{buromobelexperte}}
+\providecommand{\icBootstrap}{\faIcon{bootstrap}}
+\providecommand{\icElectron}{\faIcon{atom}}
+\providecommand{\icGodot}{\faIcon{gamepad}}
+\providecommand{\icPixi}{\faIcon{shapes}}
+\providecommand{\icThree}{\faIcon{cube}}
+
+% Backend/Server
+\providecommand{\icNode}{\faIcon{node-js}}
+\providecommand{\icExpress}{\faIcon{server}}
+\providecommand{\icFlask}{\faIcon{flask}}
+\providecommand{\icFast}{\faIcon{bolt}}
+\providecommand{\icWS}{\faIcon{plug}}
+\providecommand{\icGRPC}{\faIcon{exchange-alt}}
+\providecommand{\icREST}{\faIcon{cloud}}
+\providecommand{\icNginx}{\faIcon{server}}
+\providecommand{\icSerial}{\faIcon{usb}}
+
+% Databases
+\providecommand{\icPG}{\faIcon{database}}
+\providecommand{\icSQLite}{\faIcon{database}}
+\providecommand{\icMongo}{\faIcon{leaf}}
+\providecommand{\icRedis}{\faIcon{memory}}
+\providecommand{\icSupabase}{\faIcon{database}}
+
+% ML/Data Science
+\providecommand{\icPandas}{\faIcon{table}}
+\providecommand{\icNumpy}{\faIcon{calculator}}
+\providecommand{\icScipy}{\faIcon{flask}}
+\providecommand{\icSklearn}{\faIcon{brain}}
+\providecommand{\icTorch}{\faIcon{fire}}
+\providecommand{\icJupyter}{\faIcon{book}}
+\providecommand{\icMatplotlib}{\faIcon{chart-line}}
+\providecommand{\icCV}{\faIcon{eye}}
+
+% DevOps/Cloud
+\providecommand{\icDocker}{\faIcon{docker}}
+\providecommand{\icKube}{\faIcon{dharmachakra}}
+\providecommand{\icHelm}{\faIcon{anchor}}
+\providecommand{\icAnsible}{\faIcon{terminal}}
+\providecommand{\icTerraform}{\faIcon{layer-group}}
+\providecommand{\icCI}{\faIcon{sync-alt}}
+\providecommand{\icGit}{\faIcon{git-alt}}
+\providecommand{\icLinux}{\faIcon{linux}}
+\providecommand{\icAWS}{\faIcon{aws}}
+\providecommand{\icGCP}{\faIcon{google}}
+\providecommand{\icAzure}{\faIcon{microsoft}}
+\providecommand{\icRender}{\faIcon{cloud-upload-alt}}
+\providecommand{\icSAML}{\faIcon{id-badge}}
+\providecommand{\icSSO}{\faIcon{key}}
+\providecommand{\icGrafana}{\faIcon{chart-line}}
+\providecommand{\icProm}{\faIcon{chart-area}}
+\providecommand{\icTraefik}{\faIcon{network-wired}}
+
+% Tools
+\providecommand{\icVite}{\faIcon{bolt}}
+\providecommand{\icSocketIO}{\faIcon{plug}}
+\providecommand{\icXterm}{\faIcon{terminal}}
+\providecommand{\icReactFlow}{\faIcon{project-diagram}}
+
+% --------------------- Project heading ---------------------
+\newcommand{\ProjectRow}[4]{%
+  \vspace{0pt}
+  \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    \textbf{\href{#2}{#1}} & {\footnotesize \href{#3}{#4}}
+  \end{tabular*}\par
+  \vspace{-1pt}
+}
+
+% --------------------- Tech block macro ----------------
+\newcommand{\TechBlock}[3]{%
+  {\footnotesize\bfseries #1}\\[-2pt]%
+  \begin{minipage}[t]{\linewidth}%
+    {\setlength{\columnsep}{4pt}%
+     \begin{multicols}{#2}
+       \setlength{\parskip}{0pt}#3
+     \end{multicols}}%
+  \end{minipage}%
+}
+% =====================================================================
+\begin{document}
+\ResumeHeader
+  {Nathan Gopee}
+  {nathangopee03@gmail.com}
+  {(845) 853-5418}
+  {New York}
+  {linkedin.com/in/nathangopee}
+  {github.com/ndg8743}
+  {gopee.dev}
+\vspace{-10pt}
+
+% ===================== EDUCATION ============================================
+\section{Education}
+\vspace{-1pt}
+\begin{itemize}[leftmargin=0.2in,topsep=1pt,itemsep=3pt]
+  \item \Entry{State University of New York at New Paltz}{Jan.\ 2025 -- Present}
+             {M.S.\ Computer Science}{GPA: 4.0}
+  \item \Entry{State University of New York at New Paltz}{Aug.\ 2021 -- Dec.\ 2024}
+             {B.S.\ Computer Science}{New Paltz, NY}
+\end{itemize}
+\vspace{-5pt}
+
+% ===================== EXPERIENCE ==================================
+\section{Experience}
+\vspace{-1pt}
+\begin{ExpSize}
+\begin{itemize}
+  \item \EntrySmall{Graduate Teaching Assistant}{Jan.\ 2025 -- Present}
+                   {SUNY New Paltz}{New Paltz, NY}
+    \begin{tightlist}
+      \item Taught labs for Assembly Computer Architecture and Principles of Programming Languages to 50+ students through lab sessions, office hours, and review sessions
+      \item Helped develop and integrated \texttt{LCC.js}, an interactive web compiler toolkit for classroom demonstrations and expansion of LCC
+    \end{tightlist}
+    \vspace{2pt}
+
+  \item \EntrySmall{Graduate Lab Manager \& Systems Administrator}{Aug.\ 2024 -- Present}
+                   {SUNY New Paltz}{New Paltz, NY}
+    \begin{tightlist}
+      \item Architected enterprise SSO infrastructure managing 30+ Linux servers at hydra.newpaltz.edu
+      \item Deployed local LLM infrastructure, built and managed 3D printers, set up and managed container orchestration between servers.
+      \item Implemented comprehensive network security, logs, admin dashboards, and automated deployment systems for the department
+    \end{tightlist}
+\end{itemize}
+\end{ExpSize}
+\vspace{-1pt}
+
+% ===================== PROJECTS =============================================
+\section{Projects}
+\vspace{-1pt}
+
+\ProjectRow{QView3D — 3D Printer Farm Management}
+{https://github.com/sunyhydralab/QView3D}
+{github.com/sunyhydralab/QView3D}
+{\IconTag{\icPy}{Python} \IconTag{\icGo}{Go} \IconTag{\icVue}{Vue} \IconTag{\icFlask}{Flask} \IconTag{\icSerial}{PySerial} \IconTag{\icSQLite}{SQLite} \IconTag{\icJS}{Express}}
+\begin{ProjectNotes}
+  \item Led teams and worked on an open-source capstone project that coordinates multiple 3D printers simultaneously
+  \item Helped in several refactorings of the project, Agile development with GitHub Project management, implemented route handing to available machines, monitor live progress through integrated GCode viewers, track comprehensive print histories with automatic job errors, multi os/printer support, logging, emulators, and manage printer queues without physical access to each device
+\end{ProjectNotes}
+
+\ProjectRow{ScuffedK8 — Lightweight Container Orchestrator}
+{https://github.com/ndg8743/ScuffedK8}
+{github.com/ndg8743/ScuffedK8}
+{\IconTag{\icGo}{Go} \IconTag{\icKube}{K8s} \IconTag{\icGRPC}{gRPC} \IconTag{\icWS}{WebSocket} \IconTag{\icREST}{REST}}
+\begin{ProjectNotes}
+  \item Built a simplified version of Kubernetes to understand container orchestration internals, implementing custom scheduling algorithms that distribute workloads based on resource availability and node health
+  \item Used the same Go framework to build \href{https://github.com/ndg8743/ClusterShip}{\textbf{ClusterShip}}, a game that uses container orchestration internals to play battleship
+\end{ProjectNotes}
+
+\ProjectRow{ScuffedRedis — 3D Cache Visualization}
+{https://github.com/ndg8743/ScuffedRedis}
+{gopee.dev/scuffedredis}
+{\IconTag{\icCpp}{C++} \IconTag{\icReact}{React} \IconTag{\icThree}{Three.js} \IconTag{\icNode}{Node} \IconTag{\icSocketIO}{Socket.IO} \IconTag{\icDocker}{Docker} \IconTag{\icNginx}{nginx}}
+\begin{ProjectNotes}
+  \item Created and implemented a Redis-inspired cache server in C++ that then visualizes memory operations through an interactive 3D grid where cache hits glow green and misses flash red, helping understand and educate caching patterns
+  \item Implementing Zipf distribution to simulate realistic web traffic patterns and demonstrate how caches warm up over time, using \texttt{std::unordered\_map} for O(1) hash lookups paired with doubly-linked list for O(1) insertion/deletion
+  %exposed functionality through Node.js N-API bindings with automatic memory management via smart pointer
+\end{ProjectNotes}
+
+\begin{comment}
+\ProjectRow{Git Learning Platform — Interactive Education Tool}
+{https://hydra.newpaltz.edu/git}
+{github.com/ndg8743/GG-git-learning}
+{\IconTag{\icReact}{React} \IconTag{\icNode}{Node} \IconTag{\icReactFlow}{ReactFlow} \IconTag{\icXterm}{xterm.js} \IconTag{\icDocker}{Docker}}
+\begin{ProjectNotes}
+  \item Developed an interactive platform where students learn Git through hands-on practice in a browser-based terminal, with visual DAG representations showing how commits form branches and merges
+  \item Currently serving 100+ students at SUNY New Paltz with modular lessons that adapt to individual progress, tracking which concepts need reinforcement through analytics
+\end{ProjectNotes}
+\end{comment}
+
+\begin{comment}
+\ProjectRow{Sorting Algorithm Visualizer — Educational Tool}
+{https://ndg8743.github.io/SortDemo}
+{github.com/ndg8743/SortDemo}
+{\IconTag{\icReact}{React} \IconTag{\icTS}{TypeScript} \IconTag{\icPixi}{PixiJS} \IconTag{\icVite}{Vite} \IconTag{\icTailwind}{Tailwind}}
+\begin{ProjectNotes}
+  \item Built a 4K-optimized visualization tool that runs four sorting algorithms simultaneously, letting students compare bubble, insertion, selection, and quick sort side-by-side
+  \item Uses Web Workers to maintain smooth 60fps animation even with large datasets, specifically designed for classroom smartboards
+\end{ProjectNotes}
+\end{comment}
+
+\ProjectRow{Malware Classification Research — Security ML Analysis}
+{https://github.com/ndg8743/MalwareClassification}
+{github.com/ndg8743/MalwareClassification}
+{\IconTag{\icPy}{Python} \IconTag{\icSklearn}{scikit-learn} \IconTag{\icPandas}{pandas} \IconTag{\icNumpy}{NumPy} \IconTag{\icJupyter}{Jupyter}}
+\begin{ProjectNotes}
+  \item Analyzing CIC-MalMem-2022 dataset using machine learning models to identify malware patterns and security threats
+  \item Implementing several classification algorithms to detect suspicious API patterns and code injection signatures in memory dumps
+\end{ProjectNotes}
+
+\ProjectRow{Fibonacci Fractal Engine — Distributed Computing}
+{https://github.com/ndg8743/Fibonacci-Fractal-Engine}
+{github.com/ndg8743/Fibonacci-Fractal-Engine}
+{\IconTag{\icJava}{Java} \IconTag{\icGRPC}{gRPC} \IconTag{\icVue}{Vue}}
+\begin{ProjectNotes}
+    \item Led a team to create a multi-threaded distributed fractal generation system with HashMap caching optimization, reducing computation time, and increasing scalability with tools like Junit and Mockito
+  \item The Java backend uses gRPC for inter-node communication while Vue.js renders the resulting patterns, creating mathematical art
+\end{ProjectNotes}
+
+\ProjectRow{Danmomo — Multiplayer Physics Game}
+{https://github.com/ndg8743/Danmomo}
+{github.com/ndg8743/Danmomo}
+{\IconTag{\icGodot}{Godot} \IconTag{\icNode}{Node} \IconTag{\icWS}{WebSocket} \IconTag{\icAWS}{AWS} \IconTag{\icREST}{REST}}
+\begin{ProjectNotes}
+  \item Developed a Suika-inspired multiplayer game where players compete to merge fruits, with physics calculations synchronized across clients, and several game mechanics that require low latency
+  \item Handles real-time state synchronization with through WebSocket connections and AWS-hosted leaderboards
+\end{ProjectNotes}
+
+\begin{comment}
+\ProjectRow{Fitness Tracker — Social Fitness Platform}
+{https://wsp-final-project-fall2024-cmjr.onrender.com}
+{github.com/ndg8743/WSP-Final-Project-Fall2024}
+{\IconTag{\icVue}{Vue} \IconTag{\icNode}{Node} \IconTag{\icExpress}{Express} \IconTag{\icSupabase}{Supabase} \IconTag{\icBulma}{Bulma} \IconTag{\icRender}{Render}}
+\begin{ProjectNotes}
+  \item Built a full-stack fitness application where users track workouts, log meals, and connect with friends to share progress and motivate each other
+  \item Implemented secure authentication with Supabase, real-time updates for friend activities, and responsive dashboards showing personal analytics
+\end{ProjectNotes}
+\end{comment}
+\begin{comment}
+\ProjectRow{Personal Portfolio — Interactive Web Experience}
+{https://gopee.dev}
+{github.com/ndg8743/PersonalSite}
+{\IconTag{\icReact}{React} \IconTag{\icTS}{TypeScript} \IconTag{\icThree}{Styled Components}}
+\begin{ProjectNotes}
+  \item Designed a modern portfolio featuring interactive particle effects that respond to mouse movement, with smooth theme transitions between dark and light modes
+  \item Ensures accessibility with WCAG 2.1 compliance, semantic HTML, and keyboard navigation support for all interactive elements
+\end{ProjectNotes}
+\end{comment}
+\ProjectRow{Homelab Infrastructure — Enterprise Setup}
+{https://github.com/ndg8743}
+{github.com/ndg8743}
+{\IconTag{\icDocker}{Docker} \IconTag{\icKube}{K8s} \IconTag{\icLinux}{Linux} \IconTag{\icProm}{Prometheus} \IconTag{\icGrafana}{Grafana} \IconTag{\icTraefik}{Traefik}}
+\begin{ProjectNotes}
+  \item In progress of a multi-node cluster (Proxmox/Kubernetes/Rancher) running on repurposed gaming laptops and workstations, with GPU nodes for ML workloads and distributed storage using Longhorn for high availability. NAS/VPN/Local hosting
+  \item Monitors infrastructure health through Prometheus/Grafana dashboards, routes traffic with Traefik ingress, and secures access via my internal SSO portal. Upgrading to some 100GbE Mellanox QSFP28 cards, attempting InfiniBand with HPC's networking stack
+\end{ProjectNotes}
+
+
+\begin{comment}
+% ===================== PROJECTS =============================================
+\section{Projects}
+\vspace{-1pt}
+
+\ProjectRow{QView3D — 3D Printer Farm Management Platform}
+{https://github.com/sunyhydralab/QView3D}
+{github.com/sunyhydralab/QView3D}
+{\IconTag{\icPy}{Python} \IconTag{\icGo}{Go} \IconTag{\icVue}{Vue} \IconTag{\icFlask}{Flask} \IconTag{\icSerial}{PySerial} \IconTag{\icSQLite}{SQLite}}
+\begin{ProjectNotes}
+  \item Led team to redesign monolithic backend into modular microservices architecture with Go service handling virtual printer emulation, Flask REST API managing print queues across 20+ printers, and Vue.js frontend with real-time WebSocket updates
+  \item Built printer-agnostic G-code parser with automatic port detection and error recovery, reducing manual oversight by 70\% through intelligent job distribution
+\end{ProjectNotes}
+
+\ProjectRow{ScuffedK8 — Container Orchestration System}
+{https://github.com/ndg8743/ScuffedK8}
+{github.com/ndg8743/ScuffedK8}
+{\IconTag{\icGo}{Go} \IconTag{\icKube}{K8s} \IconTag{\icGRPC}{gRPC} \IconTag{\icWS}{WebSocket} \IconTag{\icREST}{REST}}
+\begin{ProjectNotes}
+  \item Developed Kubernetes-inspired container scheduler with pluggable scheduling algorithms for optimal resource utilization
+  \item Implemented pod lifecycle management and service discovery using microservices architecture with REST, gRPC, and WebSocket protocols
+\end{ProjectNotes}
+
+\ProjectRow{ScuffedRedis — Cache Performance Visualization}
+{https://github.com/ndg8743/ScuffedRedis}
+{gopee.dev/scuffedredis}
+{\IconTag{\icCpp}{C++} \IconTag{\icReact}{React} \IconTag{\icThree}{Three.js} \IconTag{\icNode}{Node} \IconTag{\icSocketIO}{Socket.IO} \IconTag{\icDocker}{Docker}}
+\begin{ProjectNotes}
+  \item Built C++ cache backend with multiple eviction policies (LRU/LFU/MRU) and Node.js bindings for JavaScript integration
+  \item Created interactive 3D WebGL visualization showing cache operations in real-time with heat maps and particle effects
+\end{ProjectNotes}
+
+\ProjectRow{Malware Classification Research — Security ML Analysis}
+{https://github.com/ndg8743/MalwareClassification}
+{github.com/ndg8743/MalwareClassification}
+{\IconTag{\icPy}{Python} \IconTag{\icSklearn}{scikit-learn} \IconTag{\icPandas}{pandas} \IconTag{\icNumpy}{NumPy} \IconTag{\icJupyter}{Jupyter}}
+\begin{ProjectNotes}
+  \item Analyzing CIC-MalMem-2022 dataset using machine learning models to identify malware patterns and security threats
+  \item Implementing classification algorithms to detect suspicious API patterns and code injection signatures
+\end{ProjectNotes}
+
+\ProjectRow{Fibonacci Fractal Engine — Distributed Computing}
+{https://github.com/ndg8743/Fibonacci-Fractal-Engine}
+{github.com/ndg8743/Fibonacci-Fractal-Engine}
+{\IconTag{\icJava}{Java} \IconTag{\icGRPC}{gRPC} \IconTag{\icVue}{Vue} \IconTag{\icREST}{REST}}
+\begin{ProjectNotes}
+  \item Built distributed compute cluster using Java with gRPC service mesh for automatic load balancing across nodes
+  \item Optimized recursive algorithms using memoization, reducing computation time from 20+ minutes to under 5 seconds
+\end{ProjectNotes}
+
+\ProjectRow{Danmomo — Multiplayer Physics Game}
+{https://github.com/ndg8743/Danmomo}
+{github.com/ndg8743/Danmomo}
+{\IconTag{\icGodot}{Godot} \IconTag{\icNode}{Node} \IconTag{\icWS}{WebSocket} \IconTag{\icAWS}{AWS}}
+\begin{ProjectNotes}
+  \item Created multiplayer game with real-time physics synchronization and AWS-hosted leaderboards supporting concurrent players
+\end{ProjectNotes}
+
+\ProjectRow{Homelab — Infrastructure Platform}
+{https://github.com/ndg8743}
+{github.com/ndg8743}
+{\IconTag{\icDocker}{Docker} \IconTag{\icKube}{K8s} \IconTag{\icLinux}{Linux} \IconTag{\icProm}{Prometheus} \IconTag{\icGrafana}{Grafana} \IconTag{\icTraefik}{Traefik}}
+\begin{ProjectNotes}
+  \item Building multi-node Kubernetes cluster with monitoring stack, distributed storage, and secure access management
+\end{ProjectNotes}
+\end{comment}
+\vspace{-10pt}
+% ===================== TECHNOLOGIES & SKILLS ===========================
+\section{Technologies \& Skills}
+\vspace{-4pt}
+{\scriptsize
+\setlength{\columnsep}{10pt}
+\setlength{\multicolsep}{0pt}
+\begin{multicols}{4}
+\raggedright
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\textbf{Languages}\\[-1pt]
+\IconTag{\icJava}{Java} \IconTag{\icGo}{Go}\\
+\IconTag{\icCpp}{C++} \IconTag{\icC}{C}\\
+\IconTag{\icPy}{Python} \IconTag{\icJS}{JS/TS}\\
+
+\vspace{2pt}
+\textbf{Frontend}\\[-1pt]
+\IconTag{\icReact}{React} \IconTag{\icVue}{Vue}\\
+\IconTag{\icThree}{Three.js} \IconTag{\icTailwind}{Tailwind}
+
+\columnbreak
+
+\textbf{Backend \& APIs}\\[-1pt]
+\IconTag{\icNode}{Node} \IconTag{\icFlask}{Flask}\\
+\IconTag{\icExpress}{Express} \IconTag{\icFast}{FastAPI}\\
+\IconTag{\icREST}{REST} \IconTag{\icGRPC}{gRPC}\\
+
+\vspace{2pt}
+\textbf{Databases}\\[-1pt]
+\IconTag{\icPG}{PostgreSQL} \IconTag{\icMongo}{MongoDB}\\
+\IconTag{\icSQLite}{SQL} \IconTag{\icRedis}{Redis}
+
+\columnbreak
+\textbf{Tools \& Cloud}\\[-1pt]
+\IconTag{\icDocker}{Docker} \IconTag{\icKube}{K8s}\\
+\IconTag{\icGit}{Git} \IconTag{\icCI}{Jenkins}\\
+\IconTag{\icLinux}{Linux} \IconTag{\icAWS}{AWS}\\
+\IconTag{\icGCP}{GCP} \IconTag{\icAzure}{Azure}\\
+\IconTag{\icNginx}{Nginx} \IconTag{\icTraefik}{Traefik}\\
+\IconTag{\icTerraform}{Terraform} \faGithub\ GitHub Actions
+\IconTag{\Intel}Quartus Prime
+
+\columnbreak
+
+\columnbreak
+
+\textbf{Certifications}\\[-1pt]
+{\scriptsize
+\faLinkedin\ Cloud/DevOps (OpenShift, Cloud Sec, DevOps)\\
+\faLinkedin\ Networking (LAN/WAN, MPLS)\\
+\faLinkedin\ Security (Ethical Hacking, Kali Linux)\\
+%\faLinkedin\ Programming/IT (C, Python, IT Arch)\\
+\faGithub\ GitHub Essentials \\
+\faMicrosoft\ (Office 365, Cyber, Sys Admin, Software Dev) \\}
+\end{multicols}
+}
+\vspace{-6pt}
+% =====================================================================
+\end{document}

@@ -1,3 +1,5 @@
+// Site configuration — your name, title, and social links. This is the main
+// file to edit when personalizing the template. Look for "CHANGE THIS" comments.
 import { Email, GitHub, LinkedIn, Resume } from 'icons';
 import { Config } from 'types';
 
@@ -8,14 +10,14 @@ export const config: Config = {
     {
       ariaLabel: 'GitHub profile (opens in new window)',
       display: 'GitHub',
-      href: 'https://github.com/ndg8743/',
+      href: 'https://github.com/ndg8743/', // CHANGE THIS: Your GitHub URL
       icon: <GitHub />,
       name: 'github',
     },
     {
       ariaLabel: 'LinkedIn profile (opens in new window)',
       display: 'LinkedIn',
-      href: 'https://linkedin.com/in/nathangopee/',
+      href: 'https://linkedin.com/in/nathangopee/', // CHANGE THIS: Your LinkedIn URL
       icon: <LinkedIn />,
       name: 'linked-in',
     },
@@ -35,9 +37,9 @@ export const config: Config = {
     },
   ],
   name: {
-    display: 'Nathan Gopee',
+    display: 'Nathan Gopee', // CHANGE THIS: Your name
   },
   title: {
-    display: 'Software Engineer',
+    display: 'Software Engineer', // CHANGE THIS: Your title
   },
 };

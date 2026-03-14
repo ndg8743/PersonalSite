@@ -1,23 +1,25 @@
-version: '3.8'
+# ===========================================
+# Docker Compose — Personal Site
+# ===========================================
+# Run with: docker compose up -d --build
+# Stop with: docker compose down
 
 services:
   personal-site:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: personal-site
     restart: unless-stopped
 
-    # Security options
+    # --- Security ---
     security_opt:
-      - no-new-privileges:true
-    read_only: true
-    tmpfs:
+      - no-new-privileges:true # Prevent privilege escalation
+    read_only: true # Read-only filesystem (more secure)
+    tmpfs: # Nginx needs to write to these dirs
       - /tmp
       - /var/run
       - /var/cache/nginx
 
-    # Resource limits to prevent resource exhaustion
+    # --- Resource Limits ---
     deploy:
       resources:
         limits:
@@ -27,39 +29,40 @@ services:
           cpus: '0.25'
           memory: 128M
 
-    # Logging configuration
+    # --- Logging ---
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: '10m' # Rotate logs at 10MB
+        max-file: '3' # Keep 3 log files
 
+    # --- Networking ---
     networks:
       - traefik-public
 
+    # --- Traefik Labels ---
     labels:
-      - "traefik.enable=true"
+      - 'traefik.enable=true'
 
-      # Router configuration
-      - "traefik.http.routers.personal-site.rule=Host(`gopee.dev`) || Host(`www.gopee.dev`)"
-      - "traefik.http.routers.personal-site.entrypoints=websecure"
-      - "traefik.http.routers.personal-site.tls.certresolver=letsencrypt"
+      # CHANGE THIS: Replace gopee.dev with your domain
+      - 'traefik.http.routers.personal-site.rule=Host(`gopee.dev`) || Host(`www.gopee.dev`)'
+      - 'traefik.http.routers.personal-site.entrypoints=websecure'
+      - 'traefik.http.routers.personal-site.tls.certresolver=letsencrypt'
 
-      # Service configuration
-      - "traefik.http.services.personal-site.loadbalancer.server.port=80"
+      - 'traefik.http.services.personal-site.loadbalancer.server.port=80'
 
       # Health check
-      - "traefik.http.services.personal-site.loadbalancer.healthcheck.path=/"
-      - "traefik.http.services.personal-site.loadbalancer.healthcheck.interval=30s"
-      - "traefik.http.services.personal-site.loadbalancer.healthcheck.timeout=10s"
+      - 'traefik.http.services.personal-site.loadbalancer.healthcheck.path=/'
+      - 'traefik.http.services.personal-site.loadbalancer.healthcheck.interval=30s'
+      - 'traefik.http.services.personal-site.loadbalancer.healthcheck.timeout=10s'
 
-      # WWW redirect middleware
+      # WWW redirect — CHANGE THIS: Replace gopee.dev with your domain
       - "traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\\.gopee\\.dev/(.*)"
-      - "traefik.http.middlewares.www-redirect.redirectregex.replacement=https://gopee.dev/$${1}"
-      - "traefik.http.middlewares.www-redirect.redirectregex.permanent=true"
+      - 'traefik.http.middlewares.www-redirect.redirectregex.replacement=https://gopee.dev/$${1}'
+      - 'traefik.http.middlewares.www-redirect.redirectregex.permanent=true'
 
-      # Apply ALL security middlewares
-      - "traefik.http.routers.personal-site.middlewares=security-headers@file,compression@file,rate-limit-general@file,in-flight-req@file,slow-loris-protection@file,bot-protection@file,www-redirect"
+      # Security middlewares (defined in your Traefik config)
+      - 'traefik.http.routers.personal-site.middlewares=security-headers@file,compression@file,rate-limit-general@file,in-flight-req@file,slow-loris-protection@file,bot-protection@file,www-redirect'
 
 networks:
   traefik-public:

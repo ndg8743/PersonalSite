@@ -1,3 +1,5 @@
+// Root component — detects mobile vs desktop, wraps everything in the theme
+// provider, and renders the page layout (toggle, content, buttons, footer, particles).
 import { Buttons, Content, Footer, Particles, Toggle } from 'components';
 import { useEffect, useState } from 'react';
 

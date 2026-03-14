@@ -1,13 +1,15 @@
+// Mock for window.matchMedia — jsdom doesn't support matchMedia, so this stub
+// prevents errors when App.tsx checks for mobile devices during tests.
 Object.defineProperty(window, 'matchMedia', {
-  writable: true,
   value: (query: string) => ({
+    addEventListener: jest.fn(),
+    addListener: jest.fn(), // deprecated
+    dispatchEvent: jest.fn(),
     matches: false,
     media: query,
     onchange: null,
-    addListener: jest.fn(), // deprecated
-    removeListener: jest.fn(), // deprecated
-    addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
+    removeListener: jest.fn(), // deprecated
   }),
+  writable: true,
 });

@@ -1,3 +1,5 @@
+// Particle background — renders a full-screen interactive canvas using tsParticles.
+// Particles repulse on hover and spawn on click. Background color follows the theme.
 import { AppContext } from 'App/AppContext';
 import { options } from 'appearance';
 import { useContext } from 'react';

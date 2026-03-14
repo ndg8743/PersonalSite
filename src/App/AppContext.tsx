@@ -1,3 +1,5 @@
+// React Context provider — stores the current theme (dark/light), config, and
+// mobile state. Components use useContext(AppContext) to read and update these.
 import { themes } from 'appearance';
 import { createContext, Dispatch, ReactNode, useReducer } from 'react';
 import { Config, Theme } from 'types';

@@ -1,3 +1,5 @@
+// Particle configuration — controls the look and behavior of the background
+// particles: colors, speed, density, interactivity (hover repulse, click push).
 import type { ISourceOptions } from 'tsparticles';
 
 // https://github.com/matteobruni/tsparticles/issues/2771

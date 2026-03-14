@@ -1,3 +1,5 @@
+// PDF viewer modal — displays Resume.pdf in a full-screen overlay using an iframe.
+// Closes on Escape key or clicking outside the modal.
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 

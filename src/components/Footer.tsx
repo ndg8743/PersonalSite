@@ -1,3 +1,5 @@
+// Footer — shows "Designed and built by [name]" with a link to the source repo.
+// On mobile, the source link is hidden to save space.
 import { AppContext } from 'App/AppContext';
 import { useContext } from 'react';
 import styled from 'styled-components';
@@ -42,6 +44,7 @@ export const Footer = () => {
           target="_blank"
         >
           {'Nathan Gopee'}
+          {/* CHANGE THIS: Your name and URL */}
         </F.Link>
         {!isMobile && (
           <>

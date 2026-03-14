@@ -1,3 +1,5 @@
+// Integration tests — verifies the app renders correctly: name, title, buttons,
+// footer, theme toggle, and localStorage persistence.
 import { configure, fireEvent, render, screen } from '@testing-library/react';
 import { App } from 'App/App';
 import '__mocks__/matchMedia';
@@ -93,7 +95,11 @@ describe('application tests', () => {
   it('should render link to source code', () => {
     const element = screen.getByTestId('source');
 
-    checkContent(element, /^Source$/, 'https://github.com/ndg8743/v2/');
+    checkContent(
+      element,
+      /^Source$/,
+      'https://github.com/ndg8743/PersonalSite',
+    );
   });
 
   it('should render GitHub button', () => {
@@ -111,7 +117,7 @@ describe('application tests', () => {
       parent,
       child,
       /^LinkedIn$/,
-      'https://www.linkedin.com/in/nathangopee/',
+      'https://linkedin.com/in/nathangopee/',
     );
   });
 
@@ -119,12 +125,7 @@ describe('application tests', () => {
     const parent = screen.getByTestId('button-Resume');
     const child = screen.getByTestId('Resume');
 
-    checkButton(
-      parent,
-      child,
-      /^Resume$/,
-      'https://drive.google.com/file/d/1VQ_Oeim_e92QEMi64ejGWY5Hf4RRxfeJ/view',
-    );
+    checkButton(parent, child, /^Resume$/, '#');
   });
 
   it('should render Email button', () => {
